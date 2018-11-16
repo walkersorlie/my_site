@@ -11,6 +11,19 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_variable(name):
+  """
+  Gets the environment variable or throws ImproperlyConfigured exception
+  :rtype: object
+  """
+
+  try:
+    return os.environ[name]
+
+  except KeyError:
+      raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,8 +88,12 @@ WSGI_APPLICATION = 'my_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my_site',
+        'USER': 'master_username',
+        'PASSWORD': get_env_variable('MY_SITE_DATABASE_PASSWORD'),
+        'HOST': get_env_variable('MY_SITE_ENDPOINT'),
+        'PORT': '3306',
     }
 }
 
@@ -105,7 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
