@@ -1,7 +1,15 @@
 from django.shortcuts import render
-
-from django.http import HttpResponse
+from .models import Post
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the blog index.")
+    latest_post_list = Post.objects.order_by('-pub_date')[:]
+    context = {'latest_post_list': latest_post_list}
+    return render(request, 'blog/index.html', context)
+
+def create_post(request):
+    return render(request, 'blog/create_post.html')
+
+def view_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    return render(request, 'blog/view_post.html', {'post': post})

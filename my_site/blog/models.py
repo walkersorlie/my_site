@@ -15,6 +15,7 @@ class Post(models.Model):
     title = models.CharField(max_length=300)
     body = models.TextField()
     pub_date = models.DateTimeField('date published')
+    slug = models.SlugField(max_length=100, unique=True) # don't query on slug. slow
 
     def __str__(self):
         return "title: " + f'"{self.title}"' + ", author username: " + self.author_id.username
