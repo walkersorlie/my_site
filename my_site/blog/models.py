@@ -11,7 +11,7 @@ class User(models.Model):
 
 
 class Post(models.Model):
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id')
     title = models.CharField(max_length=300)
     body = models.TextField()
     pub_date = models.DateTimeField('date published')

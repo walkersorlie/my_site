@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
     # /polls/
     path('', views.index, name='index'),
-    path('<string:slug>/', views.view_post, name='view_post'),
+    path('<str:slug>/', views.view_post, name='view_post'),
 ]
