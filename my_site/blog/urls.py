@@ -2,8 +2,10 @@ from django.urls import path
 
 from . import views
 
+app_name = 'blog'
 urlpatterns = [
-    # /polls/
-    path('', views.index, name='index'),
-    path('<str:slug>/', views.view_post, name='view_post'),
+    # /blog/
+    path('', views.IndexView.as_view(), name='index'),
+    #/blog/slug/
+    path('<slug:slug>/', views.DetailView.as_view(), name='view_post'),
 ]
