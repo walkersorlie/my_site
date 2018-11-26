@@ -15,7 +15,15 @@ class Post(models.Model):
     title = models.CharField(max_length=300)
     body = models.TextField()
     pub_date = models.DateTimeField('date published')
-    slug = models.SlugField(max_length=100, unique=True) # don't query on slug. slow
+    slug = models.SlugField(max_length=100, unique=True, blank=True) # don't query on slug. slow
 
     def __str__(self):
         return "title: " + f'"{self.title}"' + ", author username: " + self.author_id.username
+
+    # def save(self, *args, **kwargs):
+    #     self.slug = self.slug or self.id + "/" + slugify(self.title)
+    #     super().save(*args, **kwargs)
+
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.user)
+    #     super(Creator, self).save(*args, **kwargs)

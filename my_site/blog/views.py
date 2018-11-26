@@ -18,6 +18,18 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Post
     template_name = 'blog/view_post.html'
+    context_object_name = 'specific_blog'
+
+    # Should match the value after ':' from url <slug:the_slug>
+    slug_url_kwarg = 'slug'
+    # Should match the name of the slug field on the model
+    slug = 'slug'
+
+    # def get(self, request, *args, **kwargs):
+    #     slug = kwargs.get('slug')
+    #     slug_id = ... # code here to determine id of slug's category
+    #     self.queryset = Post.objects.filter(category=slug_id)[:5]
+    #     return super(BlogPostView, self).get(request, *args, **kwargs)
 
     # def get_slug_field(self):
     #     return slug_field
