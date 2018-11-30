@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 
 class User(models.Model):
@@ -20,10 +21,10 @@ class Post(models.Model):
     def __str__(self):
         return "title: " + f'"{self.title}"' + ", author username: " + self.author_id.username
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = self.slug or self.id + "/" + slugify(self.title)
-    #     super().save(*args, **kwargs)
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.user)
-    #     super(Creator, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Newly created object, so set slug
+            self.slug = slugify(self.title)
+
+        super(Post, self).save(*args, **kwargs)

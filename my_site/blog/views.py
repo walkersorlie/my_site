@@ -1,9 +1,12 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.urls import reverse, NoReverseMatch
 from django.views import generic
+from django.db import IntegrityError
+import datetime
 
-from .models import Post
+from .models import User, Post
+from .forms import PostForm
 
 
 class IndexView(generic.ListView):
@@ -22,6 +25,7 @@ class DetailView(generic.DetailView):
 
     # Should match the value after ':' from url <slug:the_slug>
     slug_url_kwarg = 'slug'
+
     # Should match the name of the slug field on the model
     slug = 'slug'
 
@@ -34,8 +38,33 @@ class DetailView(generic.DetailView):
     # def get_slug_field(self):
     #     return slug_field
 
+# What to do if slug isntoo unique?
+# Ex: Creating a post and there is an error, the post is still added to DB. Debugging errors still add entry to DB, but don't redirect to the detail page
 def create_post(request):
-    return render(request, 'blog/create_post.html')
+    if request.method == "POST":
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author_id = User(request.user.id)
+            post.author = request.user
+            post.pub_date = datetime.datetime.now()
+
+            try:
+                # post.save()
+
+                # return HttpResponseRedirect('view_post', slug=post.slug)
+                return HttpResponseRedirect(reverse('view-post', kwargs={"slug": post.slug}))
+            # except (NoReverseMatch) as e:
+            #     pass
+            except (IntegrityError) as e:
+                print ("prob")
+                print (type(e))
+                # maybe add an error message to template here to tell error
+                return render(request, 'blog/create_post.html', {'form': form})
+    else:
+        form = PostForm()
+    return render(request, 'blog/create_post.html', {'form': form})
 
 
 #
