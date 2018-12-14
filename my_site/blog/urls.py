@@ -8,11 +8,13 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
 
     # /blog/create_post/
-    path('create_post/', views.create_post, name='create-post'),
+    # path('create_post/', views.create_post, name='create-post'),
+    path('create_post/', views.CreatePostView.as_view(), name='create-post'),
 
     # /blog/edit_post/
-    path('<slug:slug>/edit_post', views.edit_post, name='edit-post'),
-    
+    # path('<slug:slug>/edit_post/', views.edit_post, name='edit-post'),
+    path('<slug:slug>/edit_post/', views.EditPostView.as_view(), name='edit-post'),
+
     # /blog/slug/
     path('<slug:slug>/', views.DetailView.as_view(), name='view-post'),
 ]

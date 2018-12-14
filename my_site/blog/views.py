@@ -38,21 +38,6 @@ class DetailView(generic.DetailView):
     # def get_slug_field(self):
     #     return slug_field
 
-"""
-class CreatePostView(generic.CreateView):
-    template_name = 'create_post.html'
-    form_class = PostForm
-    success_url = '/thanks/'
-
-    def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        form.send_email()
-        return super().form_valid(form)
-
-        # OVERRIDES'success_url'
-        return render(self.request, 'core/password-change-success.html', self.get_context_data())
-"""
 
 """
 What to do if slug isn't unique? Maybe slugify title and compare to slugs in DB to check for uniqueness???
@@ -61,15 +46,50 @@ Ex: Creating a post and there is an error, the post is still added to DB. Debugg
 ADD - edit_post
 Probably combine both 'create' and 'edit' in one FormView
 """
+class CreatePostView(generic.CreateView):
+    template_name = 'blog/create_post.html'
+    form_class = PostForm
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        post = form.save(commit=False)
+        """
+        SUPER HACKY. FIX WHEN REQUIRING A LOG IN
+        """
+        # post.author_id = User(request.user.id)
+        post.author_id = User.objects.get(pk=1)
+        post.pub_date = datetime.datetime.now()
+        post.save()
+
+        # OVERRIDES'success_url'
+        return HttpResponseRedirect(reverse('blog:view-post', kwargs={'slug': post.slug}))
+
+
+"""
+Edit post option should only appear when the user who wrote the post (me) is logged-in
+"""
+class EditPostView(generic.UpdateView):
+    template_name = 'blog/edit_post.html'
+    model = Post
+    form_class = PostForm
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        post = form.save(commit=False)
+        # post.author_id = User.objects.get(pk=1)
+        # post.pub_date = datetime.datetime.now()
+        post.save()
+        return HttpResponseRedirect(reverse('blog:view-post', kwargs={'slug': post.slug}))
+
+"""
 def create_post(request):
     if request.method == "POST":
         form = PostForm(request.POST)
 
         if form.is_valid():
             post = form.save(commit=False)
-            """
-            SUPER HACKY. FIX WHEN REQUIRING A LOG IN
-            """
             # post.author_id = User(request.user.id)
             post.author_id = User.objects.get(pk=1)
             print (post.author_id)
@@ -88,9 +108,6 @@ def create_post(request):
         form = PostForm()
     return render(request, 'blog/create_post.html', {'form': form})
 
-"""
-Edit post option should only appear when the user who wrote the post (me) is logged-in
-"""
 def edit_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
@@ -104,9 +121,4 @@ def edit_post(request, slug):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/edit_post.html', {'form': form})
-
-"""
-class EditPostView(generic.UpdateView):
-    template_name = 'edit_post.html'
-    model = Post
 """
