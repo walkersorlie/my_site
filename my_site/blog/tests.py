@@ -1,7 +1,12 @@
 from django.test import TestCase
+from django.utils.text import slugify
 from datetime import datetime
-import blog.models
+from blog.models import User, Post
 
+"""
+Run with options:
+ --keepdb, -k
+"""
 # Test 1: Create a blog post successfully
 # Test 2: Update a blog post successfully
 # Test 3: Remove a blog post successfully
@@ -16,15 +21,21 @@ import blog.models
 # Test 12: Password hashes correctly
 # Test 13: Create User corectly
 
-user = None
+GLOBAL_USER = User(username='test-user', password='password', email_address='test@test.com')
+GLOBAL_USER.save()
 
 class CreateUserTest(TestCase):
-    def create_user_successfully(self):
-        user = User(username='test-user', password='password', email_address='test@test.com')
-        total_users = User.objects.count()
-        user.save()
-        self.assert
+    def test_create_user_successfully(self):
+        GLOBAL_USER = User(username='test-user', password='password', email_address='test@test.com')
+        old_total_users = User.objects.count()
+        GLOBAL_USER.save()
+        new_total_users = User.objects.count()
+        self.assertGreater(new_total_users, old_total_users)
 
 class BlogCreatePostTests(TestCase):
-    def create_blog_post_successfully(self):
-        test_post = Post(author_id=user, title='test title', body='test body', pub_date=datetime.now(), slug=slugify('test title'))
+    def test_create_blog_post_successfully(self):
+        test_post = Post(author_id=GLOBAL_USER, title='test title', body='test body', pub_date=datetime.now(), slug=slugify('test title'))
+        old_total_posts = Post.objects.count()
+        test_post.save()
+        new_total_posts = Post.objects.count()
+        self.assertGreater(new_total_posts, old_total_posts)

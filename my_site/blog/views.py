@@ -62,7 +62,7 @@ class CreatePostView(generic.CreateView):
         post.pub_date = datetime.datetime.now()
         post.save()
 
-        # OVERRIDES'success_url'
+        # OVERRIDES 'success_url'
         return HttpResponseRedirect(reverse('blog:view-post', kwargs={'slug': post.slug}))
 
 
