@@ -13,7 +13,7 @@ class User(models.Model):
 
 class Post(models.Model):
     """
-    This is not the primary key ID of the user. It's the username
+    'author_id' is not the primary key ID of the user, it's the username
     """
     author_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id')
     title = models.CharField(max_length=300)
