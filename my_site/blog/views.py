@@ -56,6 +56,8 @@ class CreatePostView(generic.CreateView):
         post = form.save(commit=False)
         """
         SUPER HACKY. FIX WHEN REQUIRING A LOG IN
+
+        When I change to using Django auth stuff, will need to change how I access users
         """
         # post.author_id = User(request.user.id)
         post.author_id = User.objects.get(pk=1)
