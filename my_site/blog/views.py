@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, NoReverseMatch
 from django.views import generic
 from django.db import IntegrityError
+from django.contrib.auth.mixins import LoginRequiredMixin
 import datetime
 
 from .models import User, Post
@@ -46,7 +47,10 @@ Ex: Creating a post and there is an error, the post is still added to DB. Debugg
 ADD - edit_post
 Probably combine both 'create' and 'edit' in one FormView
 """
-class CreatePostView(generic.CreateView):
+
+class CreatePostView(LoginRequiredMixin, generic.CreateView):
+    login_url = '/login/'
+
     template_name = 'blog/create_post.html'
     form_class = PostForm
 
@@ -70,6 +74,7 @@ class CreatePostView(generic.CreateView):
 
 """
 Edit post option should only appear when the user who wrote the post (me) is logged-in
+Use permissions?? Check in 'view_post.html' for permissions??
 """
 class EditPostView(generic.UpdateView):
     template_name = 'blog/edit_post.html'
