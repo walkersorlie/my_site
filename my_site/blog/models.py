@@ -1,7 +1,11 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User as Auth_User
 
 
+"""
+Don't need this model anymore. Get rid of it?
+"""
 class User(models.Model):
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=100)
@@ -15,7 +19,8 @@ class Post(models.Model):
     """
     'author_id' is not the primary key ID of the user, it's the username
     """
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id')
+    # author_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='author_id')
+    author_id = models.ForeignKey(Auth_User, on_delete=models.CASCADE, db_column='author_id')
     title = models.CharField(max_length=300)
     body = models.TextField()
     pub_date = models.DateTimeField('date published')

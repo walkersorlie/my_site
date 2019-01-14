@@ -28,6 +28,9 @@ urlpatterns = [
     # /admin/
     path('admin/', admin.site.urls),
 
+    # https://docs.djangoproject.com/en/2.1/topics/auth/default/#using-the-views
+    # Maybe use this URLconf to implement all the help stuff?
+    # path('accounts/', include('django.contrib.auth.urls')),
     # /login/
     path('login/', auth_views.LoginView.as_view(template_name='login.html', redirect_authenticated_user=True), name='login'),
 

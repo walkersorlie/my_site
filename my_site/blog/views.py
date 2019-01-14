@@ -4,9 +4,11 @@ from django.urls import reverse, NoReverseMatch
 from django.views import generic
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 import datetime
 
-from .models import User, Post
+# from .models import User, Post
+from .models import Post
 from .forms import PostForm
 
 
@@ -44,7 +46,6 @@ class DetailView(generic.DetailView):
 What to do if slug isn't unique? Maybe slugify title and compare to slugs in DB to check for uniqueness???
 Ex: Creating a post and there is an error, the post is still added to DB. Debugging errors still add entry to DB, but don't redirect to the detail page
 
-ADD - edit_post
 Probably combine both 'create' and 'edit' in one FormView
 """
 
@@ -64,7 +65,8 @@ class CreatePostView(LoginRequiredMixin, generic.CreateView):
         When I change to using Django auth stuff, will need to change how I access users
         """
         # post.author_id = User(request.user.id)
-        post.author_id = User.objects.get(pk=1)
+        # self.request.user.pk
+        post.author_id = User.objects.get(pk=self.request.user.pk)
         post.pub_date = datetime.datetime.now()
         post.save()
 
@@ -83,7 +85,8 @@ class EditPostView(generic.UpdateView):
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
+        
+        # Include some checking here for associating Post with User??? (self.request.user.pk)
         post = form.save(commit=False)
         # post.author_id = User.objects.get(pk=1)
         # post.pub_date = datetime.datetime.now()
