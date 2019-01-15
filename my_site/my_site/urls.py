@@ -15,25 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-
     # /
     path('', include('homepage.urls')),
+
+    # /registration/
+    path('registration/', include('registration.urls')),
 
     # /blog/
     path('blog/', include('blog.urls')),
 
     # /admin/
     path('admin/', admin.site.urls),
-
-    # https://docs.djangoproject.com/en/2.1/topics/auth/default/#using-the-views
-    # Maybe use this URLconf to implement all the help stuff?
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # /login/
-    path('login/', auth_views.LoginView.as_view(template_name='login.html', redirect_authenticated_user=True), name='login'),
-
-    # /logout/
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
