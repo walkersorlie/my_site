@@ -65,6 +65,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Will need to change this
+# https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+
 ROOT_URLCONF = 'my_site.urls'
 
 TEMPLATES = [
@@ -150,5 +154,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+LOGIN_URL = '/registration/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

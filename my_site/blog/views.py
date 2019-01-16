@@ -50,7 +50,7 @@ Probably combine both 'create' and 'edit' in one FormView
 """
 
 class CreatePostView(LoginRequiredMixin, generic.CreateView):
-    login_url = '/login/'
+    login_url = '/registration/login/'
 
     template_name = 'blog/create_post.html'
     form_class = PostForm
@@ -85,7 +85,7 @@ class EditPostView(generic.UpdateView):
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
-        
+
         # Include some checking here for associating Post with User??? (self.request.user.pk)
         post = form.save(commit=False)
         # post.author_id = User.objects.get(pk=1)
