@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class Repository(models.Model):
+    repo_name = models.CharField(max_length=300)
+    description = models.TextField()
+    pushed_at = models.DateTimeField()
+    url = models.URLField(max_length=400)
