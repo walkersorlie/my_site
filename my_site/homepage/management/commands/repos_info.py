@@ -38,21 +38,46 @@ class Command(BaseCommand):
         # print (result['data']['viewer']['repositories']['pageInfo']['endCursor'])
         # print (result['data']['viewer']['repositories']['pageInfo']['hasNextPage'])
 
+        repo_list = []
         total_count = result['data']['viewer']['repositories']['totalCount']
 
         for repo_num in range(total_count):
             self.stdout.write(str(repo_num))
-            # check if each repo is in the database or not
-            # if not, create new entry
-            # if it is, check pushed_at. If database time is older, then update fields. Check for differences first????
-            current = result['data']['viewer']['repositories']['edges'][repo_num]
-            self.stdout.write(str(current))
-            self.stdout.write(current['node']['name'])
-            name = current['node']['name']
+
+            current_repo = result['data']['viewer']['repositories']['edges'][repo_num]
+
+            self.stdout.write(str(current_repo))
+            self.stdout.write(current_repo['node']['name'])
+
+            name = current_repo['node']['name']
+
+            description = current_repo['node']['description']
+            if description is None:
+                description = ''
+
+            pushed_at = current_repo['node']['pushedAt']
+            url = current_repo['node']['url']
+
+            repo_list.append(name)
+
+            # if I rename a repo, remove old listing from database???
             if Repository.objects.filter(repo_name=name):
                 self.stdout.write('check')
+                repo = Repository.objects.get(repo_name=name)
+
+                # if it is, check pushed_at. If database time is older, then update fields. Check for differences first????
+                if repo.pushed_at < pushed_at:
+                    repo.update(description=description, pushed_at=pushed_at, url=url)
+                    repo.save()
             else:
                 self.stdout.write('add')
+                new_entry = Repository(repo_name=name, description=description, pushed_at=pushed_at, url=url)
+                new_entry.save()
+
+        for repo in Repository.objects.all():
+            if repo.repo_name not in repo_list:
+                Repository.objects.get(repo_name=name).delete()
+
 
 
         # if has_next_page:
