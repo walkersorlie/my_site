@@ -2,6 +2,8 @@ import requests
 import json as json_py
 import os
 from django.core.management.base import BaseCommand, CommandError
+from django.core.exceptions import ImproperlyConfigured
+from datetime import datetime
 from homepage.models import Repository
 import sys
 
@@ -9,12 +11,19 @@ import sys
 class Command(BaseCommand):
     help = 'Checks github repos for into'
 
+
     def handle(self, *args, **options):
         url = 'https://api.github.com/graphql'
         query = {
             "query": "{viewer {repositories(first: 20) {totalCount edges {node {name description pushedAt url} cursor} pageInfo {endCursor hasNextPage}}}}"
         }
-        api_token = os.environ['MY_SITE_GITHUB_ACCESS_TOKEN']
+
+        try:
+            api_token = os.environ['MY_SITE_GITHUB_ACCESS_TOKEN']
+
+        except KeyError:
+          raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
+
         headers = {'User-Agent': 'Mozilla/5.0', 'Authorization': 'token %s' % api_token}
 
         r = requests.post(url=url, json=query, headers=headers)
@@ -55,12 +64,14 @@ class Command(BaseCommand):
             if description is None:
                 description = ''
 
-            pushed_at = current_repo['node']['pushedAt']
+            dt = current_repo['node']['pushedAt']
+            pushed_at = datetime.strptime(dt, '%Y-%m-%dT%H:%M:%SZ')
+            self.stdout.write(str(pushed_at))
+
             url = current_repo['node']['url']
 
             repo_list.append(name)
 
-            # if I rename a repo, remove old listing from database???
             if Repository.objects.filter(repo_name=name):
                 self.stdout.write('check')
                 repo = Repository.objects.get(repo_name=name)
