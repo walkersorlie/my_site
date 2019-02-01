@@ -21,11 +21,16 @@ urlpatterns = [
     path('', include('homepage.urls')),
 
     # /registration/
-    path('registration/', include('registration.urls')),
+    # path('registration/', include('registration.urls')),
+
+    path('registration/', include('django.contrib.auth.urls')),
 
     # /blog/
     path('blog/', include('blog.urls')),
 
     # /admin/
     path('admin/', admin.site.urls),
+
+    path('api/', include('api.urls')),
+    # path('api/', include('rest_framework.urls', namespace='rest_framework')),
 ]
