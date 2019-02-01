@@ -1,0 +1,32 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+
+{% block header %}
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 shadow-sm">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          {# link to account info. Implement that #}
+          <a href="#" class="nav-link navbar-brand d-flex">
+            <strong>Account</strong>
+          </a>
+        <li class="nav-item">
+          <a href="{% url 'homepage:index' %}" class="nav-link navbar-brand d-flex">
+            <strong>Home</strong>
+          </a>
+        </li>
+        <!-- <li class="nav-item">
+          <a href="{% url 'blog:index' %}" class="nav-link navbar-brand d-flex">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="https://github.com/walkersorlie" class="nav-link navbar-brand d-flex">GitHub</a>
+        </li> -->
+    </div>
+  </nav>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block footer_link %}
+{% endblock %}
