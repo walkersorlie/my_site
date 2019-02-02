@@ -9,7 +9,7 @@ from homepage.models import Repository
 
 
 class Command(BaseCommand):
-    help = 'Checks github repos for into'
+    help = 'Gets repository information from GitHub'
 
 
     def handle(self, *args, **options):
@@ -88,7 +88,6 @@ class Command(BaseCommand):
             if repo.repo_name not in repo_list:
                 # self.stdout.write('delete: ' + str(repo.repo_name))
                 Repository.objects.get(repo_name=name).delete()
-
 
 
         # if has_next_page:
