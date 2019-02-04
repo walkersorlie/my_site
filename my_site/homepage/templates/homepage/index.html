@@ -5,6 +5,10 @@
 <title>Homepage</title>
 {% endblock %}
 
+{% block favicon %}
+<link rel="icon" href="{% static 'homepage/images/favicon.png' %}">
+{% endblock %}
+
 {% block app_stylesheets %}
 <link rel="stylesheet" type="text/css" href="{% static 'homepage/homepage.css' %}">
 {% endblock %}
@@ -13,8 +17,8 @@
 
 <section class="jumbotron text-center">
   <div class="container">
-    <h1 class="jumbotron-heading">Album example</h1>
-    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+    <h1 class="jumbotron-heading">Walker "Texas Ranger" Sorlie</h1>
+    <p class="lead text-muted">My name is Walker. I graduated college with my computer science degree in May 2018, and currently I am an English teaching assistant in Spain. This is my website where I have compiled my GitHub repositories and have linked to my blog, where I chronicle my time here in Spain.</p>
     <!-- <p>
       <a href="#" class="btn btn-primary my-2">Main call to action</a>
       <a href="#" class="btn btn-secondary my-2">Secondary action</a>
@@ -29,7 +33,8 @@
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm">
           <div class="custom-homepage-hover">
-            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+            <!-- <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"> -->
+            <a href="{{ repo.url }}"><img src="{% static 'homepage/images/github2.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
             <div class="repo-name">
               <h2>{{ repo.repo_name }}</h2>
             </div>
