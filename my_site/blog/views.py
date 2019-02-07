@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse, NoReverseMatch
 from django.views import generic
 from django.db import IntegrityError
@@ -14,11 +14,36 @@ from .forms import PostForm
 
 class IndexView(generic.ListView):
     template_name = 'blog/index.html'
-    context_object_name = 'latest_blog_list'
+    context_object_name = 'post_list'
+    paginate_by = 4
+
 
     def get_queryset(self):
-        """Return the last five published questions."""
-        return Post.objects.order_by('-pub_date')[:5]
+        # return Post.objects.order_by('-pub_date')[:5]
+        return Post.objects.order_by('-pub_date')
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+
+        three_recent_posts = Post.objects.order_by('-pub_date')[:3]
+        context['three_recent_posts'] = three_recent_posts
+
+        # get 4--->rest of posts
+        post_exam = Post.objects.order_by('-pub_date')[3:]
+        paginator = Paginator(post_exam, self.paginate_by)
+
+        page = self.request.GET.get('page')
+
+        try:
+            post_exams = paginator.page(page)
+        except PageNotAnInteger:
+            post_exams = paginator.page(1)
+        except EmptyPage:
+            post_exams = paginator.page(paginator.num_pages)
+
+        context['posts'] = post_exams
+
+        return context
 
 
 class DetailView(generic.DetailView):
