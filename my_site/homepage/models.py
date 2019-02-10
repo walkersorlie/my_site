@@ -5,3 +5,6 @@ class Repository(models.Model):
     description = models.TextField()
     pushed_at = models.DateTimeField()
     url = models.URLField(max_length=400)
+
+    def __str__(self):
+        return self.repo_name

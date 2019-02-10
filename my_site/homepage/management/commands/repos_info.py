@@ -17,37 +17,49 @@ def handle_repo(repo):
     # self.stdout.write(str(current_repo))
     # self.stdout.write(current_repo['node']['name'])
 
-    name = repo['name']
+    # repo_name = repo['name']
 
-    description = repo['description']
-    if description is None:
-        description = ''
+    # description = repo['description']
+    # if description is None:
+    #     description = ''
 
-    dt = repo['pushedAt']
-    pushed_at = datetime.strptime(dt, '%Y-%m-%dT%H:%M:%SZ')
-    pushed_at = timezone.make_aware(pushed_at)
+    # dt = repo['pushedAt']
+    # pushed_at = datetime.strptime(dt, '%Y-%m-%dT%H:%M:%SZ')
+    # pushed_at = timezone.make_aware(pushed_at)
 
-    url = repo['url']
+    # url = repo['url']
 
     # repo_list.append(name)
 
-    if Repository.objects.filter(repo_name=name):
-        db_repo = Repository.objects.get(repo_name=name)
+    # try:
+    #     Repository.objects.get(repo_name=repo_name).update(description=description, pushed_at=pushed_at, url=url)
+    # except Repository.DoesNotExist:
+    #     db_repo = Repository(repo_name=repo_name, description=description, pushed_at=pushed_at, url=url)
+    #     db_repo.save()
 
-        # if it is, check pushed_at. If database time is older, then update fields. Check for differences first????
-        # self.stdout.write(str(repo.pushed_at))
-        # self.stdout.write(str(pushed_at))
-        if db_repo.pushed_at < pushed_at:
-            db_repo.description = description
-            db_repo.pushed_at = pushed_at
-            db_repo.url = url
+    # Use with MySQL READ COMMITTED, rather than REPEATABLE READ
+    db_repo, created = Repository.objects.update_or_create(
+        repo_name = repo['name'],
+        defaults = {
+            'description' : repo['description'] if repo['description'] is not None else '',
+            'pushed_at' : timezone.make_aware(datetime.strptime(repo['pushedAt'], '%Y-%m-%dT%H:%M:%SZ')),
+            'url' : repo['url'],
+        }
+    )
+    print('created: %s', str(created))
 
-            db_repo.save()
-            # return db_repo
-    else:
-        new_entry = Repository(repo_name=name, description=description, pushed_at=pushed_at, url=url)
-        new_entry.save()
-        # return new_entry
+    # if Repository.objects.filter(repo_name=repo_name):
+    #     db_repo = Repository.objects.get(repo_name=repo_name)
+    #
+    #     if db_repo.pushed_at < pushed_at:
+    #         db_repo.description = description
+    #         db_repo.pushed_at = pushed_at
+    #         db_repo.url = url
+    #         db_repo.save()
+    # else:
+    #     new_entry = Repository(repo_name=repo_name, description=description, pushed_at=pushed_at, url=url)
+    #     new_entry.save()
+    return db_repo.repo_name
 
 
 class Command(BaseCommand):
@@ -90,19 +102,26 @@ class Command(BaseCommand):
         test_list = [result['data']['viewer']['repositories']['edges'][i] for i in range(total_count)]
         # self.stdout.write(str(test_list))
 
-        # for list in test_list:
-        #     self.stdout.write(str(list['node']))
 
         # Make the Pool of workers
         pool = ThreadPool(4)
         # Open the urls in their own threads
         # and return the results
-        pool.map(handle_repo, test_list)
-        #close the pool and wait for the work to finish
+        current_repos_list = pool.map(handle_repo, test_list)
+        # close the pool and wait for the work to finish
         pool.close()
         pool.join()
 
+        self.stdout.write(str(current_repos_list))
 
+        all_repos = Repository.objects.all()
+        for repo_name in all_repos:
+            # self.stderr.write(str(repo_name.repo_name))
+            if repo_name not in current_repos_list:
+                # self.stdout.write('delete: ' + str(repo.repo_name))
+                # test = Repository.objects.get(repo_name=repo_name)
+                # self.stderr.write(str(test))
+                Repository.objects.get(repo_name=repo_name).delete()
 
 
         """
