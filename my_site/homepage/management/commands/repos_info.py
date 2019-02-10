@@ -8,6 +8,48 @@ from datetime import datetime
 from homepage.models import Repository
 
 
+from multiprocessing.dummy import Pool as ThreadPool
+
+def handle_repo(repo):
+    # self.stdout.write(str(repo_num))
+
+    repo = repo['node']
+    # self.stdout.write(str(current_repo))
+    # self.stdout.write(current_repo['node']['name'])
+
+    name = repo['name']
+
+    description = repo['description']
+    if description is None:
+        description = ''
+
+    dt = repo['pushedAt']
+    pushed_at = datetime.strptime(dt, '%Y-%m-%dT%H:%M:%SZ')
+    pushed_at = timezone.make_aware(pushed_at)
+
+    url = repo['url']
+
+    # repo_list.append(name)
+
+    if Repository.objects.filter(repo_name=name):
+        db_repo = Repository.objects.get(repo_name=name)
+
+        # if it is, check pushed_at. If database time is older, then update fields. Check for differences first????
+        # self.stdout.write(str(repo.pushed_at))
+        # self.stdout.write(str(pushed_at))
+        if db_repo.pushed_at < pushed_at:
+            db_repo.description = description
+            db_repo.pushed_at = pushed_at
+            db_repo.url = url
+
+            db_repo.save()
+            # return db_repo
+    else:
+        new_entry = Repository(repo_name=name, description=description, pushed_at=pushed_at, url=url)
+        new_entry.save()
+        # return new_entry
+
+
 class Command(BaseCommand):
     help = 'Gets repository information from GitHub'
 
@@ -44,6 +86,26 @@ class Command(BaseCommand):
         repo_list = []
         total_count = result['data']['viewer']['repositories']['totalCount']
 
+        # figure out threading this sheeeet
+        test_list = [result['data']['viewer']['repositories']['edges'][i] for i in range(total_count)]
+        # self.stdout.write(str(test_list))
+
+        # for list in test_list:
+        #     self.stdout.write(str(list['node']))
+
+        # Make the Pool of workers
+        pool = ThreadPool(4)
+        # Open the urls in their own threads
+        # and return the results
+        pool.map(handle_repo, test_list)
+        #close the pool and wait for the work to finish
+        pool.close()
+        pool.join()
+
+
+
+
+        """
         for repo_num in range(total_count):
             # self.stdout.write(str(repo_num))
 
@@ -88,19 +150,24 @@ class Command(BaseCommand):
             if repo.repo_name not in repo_list:
                 # self.stdout.write('delete: ' + str(repo.repo_name))
                 Repository.objects.get(repo_name=name).delete()
+        """
 
 
-        # if has_next_page:
-        #     query = {
-        #         "query": "{viewer {repositories(first: 3 after: \"" + end_cursor + "\") {totalCount edges {node {name description pushedAt url} cursor} pageInfo {endCursor hasNextPage}}}}"
-        #     }
-        #     r = requests.post(url=url, json=query, headers=headers)
-        #
-        #     result = json_py.loads(r.text)
-        #     has_next_page = result['data']['viewer']['repositories']['pageInfo']['hasNextPage']
-        #     print (result['data']['viewer']['repositories']['pageInfo'])
-        #     end_cursor = result['data']['viewer']['repositories']['pageInfo']['endCursor']
-        #     print (r.json())
-        #     print ()
-        # else:
-        #     break
+
+
+        """
+        if has_next_page:
+            query = {
+                "query": "{viewer {repositories(first: 3 after: \"" + end_cursor + "\") {totalCount edges {node {name description pushedAt url} cursor} pageInfo {endCursor hasNextPage}}}}"
+            }
+            r = requests.post(url=url, json=query, headers=headers)
+
+            result = json_py.loads(r.text)
+            has_next_page = result['data']['viewer']['repositories']['pageInfo']['hasNextPage']
+            print (result['data']['viewer']['repositories']['pageInfo'])
+            end_cursor = result['data']['viewer']['repositories']['pageInfo']['endCursor']
+            print (r.json())
+            print ()
+        else:
+            break
+        """
