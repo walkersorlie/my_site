@@ -115,6 +115,7 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'isolation_level': 'read committed',
         },
         'TEST': {
             'NAME': 'my_site_test_database',
