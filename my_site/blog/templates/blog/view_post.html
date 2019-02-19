@@ -1,4 +1,4 @@
-{% extends 'homepage/base.html' %}
+{% extends 'blog/index.html' %}
 {% load static %}
 
 {% block title %}
@@ -14,7 +14,7 @@
         <p class="blog-post-meta">{{ specific_blog.author_id }}</p>
 
         <div class="form-group">
-          <textarea class="form-control" rows="20" >{{ specific_blog.body }}</textarea>
+          <textarea class="form-control blog-textarea">{{ specific_blog.body }}</textarea>
         </div>
 
         <!-- make button of course -->

@@ -45,10 +45,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'rest_framework',
-    'registration.apps.RegistrationConfig',
-    'homepage.apps.HomepageConfig',
     'blog.apps.BlogConfig',
+    'homepage.apps.HomepageConfig',
+    'registration.apps.RegistrationConfig',    
+    'rest_framework',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -1,0 +1,8 @@
+.center {
+  align-self: center;
+}
+
+textarea.blog-textarea {
+  height: 23em;
+  width: 100%;
+}

@@ -1,15 +1,29 @@
-{% extends 'homepage/base.html' %}
+{% extends 'blog/index.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 
 {% block content %}
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-10 blog-main">
+          <h2>New Post</h2>
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            <div class="blog-post">
+              {{ form.title.label_tag }}
+              {{ form.title }}
+              <div class="form-group">
+                {{ form.body.label_tag }}
+                {{ form.body|add_class:"blog-textarea" }}
+              </div>
+            </div><!-- /.blog-post -->
+            <button type="submit" class="save btn btn-default">Save</button>
+            <a href="{% url 'blog:index' %}" class="btn btn-outline-primary">Cancel</a>
+        </form>
+        </div><!-- /.blog-main -->
 
-<h2>New post</h2>
-    <form method="POST" class="post-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-        <a href="{% url 'blog:index' %}" class="btn btn-outline-primary">Cancel</a>
-    </form>
+      </div><!-- /.row -->
 
+    </main><!-- /.container -->
 {% endblock %}

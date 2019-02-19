@@ -98,7 +98,6 @@ Probably combine both 'create' and 'edit' in one FormView
 
 class CreatePostView(LoginRequiredMixin, generic.CreateView):
     login_url = '/registration/login/'
-
     template_name = 'blog/create_post.html'
     form_class = PostForm
 
@@ -106,11 +105,7 @@ class CreatePostView(LoginRequiredMixin, generic.CreateView):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
         post = form.save(commit=False)
-        """
-        SUPER HACKY. FIX WHEN REQUIRING A LOG IN
 
-        When I change to using Django auth stuff, will need to change how I access users
-        """
         # post.author_id = User(request.user.id)
         # self.request.user.pk
         post.author_id = User.objects.get(pk=self.request.user.pk)
@@ -127,6 +122,7 @@ Use permissions?? Check in 'view_post.html' for permissions??
 """
 class EditPostView(generic.UpdateView):
     template_name = 'blog/edit_post.html'
+    context_object_name = 'specific_blog'
     model = Post
     form_class = PostForm
 
