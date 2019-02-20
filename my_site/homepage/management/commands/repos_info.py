@@ -65,7 +65,7 @@ class Command(BaseCommand):
         # self.stdout.write(str(test_list))
 
         # Make the Pool of workers
-        pool = ThreadPool()
+        pool = ThreadPool(1)
         current_repos_list = pool.map(handle_repo, repo_list)
         pool.close()
         pool.join()

@@ -47,7 +47,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'homepage.apps.HomepageConfig',
-    'registration.apps.RegistrationConfig',    
+    'registration.apps.RegistrationConfig',
     'rest_framework',
     'widget_tweaks',
     'django.contrib.admin',
@@ -108,20 +108,27 @@ WSGI_APPLICATION = 'my_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'my_site',
-        'USER': 'master_username',
-        'PASSWORD': get_env_variable('MY_SITE_DATABASE_PASSWORD'),
-        'HOST': get_env_variable('MY_SITE_ENDPOINT'),
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'isolation_level': 'read committed',
-        },
-        'TEST': {
-            'NAME': 'my_site_test_database',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'Options': {
+            'timeout': 50,
         }
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'my_site',
+    #     'USER': 'master_username',
+    #     'PASSWORD': get_env_variable('MY_SITE_DATABASE_PASSWORD'),
+    #     'HOST': get_env_variable('MY_SITE_ENDPOINT'),
+    #     'PORT': '3306',
+    #     'OPTIONS': {
+    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    #         'isolation_level': 'read committed',
+    #     },
+    #     'TEST': {
+    #         'NAME': 'my_site_test_database',
+    #     }
+    # }
 }
 
 

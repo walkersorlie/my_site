@@ -1,5 +1,9 @@
 *.AppImage
 
+mysql_dump/
+
+mysql.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

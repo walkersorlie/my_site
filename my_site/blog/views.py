@@ -31,6 +31,9 @@ class IndexView(generic.ListView):
 
 
         # get 4--->rest of posts
+        """
+        If only 3 posts total, context['posts'] will be nothing
+        """
         # post_exam = Post.objects.all().order_by('-pub_date')[3:]
         post_exam = self.get_queryset()[3:]
         paginator = Paginator(post_exam, self.paginate_by)
