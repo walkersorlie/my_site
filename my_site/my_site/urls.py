@@ -21,8 +21,6 @@ urlpatterns = [
     path('', include('homepage.urls')),
 
     # /registration/
-    # path('registration/', include('registration.urls')),
-
     path('registration/', include('django.contrib.auth.urls')),
 
     # /blog/
@@ -33,5 +31,4 @@ urlpatterns = [
 
     # /api/
     path('api/', include('api.urls')),
-    # path('api/', include('rest_framework.urls', namespace='rest_framework')),
 ]

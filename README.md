@@ -28,4 +28,10 @@ python3 -m venv VIRTUALENV_NAME
 * pytz==2018.7
 * requests==2.21.0
 
+### Running with different settings staticfiles
+`python manage.py runserver --settings=my_site.settings.SETTINGS_FILE_YOU_WANT`
+
+### Remove .pyc files
+`find . -type f -name *.pyc -delete`
+
 You might need to install other link files for libc (I know I did)

@@ -27,19 +27,13 @@ def get_env_variable(name):
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DEBUG = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '&=xqk_6#f9u1=r2_3juyk6lff&a097z*+o(n^+a6g56)6zd9(!'
 SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -77,10 +71,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-# Will need to change this
-# https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
-
 ROOT_URLCONF = 'my_site.urls'
 
 TEMPLATES = [
@@ -113,21 +103,6 @@ DATABASES = {
             'timeout': 50,
         }
     },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'my_site',
-    #     'USER': 'master_username',
-    #     'PASSWORD': get_env_variable('MY_SITE_DATABASE_PASSWORD'),
-    #     'HOST': get_env_variable('MY_SITE_ENDPOINT'),
-    #     'PORT': '3306',
-    #     'OPTIONS': {
-    #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-    #         'isolation_level': 'read committed',
-    #     },
-    #     'TEST': {
-    #         'NAME': 'my_site_test_database',
-    #     }
-    # }
 }
 
 
@@ -170,14 +145,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-#     '../static/',
-# ]
 
 LOGIN_URL = '/registration/login'
 LOGIN_REDIRECT_URL = '/'
