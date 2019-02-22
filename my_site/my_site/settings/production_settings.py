@@ -21,6 +21,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+MY_APPS = [
+    'blog.apps.BlogConfig',
+    'homepage.apps.HomepageConfig',
+    'registration.apps.RegistrationConfig',
+    'widget_tweaks',
+]
+
+
+INSTALLED_APPS += MY_APPS
 
 
 """

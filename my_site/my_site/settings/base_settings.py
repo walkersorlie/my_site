@@ -27,8 +27,6 @@ def get_env_variable(name):
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEBUG = True
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -38,11 +36,6 @@ SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
 # Application definition
 
 INSTALLED_APPS = [
-    'blog.apps.BlogConfig',
-    'homepage.apps.HomepageConfig',
-    'registration.apps.RegistrationConfig',
-    'rest_framework',
-    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,15 +88,15 @@ WSGI_APPLICATION = 'my_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'Options': {
-            'timeout': 50,
-        }
-    },
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'Options': {
+#             'timeout': 50,
+#         }
+#     },
+# }
 
 
 # Password validation

@@ -1,27 +1,45 @@
 import os
-from django.core.exceptions import ImproperlyConfigured
 from .base_settings import *
 
 
-def get_env_variable(name):
-  """
-  Gets the environment variable or throws ImproperlyConfigured exception
-  """
-
-  try:
-    return os.environ[name]
-
-  except KeyError:
-      raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
-
-SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
-
+DEBUG = True
 
 ALLOWED_HOSTS = []
+
+MY_APPS = [
+    'blog.apps.BlogConfig',
+    'debug_toolbar',
+    'homepage.apps.HomepageConfig',
+    'registration.apps.RegistrationConfig',
+    'rest_framework',
+    'widget_tweaks',
+]
+
+INSTALLED_APPS += MY_APPS
+
+MY_MIDDLWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+MIDDLEWARE += MY_MIDDLWARE
 
 # Will need to change this
 # https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'dev.sqlite3'),
+        'Options': {
+            'timeout': 20,
+        }
+    },
+}
 
 # DATABASES = {
     # 'default': {
