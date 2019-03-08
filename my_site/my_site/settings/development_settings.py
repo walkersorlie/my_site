@@ -21,7 +21,7 @@ MY_MIDDLWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-MIDDLEWARE += MY_MIDDLWARE
+MIDDLEWARE += tuple(MY_MIDDLWARE)
 
 # Will need to change this
 # https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html
@@ -31,15 +31,15 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'dev.sqlite3'),
-        'Options': {
-            'timeout': 20,
-        }
-    },
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'dev.sqlite3'),
+#         'Options': {
+#             'timeout': 20,
+#         }
+#     },
+# }
 
 # DATABASES = {
     # 'default': {
@@ -58,6 +58,18 @@ DATABASES = {
     #     }
     # }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_site',
+        'USER': 'walker',
+        'PASSWORD': 'Lapt0p.Pa55w0rd',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

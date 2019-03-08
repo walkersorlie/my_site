@@ -11,18 +11,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from django.core.exceptions import ImproperlyConfigured
+import django_heroku
 
-def get_env_variable(name):
-  """
-  Gets the environment variable or throws ImproperlyConfigured exception
-  """
-
-  try:
-    return os.environ[name]
-
-  except KeyError:
-      raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,8 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+SECRET_KEY = '.'
 
 # Application definition
 
@@ -85,20 +74,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'my_site.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         'Options': {
-#             'timeout': 50,
-#         }
-#     },
-# }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -142,3 +117,5 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/registration/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+django_heroku.settings(locals())
