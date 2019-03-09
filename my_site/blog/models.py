@@ -3,18 +3,6 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User as Auth_User
 
 
-"""
-Don't need this model anymore. Get rid of it?
-"""
-class User(models.Model):
-    username = models.CharField(max_length=30, unique=True)
-    password = models.CharField(max_length=100)
-    email_address = models.EmailField(unique=True)
-
-    def __str__(self):
-        return self.username
-
-
 class Post(models.Model):
     """
     'author_id' is not the primary key ID of the user, it's the username

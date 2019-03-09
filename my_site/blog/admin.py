@@ -1,10 +1,8 @@
 from django.contrib import admin
-
-from .models import User, Post
+from .models import Post
 
 
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = { 'slug': ['title']}
 
-admin.site.register(User)
 admin.site.register(Post, PostAdmin)
