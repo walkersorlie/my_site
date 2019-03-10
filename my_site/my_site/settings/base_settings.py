@@ -113,5 +113,3 @@ USE_TZ = True
 LOGIN_URL = '/registration/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-django_heroku.settings(locals(), databases=False)

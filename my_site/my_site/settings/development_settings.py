@@ -38,3 +38,5 @@ DATABASES = {
         'USER': 'walker',
     }
 }
+
+django_heroku.settings(locals(), databases=False)
