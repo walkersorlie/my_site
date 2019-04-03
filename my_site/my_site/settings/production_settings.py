@@ -3,23 +3,16 @@ from django.core.exceptions import ImproperlyConfigured
 from .base_settings import *
 
 
-def get_env_variable(name):
-  """
-  Gets the environment variable or throws ImproperlyConfigured exception
-  """
+DEBUG = False
 
-  try:
-    return os.environ[name]
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
-  except KeyError:
-      raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
+SECURE_BROWSER_XSS_FILTER = True
 
-SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+SESSION_COOKIE_SECURE = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+X_FRAME_OPTIONS = 'DENY'
 
-ALLOWED_HOSTS = ['127.0.0.1']
 
 MY_APPS = [
     'blog.apps.BlogConfig',
@@ -32,22 +25,35 @@ MY_APPS = [
 INSTALLED_APPS += MY_APPS
 
 
-"""
-Will need to change this. Add EMAIL_BACKEND
-"""
 # https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html
-# EMAIL_BACKEND =
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST= 'smtp.gmail.com'
+EMAIL_HOST_USER= 'walkersorlie@gmail.com'
+EMAIL_HOST_PASSWORD= os.environ['EMAIL_APP_PASSWORD']
+EMAIL_USE_TLS= True
+EMAIL_PORT= 587
+
+django_heroku.settings(locals(), db_colors=True, test_runner=False)
+
+# STATICFILES_STORAGE = 'my_site.storage.WhiteNoiseStaticFilesStorage'
+STATICFILES_STORAGE = ''
+# STATICFILES_STORAGE = 'my_site.storage.ManifestStaticFilesStorage'
+
+ALLOWED_HOSTS += ['127.0.0.1', 'localhost']
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
-
-STATIC_ROOT = os.path.join(BASE_DIR, "production_static")
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-#     '../static/',
-# ]
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}

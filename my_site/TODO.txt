@@ -1,0 +1,17 @@
+https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
+1. Follow these steps to connect to heroku's database locally
+
+##### PROBLEMS #####
+1. In production settings (locally), for whatever reason, I have no database connection. Get errors. --> FIXED.
+2. Can't find static files once I can actually connect with no errors (Django Admin static files are found) --> FIXED
+3. Problems with WhiteNoiseStaticFilesStorage. Check troubleshooting on site (http://whitenoise.evans.io/en/stable/django.html) -> Removing django static file app solves issue???
+4. BASE_DIR seems to be wrong --> FIXED
+5. Text about no available posts shows up when I have < 3 posts (blog/index.html)
+6. Make API more secure (use their authentication)
+7. Create superuser for production
+8. Create 404 page --> DONE
+
+
+###
+Remember to change settings file used in 'wsgi.py'
+###

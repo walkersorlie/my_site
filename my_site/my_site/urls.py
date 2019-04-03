@@ -30,13 +30,12 @@ urlpatterns = [
 
     # /admin/
     path('admin/', admin.site.urls),
-
-    # /api/
-    path('api/', include('api.urls')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
+        # /api/
+        path('api/', include('api.urls')),
         path('__debug__/', include(debug_toolbar.urls)),
     ]
