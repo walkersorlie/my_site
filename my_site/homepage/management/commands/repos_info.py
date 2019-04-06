@@ -12,7 +12,6 @@ from homepage.models import Repository
 def handle_repo(repo):
     repo = repo['node']
 
-    # Use with MySQL READ COMMITTED, rather than REPEATABLE READ
     db_repo, created = Repository.objects.update_or_create(
         repo_name = repo['name'],
         defaults = {
