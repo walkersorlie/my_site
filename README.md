@@ -14,22 +14,12 @@ python3 -m venv VIRTUALENV_NAME
 ### Installing Django
 
 ### I use environment variables to read-in:
-* Database password ('MY_SITE_DATABASE_PASSWORD')
-* Database endpoint ('MY_SITE_ENDPOINT')
 * GitHub access token to use GitHub API ('MY_SITE_GITHUB_ACCESS_TOKEN')
 * Django secret key ('DJANGO_SECRET_KEY')
 
-### Installed packages in virtual environment:
-* Django==2.1.3
-* djangorestframework==3.9.1
-* django-widget-tweaks==1.4.3
-* Markdown==3.0.1 (helps style web output on REST api)
-* mysqlclient==1.3.13
-* pytz==2018.7
-* requests==2.21.0
 
 ### Running with different settings staticfiles
-`python manage.py runserver --settings=my_site.settings.SETTINGS_FILE_YOU_WANT`
+
 
 ### Remove .pyc files
 `find . -type f -name *.pyc -delete`
