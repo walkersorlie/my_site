@@ -12,7 +12,7 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 8. Create 404 page --> DONE
 9. Set up HTTPS
 10. Buildpack error -- FIXED (was committing wrong branch)
-11. Can't scale my app to have one dyno running. Might be something with location of Procfile? But if I move it, I get a buuuuunch of problems. Running `heroku ps:scale web=1` doesn't work, gives error
+11. Can't scale my app to have one dyno running. Might be something with location of Procfile? But if I move it, I get a buuuuunch of problems. Running `heroku ps:scale web=1` doesn't work, gives error. --> FIXED
 
 
 ###
