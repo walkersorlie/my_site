@@ -6,8 +6,8 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          {# link to account info. Implement that #}
-          <a href="#" class="nav-link navbar-brand d-flex">
+          {# link to account info. Implement that. {% url 'registration:view-account' %} #}
+          <a href="{% url 'registration:view-account' user.id %}" class="nav-link navbar-brand d-flex">
             <strong>Account</strong>
           </a>
         <li class="nav-item">
