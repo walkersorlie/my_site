@@ -6,15 +6,29 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          {# link to account info. Implement that. {% url 'registration:view-account' %} #}
-          <a href="{% url 'registration:view-account' user.id %}" class="nav-link navbar-brand d-flex">
-            <strong>Account</strong>
-          </a>
-        <li class="nav-item">
           <a href="{% url 'homepage:index' %}" class="nav-link navbar-brand d-flex">
             <strong>Home</strong>
           </a>
         </li>
+        <li class="nav-item">
+          {# link to account info. Implement that. {% url 'registration:view-account' user.id%} #}
+          <a href="{% url 'registration:view-account' %}" class="nav-link navbar-brand d-flex">
+            <strong>Account</strong>
+          </a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a href="{% url 'logout' %}" class="nav-link navbar-brand d-flex">
+            <strong>Logout</strong>
+          </a>
+        {% else %}
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'login' %}" class="nav-link navbar-brand d-flex">
+            <strong>Login</strong>
+          </a>
+        </li>
+        {% endif %}
         <!-- <li class="nav-item">
           <a href="{% url 'blog:index' %}" class="nav-link navbar-brand d-flex">Blog</a>
         </li>

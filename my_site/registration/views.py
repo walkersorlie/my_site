@@ -12,3 +12,6 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'registration/account.html'
     context_object_name = 'user_account'
     model = User
+
+    def get_object(self):
+        return self.request.user
