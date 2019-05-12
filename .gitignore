@@ -1,3 +1,5 @@
+my_site/my_site/staticfiles/
+
 *.AppImage
 
 mysql_dump/
