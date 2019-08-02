@@ -13,6 +13,8 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 9. Set up HTTPS
 10. Buildpack error -- FIXED (was committing wrong branch)
 11. Can't scale my app to have one dyno running. Might be something with location of Procfile? But if I move it, I get a buuuuunch of problems. Running `heroku ps:scale web=1` doesn't work, gives error. --> FIXED
+12. Try getting GitHub webhooks to work (https://developer.github.com/webhooks/configuring/)
+13. Add options to development to run with debug=False, and do it for static files 'n stuff
 
 
 ###
