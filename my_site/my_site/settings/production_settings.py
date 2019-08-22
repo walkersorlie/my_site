@@ -10,7 +10,7 @@ SECURE_BROWSER_XSS_FILTER = True
 
 # SESSION_COOKIE_SECURE = True
 
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 MY_APPS = [
@@ -44,7 +44,7 @@ and whenever changes made in any static file, need to run collectstatic:
 heroku local:run python my_site/manage.py collectstatic
 """
 STATICFILES_STORAGE = ''
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # STATICFILES_STORAGE = 'my_site.storage.ManifestStaticFilesStorage'
 
 
