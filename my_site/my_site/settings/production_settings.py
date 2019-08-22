@@ -4,7 +4,7 @@ from .base_settings import *
 
 DEBUG = False
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_CONTENT_TYPE_NOSNIFF = False
 
 SECURE_BROWSER_XSS_FILTER = True
 
