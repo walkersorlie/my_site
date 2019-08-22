@@ -6,6 +6,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+
 MY_APPS = [
     'blog.apps.BlogConfig',
     'debug_toolbar',
@@ -15,6 +19,8 @@ MY_APPS = [
     'widget_tweaks',
 ]
 
+INSTALLED_APPS += MY_APPS
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissions'
@@ -23,7 +29,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-INSTALLED_APPS += MY_APPS
 
 MY_MIDDLWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -32,13 +37,19 @@ MY_MIDDLWARE = [
 MIDDLEWARE += tuple(MY_MIDDLWARE)
 
 # Will need to change this
-# https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'walkersorlie@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_APP_PASSWORD']
+EMAIL_USE_TLS = True
 
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -46,5 +57,7 @@ DATABASES = {
         'USER': 'walker',
     }
 }
-
 django_heroku.settings(locals(), databases=False)
+"""
+
+django_heroku.settings(locals(), db_colors=True, test_runner=False)

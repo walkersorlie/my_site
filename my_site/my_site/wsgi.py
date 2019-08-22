@@ -14,10 +14,8 @@ from django.core.wsgi import get_wsgi_application
 """
 IMPORTANT
 Change the settigns file here to specify development or production
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_site.settings.development_settings')
-
 """
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_site.settings.development_settings')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'my_site.settings.production_settings')
 
 application = get_wsgi_application()
