@@ -43,9 +43,9 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 and whenever changes made in any static file, need to run collectstatic:
 heroku local:run python my_site/manage.py collectstatic
 """
-# STATICFILES_STORAGE = ''
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 ALLOWED_HOSTS += ['127.0.0.1', 'localhost']
