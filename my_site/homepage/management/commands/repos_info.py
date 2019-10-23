@@ -5,35 +5,38 @@ from django.core.management.base import BaseCommand, CommandError
 from django.core.exceptions import ImproperlyConfigured
 from django.utils import timezone
 from datetime import datetime
+import multiprocessing
 from multiprocessing.dummy import Pool as ThreadPool
 from homepage.models import Repository
 
-
-def handle_repo(repo):
-    repo = repo['node']
-
-    db_repo, created = Repository.objects.update_or_create(
-        repo_name = repo['name'],
-        defaults = {
-            'repo_name' : repo['name'],
-            'description' : repo['description'] if repo['description'] is not None else '',
-            'pushed_at' : timezone.make_aware(datetime.strptime(repo['pushedAt'], '%Y-%m-%dT%H:%M:%SZ')),
-            'url' : repo['url'],
-        }
-    )
-    # print('%s created: %s', str(db_repo.repo_name), str(created))
-
-    return db_repo.repo_name
 
 
 class Command(BaseCommand):
     help = 'Gets repository information from GitHub'
 
 
+    def handle_repo(self, repo):
+        repo = repo['node']
+
+        db_repo, created = Repository.objects.update_or_create(
+            repo_name = repo['name'],
+            defaults = {
+                'repo_name' : repo['name'],
+                'description' : repo['description'] if repo['description'] is not None else '',
+                'pushed_at' : timezone.make_aware(datetime.strptime(repo['pushedAt'], '%Y-%m-%dT%H:%M:%SZ')),
+                'url' : repo['url'],
+                'github_repo_id': repo['id'],
+            }
+        )
+
+        return db_repo.repo_name
+
+
     def handle(self, *args, **options):
         url = 'https://api.github.com/graphql'
+
         query = {
-            "query": "{viewer {repositories(first: 20) {totalCount edges {node {name description pushedAt url} cursor} pageInfo {endCursor hasNextPage}}}}"
+            "query": "{viewer {repositories(first: 20) {totalCount edges {node {name description pushedAt url id} cursor} pageInfo {endCursor hasNextPage}}}}"
         }
 
         try:
@@ -45,6 +48,9 @@ class Command(BaseCommand):
         headers = {'User-Agent': 'Mozilla/5.0', 'Authorization': 'token %s' % api_token}
 
         r = requests.post(url=url, json=query, headers=headers)
+
+        result = json_py.loads(r.text)
+
         # print (r.text)
         # print (json_py.dumps(r.text, sort_keys=True, indent=4))
         # print (json_py.loads(r.text))
@@ -57,23 +63,37 @@ class Command(BaseCommand):
         # print (result['data']['viewer']['repositories']['pageInfo']['endCursor'])
         # print (result['data']['viewer']['repositories']['pageInfo']['hasNextPage'])
 
-        result = json_py.loads(r.text)
 
         total_count = result['data']['viewer']['repositories']['totalCount']
-        repo_list = [result['data']['viewer']['repositories']['edges'][i] for i in range(total_count)]
-        # self.stdout.write(str(test_list))
+        github_repo_list = []
+        github_repo_list_names = []
+        for i in range(total_count):
+            github_repo_list.append(result['data']['viewer']['repositories']['edges'][i])
+            github_repo_list_names.append(github_repo_list[i]['node']['name'])
+
+        # github_repo_list = [result['data']['viewer']['repositories']['edges'][i] for i in range(total_count)]
+        # github_repo_list_names = [github_repo_list[i]['node']['name'] for i in range(total_count)]
+
+        # self.stderr.write(str(github_repo_list))
+        # self.stderr.write(str(github_repo_list_names))
+
 
         # Make the Pool of workers
+        """ Race condition with appending to the output list??? """
         pool = ThreadPool()
-        current_repos_list = pool.map(handle_repo, repo_list)
+        db_repos_list = pool.map(self.handle_repo, github_repo_list)
         pool.close()
         pool.join()
 
-        # Thread this too???
-        all_repos = Repository.objects.all()
-        for repo_name in all_repos:
-            if repo_name.repo_name not in current_repos_list:
-                Repository.objects.get(repo_name=repo_name).delete()
+
+        # for repo in github_repo_list:
+        #     self.handle_repo(repo)
+
+
+        for repo in db_repo_list:
+            # self.stderr.write(repo.repo_name)
+            if repo.repo_name not in github_repo_list_names:
+                Repository.objects.get(repo_name=repo).delete()
 
         """
         if has_next_page:

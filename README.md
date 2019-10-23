@@ -85,10 +85,10 @@ Do this before you run the application to instantiate the static files in the "s
 If you run the application using Gunicorn and none of the static files seem to work on the website, read below:
 
 In the "production_settings.py" file, are different "STATICFILES_STORAGE" engines, depending on if you are running the project locally or not. If you are running the project locally for the first time, you might need to uncomment this line:
-* # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+* `# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'`
 
 and comment out this line:
-* STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+* `STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'``
 
 and then proceed with running the application.
 
