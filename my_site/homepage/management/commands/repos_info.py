@@ -51,6 +51,7 @@ class Command(BaseCommand):
 
         result = json_py.loads(r.text)
 
+
         # print (r.text)
         # print (json_py.dumps(r.text, sort_keys=True, indent=4))
         # print (json_py.loads(r.text))
@@ -78,21 +79,16 @@ class Command(BaseCommand):
         # self.stderr.write(str(github_repo_list_names))
 
 
-        # Make the Pool of workers
-        """ Race condition with appending to the output list??? """
+        # Make the Pool of workers and execute the db record update
         pool = ThreadPool()
         db_repos_list = pool.map(self.handle_repo, github_repo_list)
         pool.close()
         pool.join()
 
-
-        # for repo in github_repo_list:
-        #     self.handle_repo(repo)
-
-
-        for repo in db_repo_list:
+        # If any repos in database that were removed from GitHub, this removes those repos from db
+        for repo in db_repos_list:
             # self.stderr.write(repo.repo_name)
-            if repo.repo_name not in github_repo_list_names:
+            if repo not in github_repo_list_names:
                 Repository.objects.get(repo_name=repo).delete()
 
         """
