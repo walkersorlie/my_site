@@ -12,7 +12,7 @@ Click==7.0
 colorama==0.3.9
 cryptography==2.6.1
 dj-database-url==0.5.0
-Django==2.2.1
+Django==2.2.4
 django-debug-toolbar==1.11
 django-heroku==0.3.1
 django-widget-tweaks==1.4.3
