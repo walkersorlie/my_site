@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Repository(models.Model):
     repo_name = models.CharField(max_length=300)    # Make unique??? Test later
     description = models.TextField()
