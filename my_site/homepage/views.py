@@ -59,13 +59,12 @@ def payload(request):
     # print(mac.hexdigest())
     # print(force_bytes(signature))
     # print(signature)
+    """
+    signature and message hash are the same when working locally, but on production GitHub message hash is different, when it shouldn't change???
+    """
     if not hmac.compare_digest(force_bytes(mac.hexdigest()), force_bytes(signature)):
-<<<<<<< HEAD
         # return HttpResponseForbidden('Request Signature 2 Permission Denied. %s %s' % (mac.hexdigest(), signature))
         return HttpResponseForbidden('Request Signature 2 Permission Denied.')
-=======
-        return HttpResponseForbidden('Request Signature 2 Permission Denied. %s %s' % (mac.hexdigest(), signature))
->>>>>>> c3b5f75a656c863f5e932069961a9821b63667af
 
 
     """
