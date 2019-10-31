@@ -24,7 +24,7 @@ class IndexView(generic.ListView):
         return Repository.objects.order_by('-pushed_at')
 
 
- 
+
 @csrf_exempt
 def payload(request):
 
@@ -55,8 +55,12 @@ def payload(request):
 
     token = os.environ['GITHUB_WEBHOOK_TOKEN']
     mac = hmac.new(force_bytes(token), msg=force_bytes(request.body), digestmod=sha1)
+    # print(force_bytes(mac.hexdigest()))
+    # print(mac.hexdigest())
+    # print(force_bytes(signature))
+    # print(signature)
     if not hmac.compare_digest(force_bytes(mac.hexdigest()), force_bytes(signature)):
-        return HttpResponseForbidden('Request Signature 2 Permission Denied.')
+        return HttpResponseForbidden('Request Signature 2 Permission Denied. %s %s' % (mac.hexdigest(), signature))
 
 
     """
