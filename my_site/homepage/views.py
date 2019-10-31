@@ -2,6 +2,7 @@ import requests
 import hmac
 import json
 import os
+import logging
 from django.utils.encoding import force_bytes
 from django.utils import timezone
 from django.views import generic
@@ -23,7 +24,7 @@ class IndexView(generic.ListView):
         return Repository.objects.order_by('-pushed_at')
 
 
-@require_POST
+ 
 @csrf_exempt
 def payload(request):
 
@@ -33,7 +34,7 @@ def payload(request):
     try:
         client_ip_address = ip_address(forwarded_for)
     except ValueError:
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Client IP Permission denied.')
 
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
 
@@ -41,12 +42,12 @@ def payload(request):
         if client_ip_address in ip_network(valid_ip):
             break
     else:
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Client IP 2 Permission Denied.')
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE')
     if header_signature is None:
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Request Signature Permission Denied.')
 
     sha_name, signature = header_signature.split('=')
     if sha_name != 'sha1':
@@ -55,7 +56,7 @@ def payload(request):
     token = os.environ['GITHUB_WEBHOOK_TOKEN']
     mac = hmac.new(force_bytes(token), msg=force_bytes(request.body), digestmod=sha1)
     if not hmac.compare_digest(force_bytes(mac.hexdigest()), force_bytes(signature)):
-        return HttpResponseForbidden('Permission denied.')
+        return HttpResponseForbidden('Request Signature 2 Permission Denied.')
 
 
     """
