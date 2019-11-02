@@ -24,7 +24,7 @@ class IndexView(generic.ListView):
         return Repository.objects.order_by('-pushed_at')
 
 
-
+@require_POST
 @csrf_exempt
 def payload(request):
 
