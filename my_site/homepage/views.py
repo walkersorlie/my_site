@@ -2,12 +2,10 @@ import requests
 import hmac
 import json
 import os
-import logging
 from django.utils.encoding import force_bytes
 from django.utils import timezone
 from django.views import generic
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, HttpResponseServerError
-from django.urls import reverse, NoReverseMatch
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from .models import Repository
@@ -37,12 +35,12 @@ def payload(request):
         return HttpResponseForbidden('Client IP Permission denied.')
 
     whitelist = requests.get('https://api.github.com/meta').json()['hooks']
-
     for valid_ip in whitelist:
         if client_ip_address in ip_network(valid_ip):
             break
     else:
         return HttpResponseForbidden('Client IP 2 Permission Denied.')
+
 
     # Verify the request signature
     header_signature = request.META.get('HTTP_X_HUB_SIGNATURE')
@@ -55,31 +53,27 @@ def payload(request):
 
     token = os.environ['GITHUB_WEBHOOK_TOKEN']
     mac = hmac.new(force_bytes(token), msg=force_bytes(request.body), digestmod=sha1)
-    # print(force_bytes(mac.hexdigest()))
-    # print(mac.hexdigest())
-    # print(force_bytes(signature))
-    # print(signature)
-    """
-    signature and message hash are the same when working locally, but on production GitHub message hash is different, when it shouldn't change???
-    """
     if not hmac.compare_digest(force_bytes(mac.hexdigest()), force_bytes(signature)):
-        # return HttpResponseForbidden('Request Signature 2 Permission Denied. %s %s' % (mac.hexdigest(), signature))
         return HttpResponseForbidden('Request Signature 2 Permission Denied.')
 
 
-    """
-    Make a delete function too?
-    PROBLEM IF I CHANGE THE NAME OF THE REPO. SORT BY GITHUB REPO ID BETTER??? PROBABLY
-    """
+    """ Make a delete function too? """
     json_data = json.loads(request.body)
+    db_repo, created = Repository.objects.update_or_create(
+        github_repo_id = json_data['repository']['node_id'],
+        defaults = {
+            'repo_name' : json_data['repository']['name'],
+            'description' : json_data['repository']['description'] if json_data['repository']['description'] is not None else '',
+            'pushed_at' : timezone.make_aware(datetime.strptime(json_data['repository']['updated_at'], '%Y-%m-%dT%H:%M:%SZ')),
+            'url' : json_data['repository']['html_url'],
+            'github_repo_id': json_data['repository']['node_id'],
+        }
+    )
 
-    repo_name = json_data['repository']['name']
-    description = json_data['repository']['description']
-    pushed_at = timezone.make_aware(datetime.strptime(json_data['repository']['updated_at'], '%Y-%m-%dT%H:%M:%SZ'))
-    url = json_data['repository']['html_url']
+    # repo_name = json_data['repository']['name']
+    # description = json_data['repository']['description']
+    # pushed_at = timezone.make_aware(datetime.strptime(json_data['repository']['updated_at'], '%Y-%m-%dT%H:%M:%SZ'))
+    # url = json_data['repository']['html_url']
+    # Repository.objects.filter(repo_name=repo_name).update(description=description, pushed_at=pushed_at, url=url)
 
-    print('updating')
-    Repository.objects.filter(repo_name=repo_name).update(description=description, pushed_at=pushed_at, url=url)
-
-    print('good')
-    return HttpResponse('good')
+    return HttpResponse('Good. Updated')

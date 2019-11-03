@@ -10,7 +10,6 @@ from multiprocessing.dummy import Pool as ThreadPool
 from homepage.models import Repository
 
 
-
 class Command(BaseCommand):
     help = 'Gets repository information from GitHub'
 
@@ -19,7 +18,7 @@ class Command(BaseCommand):
         repo = repo['node']
 
         db_repo, created = Repository.objects.update_or_create(
-            repo_name = repo['name'],
+            github_repo_id = repo['id'],
             defaults = {
                 'repo_name' : repo['name'],
                 'description' : repo['description'] if repo['description'] is not None else '',
@@ -29,7 +28,7 @@ class Command(BaseCommand):
             }
         )
 
-        return db_repo.repo_name
+        return db_repo.github_repo_id
 
 
     def handle(self, *args, **options):
@@ -67,10 +66,11 @@ class Command(BaseCommand):
 
         total_count = result['data']['viewer']['repositories']['totalCount']
         github_repo_list = []
-        github_repo_list_names = []
+        github_repo_list_id = []
         for i in range(total_count):
             github_repo_list.append(result['data']['viewer']['repositories']['edges'][i])
-            github_repo_list_names.append(github_repo_list[i]['node']['name'])
+            # github_repo_list_names.append(github_repo_list[i]['node']['name'])
+            github_repo_list_id.append(github_repo_list[i]['node']['id'])
 
         # github_repo_list = [result['data']['viewer']['repositories']['edges'][i] for i in range(total_count)]
         # github_repo_list_names = [github_repo_list[i]['node']['name'] for i in range(total_count)]
@@ -87,9 +87,9 @@ class Command(BaseCommand):
 
         # If any repos in database that were removed from GitHub, this removes those repos from db
         for repo in db_repos_list:
-            # self.stderr.write(repo.repo_name)
-            if repo not in github_repo_list_names:
-                Repository.objects.get(repo_name=repo).delete()
+            # self.stderr.write(repo.github_repo_id)
+            if repo not in github_repo_list_id:
+                Repository.objects.get(github_repo_id=repo).delete()
 
         """
         if has_next_page:

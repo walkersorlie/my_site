@@ -6,7 +6,7 @@ class Repository(models.Model):
     description = models.TextField()
     pushed_at = models.DateTimeField()
     url = models.URLField(max_length=400)
-    github_repo_id = models.CharField(max_length=300)
+    github_repo_id = models.CharField(max_length=300, unique=True)
 
     def __str__(self):
         return self.repo_name
