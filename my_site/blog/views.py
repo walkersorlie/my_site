@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 import datetime
 
-# from .models import User, Post
 from .models import Post
 from .forms import PostForm
 
@@ -32,7 +31,7 @@ class IndexView(generic.ListView):
 
         # get 4--->rest of posts
         """
-        If only 3 posts total, context['posts'] will be nothing
+        If only 3 posts total, context['posts'] will be nothing. If statement here? Check what self.get_queryset()[3:] returns if there are fewer than 4 posts
         """
         # post_exam = Post.objects.all().order_by('-pub_date')[3:]
         post_exam = self.get_queryset()[3:]
@@ -93,7 +92,7 @@ class DetailView(generic.DetailView):
 
 
 """
-What to do if slug isn't unique? Maybe slugify title and compare to slugs in DB to check for uniqueness???
+What to do if slug isn't unique? Maybe slugify title and compare to slugs in DB to check for uniqueness??? 'slug' is unique in Model, so wonder what would happen?
 Ex: Creating a post and there is an error, the post is still added to DB. Debugging errors still add entry to DB, but don't redirect to the detail page
 
 Probably combine both 'create' and 'edit' in one FormView

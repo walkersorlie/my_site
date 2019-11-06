@@ -57,7 +57,6 @@ def payload(request):
         return HttpResponseForbidden('Request Signature 2 Permission Denied.')
 
 
-    """ Make a delete function too? """
     json_data = json.loads(request.body)
     db_repo, created = Repository.objects.update_or_create(
         github_repo_id = json_data['repository']['node_id'],
@@ -69,11 +68,5 @@ def payload(request):
             'github_repo_id': json_data['repository']['node_id'],
         }
     )
-
-    # repo_name = json_data['repository']['name']
-    # description = json_data['repository']['description']
-    # pushed_at = timezone.make_aware(datetime.strptime(json_data['repository']['updated_at'], '%Y-%m-%dT%H:%M:%SZ'))
-    # url = json_data['repository']['html_url']
-    # Repository.objects.filter(repo_name=repo_name).update(description=description, pushed_at=pushed_at, url=url)
 
     return HttpResponse('Good. Updated')

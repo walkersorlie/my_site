@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
+from django.views.generic.base import RedirectView
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -25,12 +27,15 @@ urlpatterns = [
     # /registration/
     path('registration/', include('django.contrib.auth.urls')),
     path('registration/', include('registration.urls')),
+    path('login/', RedirectView.as_view(pattern_name='login', permanent=True)),
+
 
     # /blog/
     path('blog/', include('blog.urls')),
 
     # /admin/
     path('admin/', admin.site.urls),
+    path('admin/password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset'),
 ]
 
 if settings.DEBUG:

@@ -16,6 +16,10 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 12. Try getting GitHub webhooks to work (https://developer.github.com/webhooks/configuring/)
 13. Add options to development to run with debug=False, and do it for static files 'n stuff
 14. Having problem with static files 404 error on live deployment -- FIXED (adding STATICFILES_FINDERS fixed it???? Removing COLLECTSTATIC = 1 as config var)
+15. If I change repo stuff on Admin site, create process to send that info to GitHub to update the repo(s)
+16. Pass info from password reset to see if password_reset_complete should direct to normal login, or admin login. Use session??? Middleware??
+      * https://devcenter.heroku.com/articles/django-memcache
+      * https://docs.djangoproject.com/en/2.2/topics/cache/
 
 ###
 Remember to change settings file used in 'wsgi.py'
