@@ -33,7 +33,10 @@
         <div class="row">
           <div class="col-sm-8 col-md-7 py-4">
             <h4 class="text-white">About</h4>
-            <p class="text-muted">Description</p>
+            {% for block in about_content %}
+            <p class="text-muted">{{ block.body }}</p>
+            {% endfor %}
+            <!-- <p class="text-muted">I am a budding software engineer. I graduated from Westminster College in Salt Lake City, Utah in 2018. Since then, I have lived in Spain as an English language assistant, helping to improve the English level and pronunciation of students in public schools. My first year was in a province called Ja&eacute;n in the autonomous community of Andaluc&iacute;a. I am currently in Granada, which is also in Andaluc&iacute;a. I love to ski in the winter, play ultimate frisbee, soccer, rock climb, slackline, ride bikes; basically anything outdoors makes me excited.</p> -->
           </div>
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>

@@ -20,6 +20,8 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 16. Pass info from password reset to see if password_reset_complete should direct to normal login, or admin login. Use session??? Middleware??
       * https://devcenter.heroku.com/articles/django-memcache
       * https://docs.djangoproject.com/en/2.2/topics/cache/
+      * I have my Registration app in INSTALLED_APPS included after admin, so the admin templates/urls are used
+17. Use timezone-aware fields? Real confusing 
 
 ###
 Remember to change settings file used in 'wsgi.py'

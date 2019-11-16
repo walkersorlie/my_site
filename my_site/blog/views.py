@@ -24,50 +24,48 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        # three_recent_posts = Post.objects.all().order_by('-pub_date')[:3]
         three_recent_posts = self.get_queryset()[:3]
         context['three_recent_posts'] = three_recent_posts
 
 
         # get 4--->rest of posts
-        """
-        If only 3 posts total, context['posts'] will be nothing. If statement here? Check what self.get_queryset()[3:] returns if there are fewer than 4 posts
-        """
-        # post_exam = Post.objects.all().order_by('-pub_date')[3:]
         post_exam = self.get_queryset()[3:]
-        paginator = Paginator(post_exam, self.paginate_by)
-        page = self.request.GET.get('page')
+        if not post_exam:
+            return context
+        else:
+            paginator = Paginator(post_exam, self.paginate_by)
+            page = self.request.GET.get('page')
 
-        # limit = 4 * page
-        # offset = limit - 4
-        # post_list = post_exam[offset:limit]  # limiting posts based on current_page
-        # total_posts = Posts.objects.all().count()
-        # total_pages = total_posts / 4
+            # limit = 4 * page
+            # offset = limit - 4
+            # post_list = post_exam[offset:limit]  # limiting posts based on current_page
+            # total_posts = Posts.objects.all().count()
+            # total_pages = total_posts / 4
 
-        try:
-            post_exams = paginator.page(page)
-        except PageNotAnInteger:
-            post_exams = paginator.page(1)
-        except EmptyPage:
-            post_exams = paginator.page(paginator.num_pages)
+            try:
+                post_exams = paginator.page(page)
+            except PageNotAnInteger:
+                post_exams = paginator.page(1)
+            except EmptyPage:
+                post_exams = paginator.page(paginator.num_pages)
 
-        context['posts'] = post_exams
+            context['posts'] = post_exams
 
-        index = post_exams.number - 1
-        max_index = len(paginator.page_range)
-        start_index = index - 5 if index >= 5 else 0
-        end_index = index + 5 if index <= max_index else max_index
-        page_range = paginator.page_range[start_index: end_index]
+            index = post_exams.number - 1
+            max_index = len(paginator.page_range)
+            start_index = index - 5 if index >= 5 else 0
+            end_index = index + 5 if index <= max_index else max_index
+            page_range = paginator.page_range[start_index: end_index]
 
-        context['page_range'] = page_range
+            context['page_range'] = page_range
 
-        # context = {
-        #     'three_recent_posts': three_recent_posts,
-        #     'posts': post_exams,
-        #     'page_range': page_range,
-        # }
+            # context = {
+            #     'three_recent_posts': three_recent_posts,
+            #     'posts': post_exams,
+            #     'page_range': page_range,
+            # }
 
-        return context
+            return context
 
 
 class DetailView(generic.DetailView):

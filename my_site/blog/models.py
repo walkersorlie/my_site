@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User as Auth_User
+from django.utils import timezone
 
 
 class Post(models.Model):
@@ -20,7 +21,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            # Newly created object, so set slug
             self.slug = slugify(self.title)
+            self.pub_date = timezone.now()
 
         super(Post, self).save(*args, **kwargs)

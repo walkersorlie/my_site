@@ -8,7 +8,7 @@ from django.views import generic
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Repository
+from .models import Repository, AboutContent
 from datetime import datetime
 from ipaddress import ip_address, ip_network
 from hashlib import sha1
@@ -20,6 +20,11 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return Repository.objects.order_by('-pushed_at')
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['about_content'] = AboutContent.objects.all()
+        return context
 
 
 @require_POST
