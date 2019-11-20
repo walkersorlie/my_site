@@ -17,10 +17,9 @@
           <textarea class="form-control blog-textarea">{{ specific_blog.body }}</textarea>
         </div>
 
-        <!-- make button of course -->
         {% if user.is_authenticated %}
           <a href="{% url 'blog:edit-post' slug=specific_blog.slug %}" class="btn btn-primary">Edit post</a>
-          <a href="{% url 'blog:index' %}" class="btn btn-outline-secondary">Back to Blog</a>
+          <a href="{% url 'blog:index' %}" class="btn btn-secondary">Back to Blog</a>
         {% else %}
           <a href="{% url 'blog:index' %}" class="btn btn-primary">Back to Blog</a>
         {% endif %}

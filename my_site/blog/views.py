@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.urls import reverse, NoReverseMatch
+from django.urls import reverse_lazy, reverse, NoReverseMatch
 from django.views import generic
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -113,7 +113,7 @@ class CreatePostView(LoginRequiredMixin, generic.CreateView):
         post.save()
 
         # OVERRIDES 'success_url'
-        return HttpResponseRedirect(reverse('blog:view-post', kwargs={'slug': post.slug}))
+        return HttpResponseRedirect(reverse('blog:edit-post', kwargs={'slug': post.slug}))
 
 
 """
@@ -135,6 +135,12 @@ class EditPostView(generic.UpdateView):
         # post.pub_date = datetime.datetime.now()
         post.save()
         return HttpResponseRedirect(reverse('blog:view-post', kwargs={'slug': post.slug}))
+
+
+class DeletePostView(generic.DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')
+
 
 """
 def create_post(request):

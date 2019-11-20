@@ -1,10 +1,6 @@
 my_site/my_site/staticfiles/
+local_messing/
 
-*.AppImage
-
-mysql_dump/
-
-mysql.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -65,10 +61,6 @@ local_settings.py
 db.sqlite3
 dev.sqlite3
 
-# Flask stuff:
-instance/
-.webassets-cache
-
 # Scrapy stuff:
 .scrapy
 
@@ -112,8 +104,3 @@ venv/
 
 # mypy
 .mypy_cache/
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml

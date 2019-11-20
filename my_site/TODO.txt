@@ -21,7 +21,9 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
       * https://devcenter.heroku.com/articles/django-memcache
       * https://docs.djangoproject.com/en/2.2/topics/cache/
       * I have my Registration app in INSTALLED_APPS included after admin, so the admin templates/urls are used
-17. Use timezone-aware fields? Real confusing 
+17. Use timezone-aware fields? Real confusing
+18. AboutContent is only loaded on homepage/index, not on any other pages. What to do?
+19. Update "Recent Actions" in admin site with actions performed not exclusively from admin site
 
 ###
 Remember to change settings file used in 'wsgi.py'

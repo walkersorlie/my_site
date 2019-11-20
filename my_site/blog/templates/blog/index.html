@@ -18,7 +18,7 @@
   <main role="main" class="container">
 
     {% if user.is_authenticated %}
-      <a href="{% url 'blog:create-post' %}" class="btn btn-primary">Create post</a>
+      <a href="{% url 'blog:create-post' %}" class="btn btn-primary" style="margin-bottom:15px;">Create post</a>
     {% endif %}
 
     {% if three_recent_posts|length > 0 %}
