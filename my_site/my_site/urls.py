@@ -18,6 +18,7 @@ from django.urls import include, path
 from django.conf import settings
 from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
+from registration.views import PasswordResetView, PasswordResetConfirmView, PasswordResetCompleteView
 
 
 urlpatterns = [
@@ -29,13 +30,17 @@ urlpatterns = [
     path('registration/', include('registration.urls')),
     path('login/', RedirectView.as_view(pattern_name='login', permanent=True)),
 
-
     # /blog/
     path('blog/', include('blog.urls')),
 
     # /admin/
-    path('admin/', admin.site.urls),
-    path('admin/password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset'),
+    path('admin/', include([
+        path('password_reset/', PasswordResetView.as_view(), name='admin_password_reset'),
+        path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+        path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='admin_password_reset_confirm'),
+        path('password_reset_complete/', PasswordResetCompleteView.as_view(), name='admin_password_reset_complete'),
+        path('', admin.site.urls),
+    ])),
 ]
 
 if settings.DEBUG:
