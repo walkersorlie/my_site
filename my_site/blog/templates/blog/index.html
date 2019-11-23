@@ -45,7 +45,6 @@
               <p class="card-text mb-auto">{{ three_recent_posts.1.body|truncatechars_html:250 }}</p>
               <a href="{% url 'blog:view-post' three_recent_posts.1.slug %}">Continue reading</a>
             </div>
-            <!-- <img class="card-img-right flex-auto d-none d-lg-block" data-src="holder.js/200x250?theme=thumb" alt="Card image cap"> -->
           </div>
         </div>
       {% endif %}
@@ -60,7 +59,6 @@
               <div class="card-text mb-auto">{{ three_recent_posts.2.body|truncatechars_html:250 }}</div>
               <a href="{% url 'blog:view-post' three_recent_posts.2.slug %}">Continue reading</a>
             </div>
-            <!-- <img class="card-img-right flex-auto d-none d-lg-block" src="{% static 'blog/images/blog-post-icon.png' %}" width="200px" height="250px" alt="Card image cap"> -->
           </div>
         </div>
       </div>
