@@ -35,10 +35,13 @@ urlpatterns = [
 
     # /admin/
     path('admin/', include([
-        path('password_reset/', PasswordResetView.as_view(), name='admin_password_reset'),
+        # path('password_reset/', PasswordResetView.as_view(), name='admin_password_reset'),
+        path('password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset'),
         path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-        path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='admin_password_reset_confirm'),
-        path('password_reset_complete/', PasswordResetCompleteView.as_view(), name='admin_password_reset_complete'),
+        path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='admin_password_reset_confirm'),
+        path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(), name='admin_password_reset_complete'),
+        # path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='admin_password_reset_confirm'),
+        # path('password_reset_complete/', PasswordResetCompleteView.as_view(), name='admin_password_reset_complete'),
         path('', admin.site.urls),
     ])),
 ]
