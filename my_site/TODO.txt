@@ -21,9 +21,16 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
       * https://devcenter.heroku.com/articles/django-memcache
       * https://docs.djangoproject.com/en/2.2/topics/cache/
       * I have my Registration app in INSTALLED_APPS included after admin, so the admin templates/urls are used
+      * https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#adminsite-objects
 17. Use timezone-aware fields? Real confusing
-18. AboutContent is only loaded on homepage/index, not on any other pages. What to do?
+18. AboutContent is only loaded on homepage/index, not on any other pages. What to do? --> FIXED
 19. Update "Recent Actions" in admin site with actions performed not exclusively from admin site
+  * https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#logentry-objects
+  * https://django-simple-history.readthedocs.io/en/latest/index.html
+20. Webhook seems to not be updating??? Says it is though. Pushed at time is an hour behind
+21. Shouldn't be able to add Repository objects in admin site - https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.add_view
+22. Add more resume info. Add resume as a file!
+23. Cache sheeet doesn't work. Look at caches more
 
 ###
 Remember to change settings file used in 'wsgi.py'

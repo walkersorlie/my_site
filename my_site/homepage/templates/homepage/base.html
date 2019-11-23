@@ -33,10 +33,9 @@
         <div class="row">
           <div class="col-sm-8 col-md-7 py-4">
             <h4 class="text-white">About</h4>
-            {% for block in about_content %}
-            <p class="text-muted">{{ block.body }}</p>
-            {% endfor %}
-            <!-- <p class="text-muted">I am a budding software engineer. I graduated from Westminster College in Salt Lake City, Utah in 2018. Since then, I have lived in Spain as an English language assistant, helping to improve the English level and pronunciation of students in public schools. My first year was in a province called Ja&eacute;n in the autonomous community of Andaluc&iacute;a. I am currently in Granada, which is also in Andaluc&iacute;a. I love to ski in the winter, play ultimate frisbee, soccer, rock climb, slackline, ride bikes; basically anything outdoors makes me excited.</p> -->
+            {% if request.about_content_block %}
+            <p class="text-muted">{{ request.about_content_block.body}}</p>
+            {% endif %}
           </div>
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
@@ -49,13 +48,11 @@
       </div>
     </div>
 
-    <!--style="background-color:#2B323C!important;"-->
     <nav class="navbar navbar-dark bg-dark shadow-sm nav-color">
       <div class="container d-flex justify-content-between">
         <ul class="navbar-nav mr-auto" style="display:inline-block;">
           <li class="nav-item" style="display:inline-block;">
             <a href="{% url 'homepage:index' %}" class="nav-link navbar-brand d-flex">
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> -->
               <strong>Home</strong>
             </a>
           </li>
@@ -77,39 +74,6 @@
     </nav>
   </header>
   {% endblock %}
-
-<!-- <nav class="navbar navbar-dark bg-dark">
-  <ul>
-    <li class="nav-item">
-      <a href="{% url 'homepage:index' %}" class="nav-link navbar-brand d-flex">Home</a>
-    </li>
-    <li class="nav-item">
-      <a href="{% url 'blog:index' %}" class="nav-link navbar-brand d-flex">Blog</a>
-    </li>
-  </ul>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse bg-dark" id="navbarsExample01">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="#" class="text-white">Like on Facebook</a></li>
-            <li><a href="#" class="text-white">Email me</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav> -->
 
 
 <main role="main">

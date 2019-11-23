@@ -45,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'my_middleware.HttpResponseMiddleware.HttpResponseNotAllowed',
+    'my_middleware.AboutContentBlockMiddleware.AboutContentBlock',
 ]
 
 ROOT_URLCONF = 'my_site.urls'
