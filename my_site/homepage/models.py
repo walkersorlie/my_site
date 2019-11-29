@@ -13,6 +13,11 @@ class Repository(models.Model):
     def __str__(self):
         return self.repo_name
 
+    def save(self, *args, **kwargs):
+        self.repo_name = self.repo_name.replace(' ', '-')
+        
+        super().save(*args, **kwargs)
+
 
 class AboutContent(models.Model):
     body = models.TextField()
