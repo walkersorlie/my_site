@@ -15,9 +15,13 @@ class Post(models.Model):
     pub_date = models.DateTimeField('date published')
     slug = models.SlugField(max_length=100, unique=True, blank=True) # don't query on slug. slow
 
-    def __str__(self):
-        return "title: " + f'"{self.title}"' + ", author username: " + self.author_id.username
 
+    class Meta:
+        ordering = ['-pub_date']
+        
+
+    def __str__(self):
+        return "title: " + f'"{self.title}"' + ", author username: " + self.author_id.username.capitalize()
 
     def save(self, *args, **kwargs):
         if not self.id:

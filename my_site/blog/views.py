@@ -19,7 +19,8 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         # return Post.objects.order_by('-pub_date')[:5]
-        return Post.objects.order_by('-pub_date')
+        # return Post.objects.order_by('-pub_date')
+        return Post.objects.all()
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)

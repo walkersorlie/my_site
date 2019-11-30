@@ -23,6 +23,7 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
       * I have my Registration app in INSTALLED_APPS included after admin, so the admin templates/urls are used
       * https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#adminsite-objects
 17. Use timezone-aware fields? Real confusing
+  - Store datetimes in UTC in database. Convert to timezone when putting data to client
 18. AboutContent is only loaded on homepage/index, not on any other pages. What to do? --> FIXED
 19. Update "Recent Actions" in admin site with actions performed not exclusively from admin site
   * https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#logentry-objects

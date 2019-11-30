@@ -6,8 +6,14 @@ from .models import Repository, AboutContent
 
 
 class RepositoryAdmin(admin.ModelAdmin):
+    date_hierarchy = 'pushed_at'
+    list_display = ('__str__', 'pushed_at',)
     exclude = ('github_repo_id',)
     readonly_fields = ('url', 'pushed_at',)
+
+
+    # def has_add_permission(self, request):
+    #     return False
 
     """
     No Delete button

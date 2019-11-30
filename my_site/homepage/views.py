@@ -19,7 +19,12 @@ class IndexView(generic.ListView):
     context_object_name = 'repo_list'
 
     def get_queryset(self):
-        return Repository.objects.order_by('-pushed_at')
+        # repos = Repository.objects.order_by('-pushed_at')
+        repos = Repository.objects.all()
+        for repo in repos:
+            repo.repo_name = repo.repo_name.replace('-', ' ').replace('_', ' ').title()
+
+        return repos
 
 
 @require_POST
