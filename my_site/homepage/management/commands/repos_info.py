@@ -13,6 +13,13 @@ from homepage.models import Repository
 class Command(BaseCommand):
     help = 'Gets repository information from GitHub'
 
+    try:
+        api_token = os.environ['MY_SITE_GITHUB_ACCESS_TOKEN']
+        secret = os.environ['GITHUB_WEBHOOK_TOKEN']
+
+    except KeyError as name:
+      raise ImproperlyConfigured('Environment variable %s not found.' % name)
+
 
     def handle_repo(self, repo):
         repo = repo['node']
@@ -28,6 +35,32 @@ class Command(BaseCommand):
             }
         )
 
+        if created:
+            """
+            Create webhook for repo
+            """
+
+            url = 'https://api.github.com/repos/walkersorlie/%s/hooks' % db_repo.repo_name
+
+            query ="""
+                {
+                    "name": "web",
+                    "active": true,
+                    "config": {
+                        "url": "http://www.walkersorlie.com/github_payload/",
+                        "content_type": "json",
+                        "secret": \"%s\",
+                        "insecure_ssl": "0"
+                    }
+                }
+            """ % self.secret
+
+            headers = {'User-Agent': 'Mozilla/5.0', 'Content-Type': 'application/vnd.github.v3+json', 'Authorization': 'token %s' % self.api_token}
+
+            r = requests.post(url=url, json=json_py.loads(query), headers=headers)
+
+            # result = json_py.loads(r.text)
+
         return db_repo.github_repo_id
 
 
@@ -38,13 +71,7 @@ class Command(BaseCommand):
             "query": "{viewer {repositories(first: 20) {totalCount edges {node {name description pushedAt url id} cursor} pageInfo {endCursor hasNextPage}}}}"
         }
 
-        try:
-            api_token = os.environ['MY_SITE_GITHUB_ACCESS_TOKEN']
-
-        except KeyError:
-          raise ImproperlyConfigured('Environment variable "%s" not found.' % name)
-
-        headers = {'User-Agent': 'Mozilla/5.0', 'Authorization': 'token %s' % api_token}
+        headers = {'User-Agent': 'Mozilla/5.0', 'Authorization': 'token %s' % self.api_token}
 
         r = requests.post(url=url, json=query, headers=headers)
 

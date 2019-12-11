@@ -12,8 +12,11 @@ class RepositoryAdmin(admin.ModelAdmin):
     readonly_fields = ('url', 'pushed_at',)
 
 
-    # def has_add_permission(self, request):
-    #     return False
+    """
+    No Add button
+    """
+    def has_add_permission(self, request):
+        return False
 
     """
     No Delete button
@@ -28,6 +31,7 @@ class RepositoryAdmin(admin.ModelAdmin):
         return actions
 
     def save_model(self, request, obj, form, change):
+
         url = 'https://api.github.com/graphql'
 
         id = obj.github_repo_id

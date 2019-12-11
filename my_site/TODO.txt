@@ -31,7 +31,12 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 20. Webhook seems to not be updating??? Says it is though. Pushed at time is an hour behind
 21. Shouldn't be able to add Repository objects in admin site - https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.add_view
 22. Add more resume info. Add resume as a file!
+  * Use LinkedIn API
+    - https://docs.microsoft.com/en-us/linkedin/shared/integrations/people/profile-api?context=linkedin/consumer/context
+    - https://docs.microsoft.com/en-us/linkedin/shared/references/v2/profile/full-profile?context=linkedin/consumer/context
 23. Cache sheeet doesn't work. Look at caches more
+24. Get links to US-CERT posts, other blog posts I like
+25. Make a command that creates a webhook for new repositories --> DONE
 
 ###
 Remember to change settings file used in 'wsgi.py'

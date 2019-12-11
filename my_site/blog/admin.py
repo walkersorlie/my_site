@@ -8,6 +8,7 @@ class PostAdmin(admin.ModelAdmin):
     '_auth_user_id' might be the variable name
     https://docs.djangoproject.com/en/2.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_fields
     """
+
     date_hierarchy = 'pub_date'
     list_display = ('title', 'upper_case_name', 'pub_date')
     fields = ('upper_case_name', 'title', 'body')
