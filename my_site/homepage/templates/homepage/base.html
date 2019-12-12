@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="My personal website">
+  <meta name="author" content="Walker Sorlie">
   {% block title %}
   <title>Personal Site</title>
   {% endblock %}
@@ -22,6 +22,8 @@
 
   {% block app_stylesheets %}
   {% endblock %}
+
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
 
 </head>
 
@@ -48,7 +50,7 @@
       </div>
     </div>
 
-    <nav class="navbar navbar-dark bg-dark shadow-sm nav-color">
+    <nav class="navbar navbar-dark bg-dark shadow-sm nav-color load-hidden">
       <div class="container d-flex justify-content-between">
         <ul class="navbar-nav mr-auto" style="display:inline-block;">
           <li class="nav-item" style="display:inline-block;">
@@ -73,6 +75,7 @@
       </div>
     </nav>
   </header>
+
   {% endblock %}
 
 
@@ -99,6 +102,9 @@
 <script src="{% static 'homepage/js/popper.min.js' %}"></script>
 <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'homepage/js/holder.min.js' %}"></script>
+<script>
+  ScrollReveal().reveal('.navbar', {duration: 700, easing: 'ease-in-out' });
+</script>
 {% block scripts %}
 {% endblock %}
 </body>

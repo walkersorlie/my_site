@@ -16,7 +16,7 @@
 {% block content %}
 
 <section class="jumbotron text-center">
-  <div class="container">
+  <div class="jumbotron-reveal container load-hidden">
     <h1 class="jumbotron-heading">Walker "Texas Ranger" Sorlie</h1>
     <p class="lead text-muted">My name is Walker. I graduated college with my computer science degree in May 2018, and currently I am an English teaching assistant in Spain. This is my website where I have compiled my GitHub repositories and have linked to my blog, where I chronicle my time here in Spain.</p>
   </div>
@@ -26,7 +26,7 @@
   <div class="container">
     <div class="row">
       {% for repo in repo_list %}
-      <div class="col-md-4">
+      <div class="col-md-4 repo-reveal">
         <div class="card mb-4 shadow-sm">
           <div class="custom-homepage-hover">
             <a href="{{ repo.url }}" target="_blank"><img src="{% static 'homepage/images/github2.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
@@ -52,4 +52,12 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+  ScrollReveal().reveal('.jumbotron-reveal', { delay: 500, duration: 700, easing: 'ease-in-out' });
+  ScrollReveal().reveal('.repo-reveal', { delay: 950, duration: 850, interval: 100, easing: 'ease-in-out' });
+  // ScrollReveal().reveal('.repo-reveal', {delay: 50, duration: 850, interval: 100, easing: 'ease-in-out'});
+</script>
 {% endblock %}

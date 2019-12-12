@@ -13,6 +13,7 @@ class Repository(models.Model):
 
     class Meta:
         ordering = ['-pushed_at']
+        verbose_name_plural = "Repositories"
 
 
     def __str__(self):

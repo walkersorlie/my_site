@@ -3,8 +3,11 @@ from . import views
 
 app_name = 'homepage'
 urlpatterns = [
+
     # /
     path('', views.IndexView.as_view(), name='index'),
-    path('github_payload/', views.payload),
+
+    # /github_payload/
+    path('github_payload/', views.payload, name='github_payload'),
 
 ]
