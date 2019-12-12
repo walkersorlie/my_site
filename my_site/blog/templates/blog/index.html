@@ -14,7 +14,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container load-hidden blog-reveal">
   <main role="main" class="container">
 
     {% if user.is_authenticated %}
@@ -82,4 +82,10 @@
     {% endif %}
   </main><!-- /.container -->
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  ScrollReveal().reveal('.blog-reveal', { delay: 500, duration: 700, easing: 'ease-in-out' });
+</script>
 {% endblock %}
