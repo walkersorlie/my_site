@@ -17,10 +17,12 @@
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/bootstrap.min.css' %}">
 
-  <!-- Custom styles for this template -->
-  <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/album.css' %}">
+  <!-- Custom global css stylesheets -->
+  <link rel="stylesheet" type="text/css" href="{% static 'global/css/scrollreveal.css' %}">
 
   {% block app_stylesheets %}
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/album.css' %}">
   {% endblock %}
 
   <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
@@ -80,6 +82,7 @@
 
 
 <main role="main">
+  <button onclick="topFunction()" id="topBtn" class="btn btn-outline-secondary button-top-reveal" title="Go to top">Back to Top</button>
   {% block content %}
   {% endblock %}
 </main>
@@ -88,7 +91,8 @@
   <div class="container">
     <p class="float-right">
       {% block footer_link %}
-      <a href="#" class="btn btn-outline-secondary" role="button">Back to top</a>
+      <!-- <a href="#" class="btn btn-outline-secondary button-top-reveal" role="button">Back to top</a> -->
+       <!-- <button onclick="topFunction()" id="topBtn" class="btn btn-outline-secondary button-top-reveal" style="display: none;" title="Go to top">Back to Top</button> -->
       {% endblock %}
     </p>
   </div>
@@ -102,6 +106,7 @@
 <script src="{% static 'homepage/js/popper.min.js' %}"></script>
 <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'homepage/js/holder.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'global/js/global.js' %}"></script>
 <script>
   ScrollReveal().reveal('.navbar', {duration: 700, easing: 'ease-in-out' });
 </script>
