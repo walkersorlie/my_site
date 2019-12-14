@@ -45,7 +45,7 @@
             <h4 class="text-white">Contact</h4>
             <ul class="list-unstyled">
               <li><a href="https://www.linkedin.com/in/walkersorlie/" class="text-white" target="_blank">LinkedIn</a></li>
-              <li><a href="mailto:walkersorlie@gmail.com?subject=The%20subject" class="text-white">Email me</a></li>
+              <li><a href="mailto:walkersorlie@walkersorlie.com?subject=The%20subject" class="text-white">Email me</a></li>
             </ul>
           </div>
         </div>
@@ -107,10 +107,10 @@
 <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'homepage/js/holder.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'global/js/global.js' %}"></script>
+{% block scripts %}
 <script>
   ScrollReveal().reveal('.navbar', {duration: 700, easing: 'ease-in-out' });
 </script>
-{% block scripts %}
 {% endblock %}
 </body>
 </html>

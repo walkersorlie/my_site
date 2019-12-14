@@ -4,7 +4,7 @@
 
 
 {% block content %}
-    <main role="main" class="container">
+    <div class="container">
       <div class="row">
         <div class="col-md-10 blog-main">
           <h2>New Post</h2>
@@ -18,12 +18,13 @@
                 {{ form.body|add_class:"blog-textarea" }}
               </div>
             </div><!-- /.blog-post -->
-            <button type="submit" class="save btn btn-primary">Save</button>
+            <button type="submit" class="save btn btn-primary">Post</button>
             <a href="{% url 'blog:index' %}" class="btn btn-secondary">Cancel</a>
         </form>
         </div><!-- /.blog-main -->
 
       </div><!-- /.row -->
 
-    </main><!-- /.container -->
+    </div><!-- /.container -->
+
 {% endblock %}

@@ -114,7 +114,7 @@ class CreatePostView(LoginRequiredMixin, generic.CreateView):
         post.save()
 
         # OVERRIDES 'success_url'
-        return HttpResponseRedirect(reverse('blog:edit-post', kwargs={'slug': post.slug}))
+        return HttpResponseRedirect(reverse('blog:view_post', kwargs={'slug': post.slug}))
 
 
 """
@@ -135,7 +135,7 @@ class EditPostView(generic.UpdateView):
         # post.author_id = User.objects.get(pk=1)
         # post.pub_date = datetime.datetime.now()
         post.save()
-        return HttpResponseRedirect(reverse('blog:view-post', kwargs={'slug': post.slug}))
+        return HttpResponseRedirect(reverse('blog:view_post', kwargs={'slug': post.slug}))
 
 
 class DeletePostView(generic.DeleteView):

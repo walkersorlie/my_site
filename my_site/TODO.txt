@@ -37,6 +37,7 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 23. Cache sheeet doesn't work. Look at caches more
 24. Get links to US-CERT posts, other blog posts I like
 25. Make a command that creates a webhook for new repositories --> DONE
+26. Disable ScrollReveal on create/edit blog post pages.
 
 ###
 Remember to change settings file used in 'wsgi.py'

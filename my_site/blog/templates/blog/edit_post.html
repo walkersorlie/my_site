@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<main role="main" class="container">
+<div class="container">
   <div class="row">
     <div class="col-md-10 blog-main">
       <h2>Edit post</h2>
@@ -19,8 +19,8 @@
               {{ form.body|add_class:"blog-textarea" }}
             </div>
           </div><!-- /.blog-post -->
-          <button type="submit" class="save btn btn-primary">Save</button>
-          <a href="{% url 'blog:view-post' slug=specific_blog.slug %}" class="btn btn-outline-primary">Cancel</a>
+          <button type="submit" class="save btn btn-primary">Update</button>
+          <a href="{% url 'blog:view_post' slug=specific_blog.slug %}" class="btn btn-outline-primary">Cancel</a>
           <!-- Trigger the modal with a button -->
           <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal">Delete</button>
       </form>
@@ -50,6 +50,6 @@
 
   </div><!-- /.row -->
 
-</main><!-- /.container -->
+</div><!-- /.container -->
 
 {% endblock %}

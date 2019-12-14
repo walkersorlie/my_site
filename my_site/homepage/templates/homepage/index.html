@@ -56,6 +56,7 @@
 {% endblock %}
 
 {% block scripts %}
+{{ block.super }}
 <script>
   ScrollReveal().reveal('.jumbotron-reveal', { delay: 500, duration: 700, easing: 'ease-in-out' });
   ScrollReveal().reveal('.repo-reveal', { delay: 950, duration: 850, interval: 100, easing: 'ease-in-out' });
