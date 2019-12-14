@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="container load-hidden">
+<div class="container">
   <div class="row">
-    <div class="col-md-10 blog-main">
+    <div class="col-md-10 blog-main load-hidden">
       <div class="blog-post">
         <h2 class="blog-post-title">{{ specific_blog.title }}</h2>
-        <p class="blog-post-meta">{{ specific_blog.author_id }}</p>
+        <p class="blog-post-meta">{{ specific_blog.author_id|capfirst }}</p>
 
         <div class="form-group">
           <textarea class="form-control blog-textarea">{{ specific_blog.body }}</textarea>
@@ -36,6 +36,6 @@
 {% block scripts %}
 {{ block.super }}
 <script>
-  ScrollReveal().reveal('.row', { delay: 500, duration: 700, easing: 'ease-in-out' });
+  ScrollReveal().reveal('.blog-main', { delay: 500, duration: 700, easing: 'ease-in-out' });
 </script>
 {% endblock %}

@@ -22,12 +22,18 @@ from registration.views import PasswordResetView, PasswordResetConfirmView, Pass
 
 
 urlpatterns = [
+
     # /
     path('', include('homepage.urls')),
+
+    # /my_cv/
+    path('my_cv/', include('my_cv.urls')),
 
     # /registration/
     path('registration/', include('django.contrib.auth.urls')),
     path('registration/', include('registration.urls')),
+
+    # /login/
     path('login/', RedirectView.as_view(pattern_name='login', permanent=True)),
 
     # /blog/
@@ -49,7 +55,10 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
+
         # /api/
         path('api/', include('api.urls')),
+
+        # /__debug__/
         path('__debug__/', include(debug_toolbar.urls)),
     ]

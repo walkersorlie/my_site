@@ -14,6 +14,7 @@ MY_APPS = [
     'blog.apps.BlogConfig',
     'debug_toolbar',
     'homepage.apps.HomepageConfig',
+    'my_cv.apps.MyCVConfig',
     'registration.apps.RegistrationConfig',
     'rest_framework',
     'widget_tweaks',
