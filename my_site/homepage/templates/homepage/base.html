@@ -66,7 +66,7 @@
             </a>
           </li>
           <li class="nav-item" style="display:inline-block;">
-            <a href="https://github.com/walkersorlie" class="nav-link navbar-brand d-flex">
+            <a href="https://github.com/walkersorlie" class="nav-link navbar-brand d-flex" target="_blank">
               <strong>GitHub</strong>
             </a>
           </li>
@@ -101,7 +101,7 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="{% static 'jquery-slim.min.js' %}"><\/script>')</script>
 <script src="{% static 'homepage/js/popper.min.js' %}"></script>
 <script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
@@ -109,7 +109,7 @@
 <script type="text/javascript" src="{% static 'global/js/global.js' %}"></script>
 {% block scripts %}
 <script>
-  ScrollReveal().reveal('.navbar', {duration: 700, easing: 'ease-in-out' });
+  ScrollReveal().reveal('.navbar', { duration: 700, easing: 'ease-in-out' });
 </script>
 {% endblock %}
 </body>
