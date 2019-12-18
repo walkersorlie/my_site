@@ -40,6 +40,11 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 26. Disable ScrollReveal on create/edit blog post pages. --> DECIDED TO USE IT
 27. Migrate Repository model from homepage app to my_cv app
   * https://stackoverflow.com/questions/25648393/how-to-move-a-model-between-two-django-apps-django-1-7/26472482#26472482
+28. Make cool sliding cover page/landing page. Only shows on first visit to site (session use probs??). Some cool design
+  * https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+  * https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll
+  * https://www.w3schools.com/howto/howto_js_fullscreen_overlay.asp
+  * https://www.w3schools.com/howto/howto_css_parallax.asp
 
 ###
 Remember to change settings file used in 'wsgi.py'

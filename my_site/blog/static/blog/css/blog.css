@@ -6,3 +6,7 @@ textarea.blog-textarea {
   height: 23em;
   width: 100%;
 }
+
+.blog-post {
+  margin-bottom: 25px;
+}

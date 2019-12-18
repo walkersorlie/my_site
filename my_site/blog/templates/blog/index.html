@@ -14,8 +14,8 @@
 
 {% block content %}
 
-<div class="container-fluid load-hidden blog-reveal">
-  <div class="row">
+<div class="container-fluid load-hidden">
+  <div class="row top-reveal">
     <div class="col-md-8">
     {% if user.is_authenticated %}
       <a href="{% url 'blog:create_post' %}" class="btn btn-primary" style="margin-top: 15px;">Create post</a>
@@ -57,7 +57,7 @@
     {% endif %}
 
     {% if posts|length > 0 %}
-      <div class="row">
+      <div class="row older-posts-reveal">
         <div class="col-md-8 blog-main">
           <h3 class="pb-3 mb-4 font-italic border-bottom">Older Posts</h3>
           {% for post in posts %}
@@ -86,7 +86,8 @@
 {% block scripts %}
 {{ block.super }}
 <script>
-  ScrollReveal().reveal('.blog-reveal', { delay: 500, duration: 700, easing: 'ease-in-out' });
+  ScrollReveal().reveal('.top-reveal', { delay: 500, duration: 700, easing: 'ease-in-out' });
+  ScrollReveal().reveal('.older-posts-reveal', { delay: 800, duration: 700, easing: 'ease-in-out', useDelay: 'onload', reset: 'true' });
 </script>
 <script type="text/javascript" src="{% static 'blog/js/twitter.js' %}"></script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
