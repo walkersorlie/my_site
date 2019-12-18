@@ -16,6 +16,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 MY_APPS = [
     'blog.apps.BlogConfig',
     'homepage.apps.HomepageConfig',
+    'my_cv.apps.MyCVConfig',
     'registration.apps.RegistrationConfig',
     'widget_tweaks',
 ]
