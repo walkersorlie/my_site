@@ -15,14 +15,17 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 MY_APPS = [
     'blog.apps.BlogConfig',
+    'el_pagination',
     'homepage.apps.HomepageConfig',
     'my_cv.apps.MyCVConfig',
     'registration.apps.RegistrationConfig',
     'widget_tweaks',
 ]
 
-
 INSTALLED_APPS += MY_APPS
+
+
+EL_PAGINATION_PER_PAGE = 4
 
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/09/19/how-to-create-password-reset-view.html

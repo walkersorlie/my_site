@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse_lazy, reverse, NoReverseMatch
 from django.views import generic
+from el_pagination.views import AjaxListView
 from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -11,10 +12,10 @@ from .models import Post
 from .forms import PostForm
 
 
-class IndexView(generic.ListView):
+class IndexView(AjaxListView):
     template_name = 'blog/index.html'
+    page_template = 'blog/post_list.html'
     context_object_name = 'post_list'
-    paginate_by = 4
 
 
     def get_queryset(self):
@@ -25,48 +26,10 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        three_recent_posts = self.get_queryset()[:3]
-        context['three_recent_posts'] = three_recent_posts
+        context['three_recent_posts'] = self.get_queryset()[:3]
+        context['paginated_posts'] = self.get_queryset()[3:]
 
-
-        # get 4--->rest of posts
-        post_exam = self.get_queryset()[3:]
-        if not post_exam:
-            return context
-        else:
-            paginator = Paginator(post_exam, self.paginate_by)
-            page = self.request.GET.get('page')
-
-            # limit = 4 * page
-            # offset = limit - 4
-            # post_list = post_exam[offset:limit]  # limiting posts based on current_page
-            # total_posts = Posts.objects.all().count()
-            # total_pages = total_posts / 4
-
-            try:
-                post_exams = paginator.page(page)
-            except PageNotAnInteger:
-                post_exams = paginator.page(1)
-            except EmptyPage:
-                post_exams = paginator.page(paginator.num_pages)
-
-            context['posts'] = post_exams
-
-            index = post_exams.number - 1
-            max_index = len(paginator.page_range)
-            start_index = index - 5 if index >= 5 else 0
-            end_index = index + 5 if index <= max_index else max_index
-            page_range = paginator.page_range[start_index: end_index]
-
-            context['page_range'] = page_range
-
-            # context = {
-            #     'three_recent_posts': three_recent_posts,
-            #     'posts': post_exams,
-            #     'page_range': page_range,
-            # }
-
-            return context
+        return context
 
 
 class DetailView(generic.DetailView):

@@ -1,0 +1,51 @@
+{% load el_pagination_tags %}
+
+{% paginate paginated_posts %}
+{% for post in paginated_posts %}
+  <div class="blog-post">
+    <h2 class="blog-post-title">{{ post.title }}</h2>
+    <p class="blog-post-meta">{{ post.pub_date }} by {{ post.author_id.username|capfirst }}</p>
+    <p>{{ post.body|truncatechars_html:300 }}</p>
+    <a href="{% url 'blog:view_post' post.slug %}">Continue reading</a>
+  </div>
+{% endfor %}
+
+
+{% get_pages %}
+{% if pages.paginated %}
+  <div class="pagination-set">
+    <nav aria-label="Pagination navigation">
+      <ul class="pagination">
+        {% if pages.previous %}
+          <li class="page-item">
+            <a class="endless_page_link page-link" aria-label="Previous" data-el-querystring-key="page" href="{{ pages.previous.path }}">&laquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="endless_page_link page-link"><span>&laquo;</span></a>
+          </li>
+        {% endif %}
+        {% for page in pages %}
+          {% if page.is_current %}
+            <li class="page-item active">
+              <a class="endless_page_link page-link" aria-label="Current" data-el-querystring-key="page">{{ page.label|safe }} <span class="sr-only">(current)</span></a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="endless_page_link page-link" data-el-querystring-key="page" href="{{ page.path }}"">{{ page.label|safe }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+        {% if pages.next %}
+          <li class="page-item">
+            <a class="endless_page_link page-link" aria-label="Next" data-el-querystring-key="page" href="{{ pages.next.path }}">&raquo;</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="endless_page_link page-link"><span>&raquo;</span></a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endif %}
