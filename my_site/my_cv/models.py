@@ -1,28 +1,37 @@
 from django.db import models
-
-
-def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/resume/<filename>
-    return 'user_{0}/resume/{1}'.format(instance.user.id, filename)
+from django.utils import timezone
 
 
 class Resume(models.Model):
-    location = models.CharField(max_length=50)
-    email = models.EmailField()
-    personal_links = models.ForeignKey('PersonalLink', on_delete=models.CASCADE)
-    education = models.ForeignKey('University', on_delete=models.CASCADE)
-    experience = models.ForeignKey('ExperienceOrOutreach', on_delete=models.CASCADE)
-    skills = models.TextField()
-    interests = models.TextField()
-    resume = models.FileField(upload_to=user_directory_path)
+    resume_name = models.CharField(max_length=100)
+    location = models.CharField(max_length=50, blank=True)
+    email = models.EmailField(blank=True)
+    personal_links = models.ManyToManyField('PersonalLink', blank=True)
+    education = models.ManyToManyField('Education', blank=True)
+    experience = models.ManyToManyField('ExperienceOrOutreach', blank=True)
+    skills = models.TextField(blank=True)
+    interests = models.TextField(blank=True)
+    resume = models.FileField(upload_to='resumes/', blank=True)
+    is_current_resume = models.BooleanField(default=False)
+    date_created = models.DateTimeField()
+    last_edited = models.DateTimeField()
 
 
     class Meta:
+        ordering = ['-is_current_resume']
         verbose_name_plural = "Resumes"
 
-
     def __str__(self):
-        return "Resume"
+        return self.resume_name.title()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.date_created = timezone.now()
+            self.last_edited = timezone.now()
+        else:
+            self.last_edited = timezone.now()
+
+        super(Resume, self).save(*args, **kwargs)
 
 
 class PersonalLink(models.Model):
@@ -30,24 +39,28 @@ class PersonalLink(models.Model):
     url = models.URLField()
 
 
+    class Meta:
+        ordering = ['site_name']
+
     def __str__(self):
         return self.site_name
 
 
-class University(models.Model):
-    university_name = models.CharField(max_length=60)
+class Education(models.Model):
+    name = models.CharField(max_length=60)
     location = models.CharField(max_length=60)
-    duration = models.DurationField()
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
     description = models.TextField()
-    university_url = models.URLField()
+    url = models.URLField()
 
 
     class Meta:
-        verbose_name_plural = "Universities"
-
+        ordering = ['name']
+        verbose_name_plural = "Education"
 
     def __str__(self):
-        return self.university_name.title()
+        return self.name.title()
 
 
 class ExperienceOrOutreach(models.Model):
@@ -63,9 +76,9 @@ class ExperienceOrOutreach(models.Model):
 
 
     class Meta:
+        ordering = ['opportunity_name']
         verbose_name = "Experience/Outreach"
         verbose_name_plural = "Experience/Outreach"
-
 
     def __str__(self):
         return self.opportunity_name.title()
@@ -75,4 +88,4 @@ class ExperienceOrOutreach(models.Model):
         Do something with 'current_position' to not show 'end_date'?? Not sure what I want yet
         """
 
-        super().save(*args, **kwargs)
+        super(ExperienceOrOutreach, self).save(*args, **kwargs)
