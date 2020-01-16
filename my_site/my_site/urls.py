@@ -26,6 +26,12 @@ urlpatterns = [
     # /
     path('', include('homepage.urls')),
 
+    # /blog/
+    path('blog/', include('blog.urls')),
+
+    # /login/
+    path('login/', RedirectView.as_view(pattern_name='login', permanent=True)),
+
     # /my_cv/
     path('my_cv/', include('my_cv.urls')),
 
@@ -33,11 +39,8 @@ urlpatterns = [
     path('registration/', include('django.contrib.auth.urls')),
     path('registration/', include('registration.urls')),
 
-    # /login/
-    path('login/', RedirectView.as_view(pattern_name='login', permanent=True)),
-
-    # /blog/
-    path('blog/', include('blog.urls')),
+    # /repositories/
+    path('repositories/', include('repositories.urls')),
 
     # /admin/
     path('admin/', include([

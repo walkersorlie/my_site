@@ -19,6 +19,7 @@ MY_APPS = [
     'homepage.apps.HomepageConfig',
     'my_cv.apps.MyCVConfig',
     'registration.apps.RegistrationConfig',
+    'repositories.apps.RepositoriesConfig',
     'widget_tweaks',
 ]
 

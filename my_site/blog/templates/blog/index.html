@@ -45,7 +45,7 @@
                 </h3>
                 <div class="mb-1 text-muted center">{{ post.pub_date }} by {{ post.author_id.username|capfirst }}</div>
                 <p class="card-text mb-auto">{{ post.body|truncatechars_html:250 }}</p>
-                <a href="{% url 'blog:view_post' post.slug %}">Continue reading</a>
+                <a href="{% url 'blog:view_post' post.slug %}">Continue reading...</a>
               </div>
             </div>
           </div>

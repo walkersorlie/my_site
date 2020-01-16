@@ -2,7 +2,7 @@ import os
 import requests
 import json as json_py
 from django.contrib import admin
-from homepage import models
+from .models import Repository
 
 
 class RepositoryAdmin(admin.ModelAdmin):
@@ -63,17 +63,4 @@ class RepositoryAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-class AboutContentAdmin(admin.ModelAdmin):
-    # fields = ('body',)
-    empty_value_display = 'Not yet created'
-    readonly_fields = ('last_edited',)
-
-
-class HomepageBlurbAdmin(admin.ModelAdmin):
-    empty_value_display = 'Not yet created'
-    readonly_fields = ('last_edited',)
-
-
-admin.site.register(models.Repository, RepositoryAdmin)
-admin.site.register(models.AboutContent, AboutContentAdmin)
-admin.site.register(models.HomepageBlurb, HomepageBlurbAdmin)
+admin.site.register(Repository, RepositoryAdmin)

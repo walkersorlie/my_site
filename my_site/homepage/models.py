@@ -29,6 +29,10 @@ class AboutContent(models.Model):
     body = models.TextField()
     last_edited = models.DateTimeField()
 
+
+    class Meta:
+        verbose_name_plural = 'About content'
+
     def __str__(self):
         return "About block content"
 
@@ -42,6 +46,28 @@ class AboutContent(models.Model):
     HTML symbols
     https://bleach.readthedocs.io/en/latest/clean.html
     """
+    def display_my_safefield(self):
+        if '<script>' in self.body:
+            return self.body
+        return mark_safe(self.body)
+
+
+class HomepageBlurb(models.Model):
+    body = models.TextField()
+    last_edited = models.DateTimeField()
+
+
+    class Meta:
+        verbose_name_plural = 'Homepage blurb'
+
+    def __str__(self):
+        return 'Homepage blurb'
+
+    def save(self, *args, **kwargs):
+        self.body = self.display_my_safefield()
+        self.last_edited = timezone.now()
+        super(HomepageBlurb, self).save(*args, **kwargs)
+
     def display_my_safefield(self):
         if '<script>' in self.body:
             return self.body

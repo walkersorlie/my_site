@@ -17,12 +17,13 @@ MY_APPS = [
     'homepage.apps.HomepageConfig',
     'my_cv.apps.MyCVConfig',
     'registration.apps.RegistrationConfig',
+    'repositories.apps.RepositoriesConfig',
     'rest_framework',
     'widget_tweaks',
 ]
 
 
-EL_PAGINATION_PER_PAGE = 2
+EL_PAGINATION_PER_PAGE = 4
 
 
 INSTALLED_APPS += MY_APPS
