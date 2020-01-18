@@ -53,14 +53,23 @@ class Education(models.Model):
     end_date = models.DateField(null=True, blank=True)
     description = models.TextField()
     url = models.URLField()
+    slug = models.SlugField(max_length=200, blank=True)
 
 
     class Meta:
         ordering = ['name']
         verbose_name_plural = "Education"
 
+    def get_absolute_url(self):
+        return reverse('my_cv:education_detail_view', args=[self.slug, self.id])
+
     def __str__(self):
         return self.name.title()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+
+        super(Education, self).save(*args, **kwargs)
 
 
 class ExperienceOrOutreach(models.Model):
@@ -73,12 +82,16 @@ class ExperienceOrOutreach(models.Model):
     description = models.TextField()
     is_outreach = models.BooleanField()
     opportunity_url = models.URLField(blank=True)
+    slug = models.SlugField(max_length=200, blank=True)
 
 
     class Meta:
         ordering = ['opportunity_name']
         verbose_name = "Experience/Outreach"
         verbose_name_plural = "Experience/Outreach"
+
+    def get_absolute_url(self):
+        return reverse('my_cv:experience_outreach_detail_view', args=[self.slug, self.id])
 
     def __str__(self):
         return self.opportunity_name.title()
@@ -87,5 +100,6 @@ class ExperienceOrOutreach(models.Model):
         """
         Do something with 'current_position' to not show 'end_date'?? Not sure what I want yet
         """
+        self.slug = slugify(self.opportunity_name)
 
         super(ExperienceOrOutreach, self).save(*args, **kwargs)

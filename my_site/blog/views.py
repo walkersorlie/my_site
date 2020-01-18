@@ -36,6 +36,7 @@ class DetailView(generic.DetailView):
     model = Post
     template_name = 'blog/view_post.html'
     context_object_name = 'specific_blog'
+    query_pk_and_slug = True
 
     # Should match the value after ':' from url <slug:the_slug>
     slug_url_kwarg = 'slug'
@@ -89,6 +90,7 @@ class EditPostView(generic.UpdateView):
     context_object_name = 'specific_blog'
     model = Post
     form_class = PostForm
+    query_pk_and_slug = True
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -103,6 +105,7 @@ class EditPostView(generic.UpdateView):
 
 class DeletePostView(generic.DeleteView):
     model = Post
+    query_pk_and_slug = True
     success_url = reverse_lazy('blog:index')
 
 

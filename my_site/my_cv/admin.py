@@ -13,12 +13,17 @@ class ResumeAdmin(admin.ModelAdmin):
     resume_file.short_description = 'File Name'
 
 
+class EducationAdmin(admin.ModelAdmin):
+    exclude = ('slug',)
+
+
 class ExperienceOrOutreachAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_date'
+    exclude = ('slug',)
     list_display = ('__str__', 'current_position', 'is_outreach',)
 
 
 admin.site.register(models.Resume, ResumeAdmin)
 admin.site.register(models.PersonalLink)
-admin.site.register(models.Education)
+admin.site.register(models.Education, EducationAdmin)
 admin.site.register(models.ExperienceOrOutreach, ExperienceOrOutreachAdmin)
