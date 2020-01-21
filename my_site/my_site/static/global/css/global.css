@@ -1,29 +1,43 @@
-html.sr .repo-reveal {
-    visibility: hidden;
+/*
+ * This makes a div clickable like an <a> tag
+ *
+ * USE:
+ * <a href="#">
+ *  <span class="link-spanner-div-click"></span>
+ * </a>
+ */
+.link-spanner-div-click {
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+  z-index: 1;
+
+  /* edit: fixes overlap error in IE7/8,
+     make sure you have an empty gif
+  background-image: url('empty.gif');*/
 }
 
-.nav-color {
-  background-color: #302f4d; /*#2B323C*/
-}
 
 /*
 ** These styles define the hover and transform (zoom) for the repo cards
 */
-.custom-homepage-hover {
+.custom-repo-hover {
     width: 100%;
     height: 100%;
     overflow: hidden;
     border-radius: 10px;
     position: relative;
 }
-.custom-homepage-hover img {
+.custom-repo-hover img {
     -webkit-transition: all 1s ease; /* Safari and Chrome */
     -moz-transition: all 1s ease; /* Firefox */
     -ms-transition: all 1s ease; /* IE 9 */
     -o-transition: all 1s ease; /* Opera */
     transition: all 1s ease;
 }
-.custom-homepage-hover:hover img {
+.custom-repo-hover:hover img {
     -webkit-transform:scale(1.17); /* Safari and Chrome */
     -moz-transform:scale(1.17); /* Firefox */
     -ms-transform:scale(1.17); /* IE 9 */

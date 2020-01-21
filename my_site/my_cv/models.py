@@ -1,5 +1,12 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
+from django.template.defaultfilters import slugify
+
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
 class Resume(models.Model):
@@ -15,11 +22,15 @@ class Resume(models.Model):
     is_current_resume = models.BooleanField(default=False)
     date_created = models.DateTimeField()
     last_edited = models.DateTimeField()
+    slug = models.SlugField(max_length=200, blank=True)
 
 
     class Meta:
-        ordering = ['-is_current_resume']
+        ordering = ['-is_current_resume', '-last_edited']
         verbose_name_plural = "Resumes"
+
+    def get_absolute_url(self):
+        return reverse('my_cv:resume_detail_view', args=[self.slug, self.id])
 
     def __str__(self):
         return self.resume_name.title()
@@ -28,8 +39,10 @@ class Resume(models.Model):
         if not self.id:
             self.date_created = timezone.now()
             self.last_edited = timezone.now()
+            self.slug = slugify(self.resume_name)
         else:
             self.last_edited = timezone.now()
+            self.slug = slugify(self.resume_name)
 
         super(Resume, self).save(*args, **kwargs)
 
@@ -73,7 +86,7 @@ class Education(models.Model):
 
 
 class ExperienceOrOutreach(models.Model):
-    opportunity_name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     position_title = models.CharField(max_length=150)
     location = models.CharField(max_length=200)
     current_position = models.BooleanField(default=False)
@@ -81,12 +94,12 @@ class ExperienceOrOutreach(models.Model):
     end_date = models.DateField(null=True, blank=True)
     description = models.TextField()
     is_outreach = models.BooleanField()
-    opportunity_url = models.URLField(blank=True)
+    url = models.URLField(blank=True)
     slug = models.SlugField(max_length=200, blank=True)
 
 
     class Meta:
-        ordering = ['opportunity_name']
+        ordering = ['name']
         verbose_name = "Experience/Outreach"
         verbose_name_plural = "Experience/Outreach"
 
@@ -94,12 +107,12 @@ class ExperienceOrOutreach(models.Model):
         return reverse('my_cv:experience_outreach_detail_view', args=[self.slug, self.id])
 
     def __str__(self):
-        return self.opportunity_name.title()
+        return self.name.title()
 
     def save(self, *args, **kwargs):
         """
         Do something with 'current_position' to not show 'end_date'?? Not sure what I want yet
         """
-        self.slug = slugify(self.opportunity_name)
+        self.slug = slugify(self.name)
 
         super(ExperienceOrOutreach, self).save(*args, **kwargs)

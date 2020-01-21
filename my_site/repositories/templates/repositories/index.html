@@ -9,19 +9,17 @@
 {% endblock %}
 
 {% block app_stylesheets %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static 'repositories/css/repositories.css' %}">
 {% endblock %}
 
 {% block content %}
 
 <div class="album py-5 bg-light">
   <div class="container">
-    <div class="row">
+    <div class="row repo-reveal load-hidden">
       {% for repo in repo_list %}
-      <div class="col-md-4 load-hidden">
+      <div class="col-md-4 repo-reveal load-hidden">
         <div class="card mb-4 shadow-sm">
-          <div class="custom-homepage-hover">
+          <div class="custom-repo-hover">
             <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
             <div class="repo-name">
               <h2>{{ repo.repo_name }}</h2>
@@ -39,7 +37,7 @@
         </div>
       </div>
       {% empty %}
-      <p>No repo info currently available</p>
+      <p>No repository information currently available</p>
       {% endfor %}
     </div>
   </div>
@@ -50,7 +48,7 @@
 {% block scripts %}
 {{ block.super }}
 <script>
-  ScrollReveal().reveal('.load-hidden', {
+  ScrollReveal().reveal('.repo-reveal', {
     delay: 500,
     duration: 850,
     interval: 100,

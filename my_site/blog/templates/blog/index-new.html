@@ -29,7 +29,7 @@
               <h1 class="display-4 font-italic" name="title">{{ post.title }}</h1>
               <p>{{ post.pub_date }} by {{ post.author_id.username|capfirst }}</p>
               <p class="lead my-3">{{ post.body|truncatechars_html:150 }}</p>
-              <p class="lead mb-0"><a href="{{ post.get_absolute_url }}" class="text-white font-weight-bold">Continue reading...</a></p>
+              <p class="lead mb-0"><a href="{% url 'blog:view_post' post.slug %}" class="text-white font-weight-bold">Continue reading...</a></p>
             </div>
           </div>
         {% elif forloop.counter == 2 %}
@@ -41,11 +41,11 @@
             <div class="card flex-md-row mb-4 shadow-sm h-md-250" style="height:250px;">
               <div class="card-body d-flex flex-column align-items-start">
                 <h3 class="mb-0 center">
-                  <a class="text-dark" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                  <a class="text-dark" href="{% url 'blog:view_post' post.slug %}">{{ post.title }}</a>
                 </h3>
                 <div class="mb-1 text-muted center">{{ post.pub_date }} by {{ post.author_id.username|capfirst }}</div>
                 <p class="card-text mb-auto">{{ post.body|truncatechars_html:250 }}</p>
-                <a href="{{ post.get_absolute_url }}">Continue reading...</a>
+                <a href="{% url 'blog:view_post' post.slug %}">Continue reading</a>
               </div>
             </div>
           </div>
@@ -77,6 +77,7 @@
 </script>
 <script type="text/javascript" src="{% static 'blog/js/twitter.js' %}"></script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 <script type="text/javascript" src="{% static 'blog/js/el-pagination.js' %}"></script>
 <script>$.endlessPaginate();</script>
 {% endblock %}

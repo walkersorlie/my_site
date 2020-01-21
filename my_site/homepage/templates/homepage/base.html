@@ -19,6 +19,7 @@
 
   <!-- Custom global css stylesheets -->
   <link rel="stylesheet" type="text/css" href="{% static 'global/css/scrollreveal.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'global/css/global.css' %}">
 
   {% block app_stylesheets %}
   <!-- Custom styles for this template -->
@@ -46,6 +47,7 @@
             <ul class="list-unstyled">
               <li><a href="https://www.linkedin.com/in/walkersorlie/" class="text-white" target="_blank">LinkedIn</a></li>
               <li><a href="mailto:walkersorlie@walkersorlie.com?subject=The%20subject" class="text-white">Email me</a></li>
+              <li><a href="https://github.com/walkersorlie" class="text-white" target="_blank">GitHub</a></li>
             </ul>
           </div>
         </div>
@@ -66,8 +68,13 @@
             </a>
           </li>
           <li class="nav-item" style="display:inline-block;">
-            <a href="https://github.com/walkersorlie" class="nav-link navbar-brand d-flex" target="_blank">
-              <strong>GitHub</strong>
+            <a href="{% url 'repositories:index' %}" class="nav-link navbar-brand d-flex">
+              <strong>Repositories</strong>
+            </a>
+          </li>
+          <li class="nav-item" style="display:inline-block;">
+            <a href="{% url 'my_cv:index' %}" class="nav-link navbar-brand d-flex">
+              <strong>Resume</strong>
             </a>
           </li>
         </ul>
