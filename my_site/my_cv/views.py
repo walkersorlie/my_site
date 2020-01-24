@@ -17,17 +17,11 @@ class IndexView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
 
-        context['personal_links'] = models.PersonalLink.objects.all()
+        # context['current_resume'] = self.get_queryset()[:1]
+        context['current_resume'] = models.Resume.objects.get(is_current_resume=True)
 
-        '''
-        Make this a list comprehension for shirts and giggles
-        '''
-        repo_list = Repository.objects.all()[:3]
-        for repo in repo_list:
-            repo.repo_name = repo.repo_name.replace('-', ' ').replace('_', ' ').title()
-
-        context['repo_list'] = repo_list
-
+        # print(models.Resume._meta.get_fields())
+        # print(models.Resume._meta.get_fields()[0])
         '''
         for resume in models.Resume.objects.all():
             print('Name: %s' % resume.resume_name)
@@ -38,6 +32,15 @@ class IndexView(generic.ListView):
             for edu in education.resume_set.all():
                 print(edu.resume_name)
         '''
+
+
+        context['personal_links'] = models.PersonalLink.objects.all()
+
+        repo_list = Repository.objects.all()[:3]
+        for repo in repo_list:
+            repo.repo_name = repo.repo_name.replace('-', ' ').replace('_', ' ').title()
+
+        context['repo_list'] = repo_list
 
         return context
 

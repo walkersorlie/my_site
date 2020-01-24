@@ -10,6 +10,10 @@ def user_directory_path(instance, filename):
 
 
 class Resume(models.Model):
+    YES_IN_CONTEXT = True
+    NO_IN_CONTEXT = False
+    IN_CONTEXT_CHOICES = [(YES_IN_CONTEXT, 'In resume context'), (NO_IN_CONTEXT, 'Not in resume context')]
+
     resume_name = models.CharField(max_length=100)
     location = models.CharField(max_length=50, blank=True)
     email = models.EmailField(blank=True)

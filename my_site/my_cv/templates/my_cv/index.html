@@ -15,7 +15,7 @@
 
 <div class="container mt-5">
   <div class="resume-list-reveal load-hidden">
-    {% include 'my_cv/index_resume_detail.html' %}
+    {% include 'my_cv/index_resume_detail-new.html' %}
   </div>
 </div>
 
@@ -25,7 +25,7 @@
   </div>
   <div class="row repo-reveal load-hidden">
     {% for repo in repo_list %}
-    <div class="col-md-4">
+    <div class="col-xs-12 col-md-6 col-lg-4">
       <div class="card mb-4 shadow-sm">
         <div class="custom-repo-hover">
           <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
