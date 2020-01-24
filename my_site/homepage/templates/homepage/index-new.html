@@ -14,6 +14,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/homepage.css' %}">
 {% endblock %}
 
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+{% endblock %}
+
+
 {% block content %}
 
 <section class="jumbotron text-center">

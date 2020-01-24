@@ -11,6 +11,14 @@
 {% block app_stylesheets %}
 {% endblock %}
 
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+    {% breadcrumb "Resume" "my_cv:index" %}
+{% endblock %}
+
+
 {% block content %}
 
 <div class="container mt-5">

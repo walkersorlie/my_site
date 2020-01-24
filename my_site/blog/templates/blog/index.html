@@ -12,6 +12,14 @@
 <link rel="stylesheet" type="text/css" href="{% static 'blog/css/blog.css' %}">
 {% endblock %}
 
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+    {% breadcrumb "Blog" "blog:index" %}
+{% endblock %}
+
+
 {% block content %}
 
 <div class="container-fluid load-hidden">

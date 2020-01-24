@@ -1,4 +1,4 @@
-{% extends 'homepage/base.html' %}
+{% extends 'my_cv/index.html' %}
 {% load static %}
 
 {% block title %}
@@ -10,6 +10,14 @@
 
 {% block app_stylesheets %}
 {% endblock %}
+
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+    {% breadcrumb "Experience and Outreach" "my_cv:experience_outreach_index" %}
+{% endblock %}
+
 
 {% block content %}
 

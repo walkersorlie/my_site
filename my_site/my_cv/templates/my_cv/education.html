@@ -1,4 +1,4 @@
-{% extends 'homepage/base.html' %}
+{% extends 'my_cv/index.html' %}
 {% load static %}
 
 {% block title %}
@@ -11,6 +11,49 @@
 {% block app_stylesheets %}
 {% endblock %}
 
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+    {% breadcrumb "Education" "my_cv:education_index" %}
+{% endblock %}
+
+
 {% block content %}
+
+<div class="container mt-5">
+  <div class="row mb-4 justify-content-center education-heading-reveal load-hidden">
+    <h1>All Education</h1>
+  </div>
+  <div class="row education-reveal load-hidden">
+    {% for education in all_education %}
+      <div class="col-xs-12 col-md-6 col-lg">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-text">Education: {{ education.name }}</h4>
+            <h4 class="card-text">Location: {{ education.location }}</h4>
+            <h4 class="card-text">Description: {{ education.description }}</h4>
+            <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+            {% if education.end_date is not None %}
+              <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+            {% endif %}
+            <a href="{{ education.get_absolute_url }}">
+              <span class="link-spanner-div-click"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  ScrollReveal().reveal('.education-heading-reveal', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.education-reveal', { delay: 750, duration: 700, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
 
 {% endblock %}

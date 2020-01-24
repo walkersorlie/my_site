@@ -13,6 +13,7 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 MY_APPS = [
     'blog.apps.BlogConfig',
     'debug_toolbar',
+    'django_bootstrap_breadcrumbs',
     'el_pagination',
     'homepage.apps.HomepageConfig',
     'my_cv.apps.MyCVConfig',

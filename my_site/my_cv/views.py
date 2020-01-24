@@ -45,7 +45,7 @@ class IndexView(generic.ListView):
         return context
 
 
-class ResumeIndexView(generic.ListView):
+class AllResumesIndexView(generic.ListView):
     model = models.Resume
     template_name = 'my_cv/resumes.html'
     context_object_name = 'all_resumes'
@@ -93,6 +93,6 @@ class ExperienceOrOutreachIndexView(generic.ListView):
 
 class ExperienceOrOutreachDetailView(generic.DetailView):
     model = models.ExperienceOrOutreach
-    template_name = 'my_cv/education_outreach_detail_view.html'
+    template_name = 'my_cv/experience_outreach_detail_view.html'
     context_object_name = 'opportunity'
     query_pk_and_slug = True

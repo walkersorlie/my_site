@@ -1,8 +1,8 @@
-{% extends 'my_cv/index.html' %}
+{% extends 'my_cv/experience_outreach_index.html' %}
 {% load static %}
 
 {% block title %}
-<title>Resumes Home</title>
+<title>Experience Detail</title>
 {% endblock %}
 
 {% block favicon %}
@@ -15,7 +15,7 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
-    {% breadcrumb "All Resumes" "my_cv:all_resumes_index" %}
+    {% breadcrumb opportunity.name "my_cv:experience_outreach_detail_view" %}
 {% endblock %}
 
 

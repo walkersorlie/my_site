@@ -5,8 +5,11 @@
 textarea.blog-textarea {
   height: 23em;
   width: 100%;
+  font-size: 1.6rem;
 }
 
-.blog-post {
-  margin-bottom: 25px;
+p.blog-body {
+  width: 100%;
+  font-size: 1.6rem;
+  border-width: 0px;
 }

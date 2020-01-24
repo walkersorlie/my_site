@@ -3,6 +3,13 @@
 {% load widget_tweaks %}
 
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+    {% breadcrumb "Create Post" "blog:create_post" %}
+{% endblock %}
+
+
 {% block content %}
     <div class="container">
       <div class="row">
