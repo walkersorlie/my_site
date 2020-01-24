@@ -53,4 +53,5 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 
 ###
 Remember to change settings file used in 'wsgi.py'
+Remember to add installed apps to development settings file!!
 ###
