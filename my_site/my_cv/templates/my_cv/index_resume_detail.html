@@ -1,107 +1,252 @@
-<div class="row mb-4 justify-content-center">
-  <h1>Current Resumes</h1>
-</div>
-<div class="row">
-  {% if current_resumes %}
-    <div class="col-4">
-      <div class="list-group" id="list-tab" role="tablist">
-        {% for resume in current_resumes %}
-          {% if forloop.first %}
-            <a class="list-group-item list-group-item-action active" id="list-{{ resume.slug }}-list" data-toggle="list" href="#list-{{ resume.slug }}" role="tab" aria-controls="{{ resume.slug }}">{{ resume.resume_name }}</a>
-          {% else %}
-            <a class="list-group-item list-group-item-action" id="list-{{ resume.slug }}-list" data-toggle="list" href="#list-{{ resume.slug }}" role="tab" aria-controls="{{ resume.slug }}">{{ resume.resume_name }}</a>
+
+{% if current_resume %}
+  <div class="row mb-4 justify-content-center">
+    <h1>Current Resume</h1>
+  </div>
+  <div class="container mt-3 tab-content" id="nav-tabContent">
+    <div class="col-4 offset-md-4 mb-5">
+      <div class="list-group text-center" id="list-tab" role="tablist" style="font-size: 1.2rem;">
+        {% if current_resume.education.count > 0 %}
+          <a class="list-group-item list-group-item-action" id="list-education-list" data-toggle="list" href="#list-education" role="tab" aria-controls="education">Education</a>
+        {% endif %}
+        {% if current_resume.experience.count > 0 %}
+          <a class="list-group-item list-group-item-action" id="list-experience-list" data-toggle="list" href="#list-experience" role="tab" aria-controls="experience">Experience</a>
+        {% endif %}
+        {% if current_resume.personal_links.count > 0 %}
+          <a class="list-group-item list-group-item-action" id="list-personal-links-list" data-toggle="list" href="#list-personal-links" role="tab" aria-controls="personal-links">Personal Links</a>
+        {% endif %}
+        {% if current_resume.skills %}
+          <a class="list-group-item list-group-item-action" id="list-skills-list" data-toggle="list" href="#list-skills" role="tab" aria-controls="skills">Skills</a>
+        {% endif %}
+        {% if current_resume.interests %}
+          <a class="list-group-item list-group-item-action" id="list-interests-list" data-toggle="list" href="#list-interests" role="tab" aria-controls="interests">Interests</a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if current_resume.education.count > 0 %}
+      <div class="tab-pane fade" id="list-education" role="tabpanel" aria-labelledby="list-education-list">
+        <div class="row justify-content-center">
+          <h1>Education</h1>
+        </div>
+          {% for education in current_resume.education.all %}
+            {% if current_resume.education.count == 1 %}
+              <div class="row my-2 justify-content-center">
+                <div class="col-xs-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-text">Institution: {{ education.name }}</h4>
+                      <h4 class="card-text">Location: {{ education.location }}</h4>
+                      <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                      {% if education.end_date is not None %}
+                        <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                      {% endif %}
+                      <h4 class="card-text">Description: {{ education.description }}</h4>
+                      <a href="{{ education.get_absolute_url }}">
+                        <span class="link-spanner-div-click"></span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
+                <div class="row my-2">
+                  <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-text">Institution: {{ education.name }}</h4>
+                        <h4 class="card-text">Location: {{ education.location }}</h4>
+                        <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                        {% if education.end_date is not None %}
+                          <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                        {% endif %}
+                        <h4 class="card-text">Description: {{ education.description }}</h4>
+                        <a href="{{ education.get_absolute_url }}">
+                          <span class="link-spanner-div-click"></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+              {% else %}
+                <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-text">Institution: {{ education.name }}</h4>
+                      <h4 class="card-text">Location: {{ education.location }}</h4>
+                      <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                      {% if education.end_date is not None %}
+                        <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                      {% endif %}
+                      <h4 class="card-text">Description: {{ education.description }}</h4>
+                      <a href="{{ education.get_absolute_url }}">
+                        <span class="link-spanner-div-click"></span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
           {% endif %}
         {% endfor %}
       </div>
-    </div>
-    <div class="col-8">
-      <div class="tab-content" id="nav-tabContent">
-        {% for resume in current_resumes %}
-          {% if forloop.first %}
-            <div class="tab-pane fade show active" id="list-{{ resume.slug }}" role="tabpanel" aria-labelledby="list-{{ resume.slug }}-list">
-              {% for education in resume.education.all %}
+    {% endif %}
+
+    {% if current_resume.experience.count > 0 %}
+      <div class="tab-pane fade" id="list-experience" role="tabpanel" aria-labelledby="list-experience-list">
+        <div class="row justify-content-center">
+          <h1>Experience</h1>
+        </div>
+        {% for experience in current_resume.experience.all %}
+          {% if current_resume.experience.count == 1 %}
+            <div class="row my-2 justify-content-center">
+              <div class="col-xs-12">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-text">Education: {{ education.name }}</h4>
-                    <h4 class="card-text">Location: {{ education.location }}</h4>
-                    <h4 class="card-text">Description: {{ education.description }}</h4>
-                    <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
-                    {% if education.end_date is not None %}
-                      <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                    <h4 class="card-text">Position title: {{ experience.position_title }}</h4>
+                    <h4 class="card-text">Experience: {{ experience.name }}</h4>
+                    <h4 class="card-text">Location: {{ experience.location }}</h4>
+                    <h4 class="card-text">Description: {{ experience.description }}</h4>
+                    <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
+                    {% if experience.end_date is not None %}
+                      <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
                     {% endif %}
+                    <a href="{{ experience.get_absolute_url }}">
+                      <span class="link-spanner-div-click"></span>
+                    </a>
                   </div>
-                </div>
-              {% endfor %}
-              {% for experience in resume.experience.all %}
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-text">Position title: {{ experience.position_title }}</h4>
-                  <h4 class="card-text">Experience: {{ experience.name }}</h4>
-                  <h4 class="card-text">Location: {{ experience.location }}</h4>
-                  <h4 class="card-text">Description: {{ experience.description }}</h4>
-                  <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
-                  {% if experience.end_date is not None %}
-                    <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
-                  {% endif %}
-                </div>
-              </div>
-              {% endfor %}
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-text">Location: {{ resume.location }}</h4>
-                  <h4 class="card-text">Skills: {{ resume.skills }}</h4>
-                  <h4 class="card-text">Interests: {{ resume.interests }}</h4>
-                  <a href="{{ resume.get_absolute_url }}">
-                    <span class="link-spanner-div-click"></span>
-                  </a>
                 </div>
               </div>
             </div>
           {% else %}
-            <div class="tab-pane fade" id="list-{{ resume.slug }}" role="tabpanel" aria-labelledby="list-{{ resume.slug }}-list">
-              {% for education in resume.education.all %}
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-text">Education: {{ education.name }}</h4>
-                    <h4 class="card-text">Location: {{ education.location }}</h4>
-                    <h4 class="card-text">Description: {{ education.description }}</h4>
-                    <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
-                    {% if education.end_date is not None %}
-                      <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
-                    {% endif %}
+            {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
+              <div class="row my-2">
+                <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-text">Position title: {{ experience.position_title }}</h4>
+                      <h4 class="card-text">Experience: {{ experience.name }}</h4>
+                      <h4 class="card-text">Location: {{ experience.location }}</h4>
+                      <h4 class="card-text">Description: {{ experience.description }}</h4>
+                      <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
+                      {% if experience.end_date is not None %}
+                        <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
+                      {% endif %}
+                      <a href="{{ experience.get_absolute_url }}">
+                        <span class="link-spanner-div-click"></span>
+                      </a>
+                    </div>
                   </div>
                 </div>
-              {% endfor %}
-              {% for experience in resume.experience.all %}
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-text">Position title: {{ experience.position_title }}</h4>
-                  <h4 class="card-text">Experience: {{ experience.name }}</h4>
-                  <h4 class="card-text">Location: {{ experience.location }}</h4>
-                  <h4 class="card-text">Description: {{ experience.description }}</h4>
-                  <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
-                  {% if experience.end_date is not None %}
-                    <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
-                  {% endif %}
+            {% else %}
+                <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-text">Position title: {{ experience.position_title }}</h4>
+                      <h4 class="card-text">Experience: {{ experience.name }}</h4>
+                      <h4 class="card-text">Location: {{ experience.location }}</h4>
+                      <h4 class="card-text">Description: {{ experience.description }}</h4>
+                      <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
+                      {% if experience.end_date is not None %}
+                        <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
+                      {% endif %}
+                      <a href="{{ experience.get_absolute_url }}">
+                        <span class="link-spanner-div-click"></span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
-              {% endfor %}
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-text">Location: {{ resume.location }}</h4>
-                  <h4 class="card-text">Skills: {{ resume.skills }}</h4>
-                  <h4 class="card-text">Interests: {{ resume.interests }}</h4>
-                  <a href="{{ resume.get_absolute_url }}">
-                    <span class="link-spanner-div-click"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
+            {% endif %}
           {% endif %}
         {% endfor %}
       </div>
-    </div>
-  {% else %}
-    <p>No resume information currently available</p>
-  {% endif %}
-</div>
+    {% endif %}
+
+    {% if current_resume.personal_links.count > 0 %}
+      <div class="tab-pane fade" id="list-personal-links" role="tabpanel" aria-labelledby="list-personal-links-list">
+        <div class="row justify-content-center">
+          <h1>Personal Links</h1>
+        </div>
+        {% for link in current_resume.personal_links.all %}
+          {% if current_resume.personal_links.count == 1 %}
+            <div class="row my-2 justify-content-center">
+              <div class="col-xs-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-text">Site name: {{ link.site_name }}</h4>
+                    <a href="{{ link.url }}">
+                      <span class="link-spanner-div-click"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
+              <div class="row my-2">
+                <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-text">Site name: {{ link.site_name }}</h4>
+                      <a href="{{ link.url }}">
+                        <span class="link-spanner-div-click"></span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+            {% else %}
+                <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-text">Site name: {{ link.site_name }}</h4>
+                      <a href="{{ link.url }}">
+                        <span class="link-spanner-div-click"></span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if current_resume.skills %}
+      <div class="tab-pane fade" id="list-skills" role="tabpanel" aria-labelledby="list-skills-list">
+        <div class="row justify-content-center">
+          <h1>Skills</h1>
+        </div>
+        <div class="row my-1 justify-content-center">
+          <div class="col-xs-12 col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-text">{{ current_resume.skills }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if current_resume.interests %}
+      <div class="tab-pane fade" id="list-interests" role="tabpanel" aria-labelledby="list-interests-list">
+        <div class="row justify-content-center">
+          <h1>Interests</h1>
+        </div>
+        <div class="row my-1 justify-content-center">
+          <div class="col-xs-12 col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-text">{{ current_resume.interests }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <p>No resume information currently available</p>
+{% endif %}

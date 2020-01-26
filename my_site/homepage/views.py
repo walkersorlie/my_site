@@ -4,7 +4,7 @@ from .models import HomepageBlurb
 
 
 class IndexView(generic.ListView):
-    template_name = 'homepage/index-new.html'
+    template_name = 'homepage/index.html'
     queryset = HomepageBlurb.objects.last()
     context_object_name = 'blurb'
 

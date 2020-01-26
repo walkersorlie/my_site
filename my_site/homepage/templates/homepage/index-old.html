@@ -2,33 +2,35 @@
 {% load static %}
 
 {% block title %}
-<title>Repositories</title>
+<title>Homepage</title>
 {% endblock %}
 
 {% block favicon %}
+<link rel="icon" href="{% static 'homepage/images/favicon.png' %}">
 {% endblock %}
 
 {% block app_stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/css/homepage.css' %}">
 {% endblock %}
-
-
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumb %}
-    {{ block.super }}
-    {% breadcrumb "Repositories" "repositories:index" %}
-{% endblock %}
-
 
 {% block content %}
 
+<section class="jumbotron text-center">
+  <div class="jumbotron-reveal container load-hidden">
+    <h1 class="jumbotron-heading">Walker "Texas Ranger" Sorlie</h1>
+    <p class="lead text-muted">My name is Walker. I graduated college with my computer science degree in May 2018, and currently I am an English teaching assistant in Spain. This is my website where I have compiled my GitHub repositories and have linked to my blog, where I chronicle my time here in Spain.</p>
+  </div>
+</section>
+
 <div class="album py-5 bg-light">
   <div class="container">
-    <div class="row repo-reveal load-hidden">
+    <div class="row">
       {% for repo in repo_list %}
-      <div class="col-xs-12 col-md-6 col-lg-4 repo-reveal load-hidden">
+      <div class="col-md-4 repo-reveal">
         <div class="card mb-4 shadow-sm">
-          <div class="custom-repo-hover">
-            <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
+          <div class="custom-homepage-hover">
+            <a href="{{ repo.url }}" target="_blank"><img src="{% static 'homepage/images/github2.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
             <div class="repo-name">
               <h2>{{ repo.repo_name }}</h2>
             </div>
@@ -45,7 +47,7 @@
         </div>
       </div>
       {% empty %}
-      <p>No repository information currently available</p>
+      <p>No repo info currently available</p>
       {% endfor %}
     </div>
   </div>
@@ -56,8 +58,9 @@
 {% block scripts %}
 {{ block.super }}
 <script>
+  ScrollReveal().reveal('.jumbotron-reveal', { delay: 500, duration: 700, easing: 'ease-in-out' });
   ScrollReveal().reveal('.repo-reveal', {
-    delay: 500,
+    delay: 950,
     duration: 850,
     interval: 100,
     easing: 'ease-in-out',
