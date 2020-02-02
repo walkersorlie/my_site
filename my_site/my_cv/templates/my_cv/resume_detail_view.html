@@ -15,10 +15,24 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
-    {% breadcrumb resume.resume_name "my_cv:resume_detail_view" %}
+    {% breadcrumb current_resume.resume_name "my_cv:resume_detail_view" %}
 {% endblock %}
 
 
 {% block content %}
+
+<div class="container mt-5">
+  <div class="resume-reveal load-hidden">
+    {% include 'my_cv/index_resume_detail.html' %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  ScrollReveal().reveal('.resume-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
 
 {% endblock %}

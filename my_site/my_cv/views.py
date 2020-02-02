@@ -1,5 +1,7 @@
+import os
+from django.conf import settings
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, FileResponse, HttpResponseRedirect
 from django.views import generic
 from . import models
 from repositories.models import Repository
@@ -54,8 +56,27 @@ class AllResumesIndexView(generic.ListView):
 class ResumeDetailView(generic.DetailView):
     model = models.Resume
     template_name = 'my_cv/resume_detail_view.html'
-    context_object_name = 'resume'
+    context_object_name = 'current_resume'
     query_pk_and_slug = True
+
+
+# class ResumeDownloadView(generic.DetailView):
+#
+#     def get(self, request, *args, **kwargs):
+#         filename = self.kwargs.get('filename', None)
+#         if filename is None:
+#             return HttpResponseRedirect(reverse('my_cv:resume_detail_view', args={'slug': self.slug, 'pk': self.id}))
+#
+#         file_path = os.path.join(settings.MEDIA_ROOT, filename)
+#         response = FileResponse(open(file_path, 'rb'), as_attachment=True)
+#         return response
+def resume_download(request, slug, pk, filename):
+    if filename is None:
+        return HttpResponseRedirect(reverse('my_cv:resume_detail_view', args={'slug': self.slug, 'pk': self.id}))
+
+    file_path = os.path.join(settings.MEDIA_ROOT, filename)
+    response = FileResponse(open(file_path, 'rb'), as_attachment=True)
+    return response
 
 
 class EducationIndexView(generic.ListView):

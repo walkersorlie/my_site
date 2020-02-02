@@ -21,4 +21,38 @@
 
 {% block content %}
 
+<div class="container mt-5">
+  <div class="row mb-4 justify-content-center opportunity-heading-reveal load-hidden">
+    <h1>{{ opportunity.name }}</h1>
+  </div>
+  <div class="row opportunity-reveal load-hidden">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-text">Position title: {{ opportunity.position_title }}</h4>
+          <h4 class="card-text">Experience: {{ opportunity.name }}</h4>
+          <h4 class="card-text">Location: {{ opportunity.location }}</h4>
+          <h4 class="card-text">Description: {{ eopportunitye.description }}</h4>
+          <h4 class="card-text">Start date: {{ opportunity.start_date|date:"F j, Y" }}</h4>
+          {% if experience.end_date is not None %}
+            <h4 class="card-text">End date: {{ opportunitye.end_date|date:"F j, Y" }}</h4>
+          {% endif %}
+          <div class="btn-group">
+            <a href="{{ opportunity.url }}" target="_blank" class="btn btn-secondary">View Website</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  ScrollReveal().reveal('.opportunity-heading-reveal', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.opportunity-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
+
 {% endblock %}

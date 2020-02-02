@@ -1,0 +1,21 @@
+
+.custom-resume-education-hover {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+
+    -webkit-transition: all .8s ease; /* Safari and Chrome */
+    -moz-transition: all .8s ease; /* Firefox */
+    -ms-transition: all .8s ease; /* IE 9 */
+    -o-transition: all .8s ease; /* Opera */
+    transition: all .8s ease;
+}
+
+.custom-resume-education-hover:hover {
+    -webkit-transform:scale(1.05); /* Safari and Chrome */
+    -moz-transform:scale(1.05); /* Firefox */
+    -ms-transform:scale(1.05); /* IE 9 */
+    -o-transform:scale(1.05); /* Opera */
+    transform:scale(1.05);
+}

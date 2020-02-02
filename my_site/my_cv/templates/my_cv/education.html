@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block app_stylesheets %}
+{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
 {% endblock %}
 
 
@@ -27,10 +29,10 @@
   </div>
   <div class="row education-reveal load-hidden">
     {% for education in all_education %}
-      <div class="col-xs-12 col-md-6 col-lg">
-        <div class="card">
+      <div class="d-flex align-items-stretch col-xs-12 col-md-6 col-lg p-2">
+        <div class="card mb-4 custom-resume-education-hover">
           <div class="card-body">
-            <h4 class="card-text">Education: {{ education.name }}</h4>
+            <h3 class="card-text text-center">{{ education.name }}</h3>
             <h4 class="card-text">Location: {{ education.location }}</h4>
             <h4 class="card-text">Description: {{ education.description }}</h4>
             <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>

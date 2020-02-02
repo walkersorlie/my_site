@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block app_stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
 {% endblock %}
 
 
@@ -21,69 +23,31 @@
 
 {% block content %}
 
-<div class="container mt-5 tablist-reveal load-hidden">
-  <div class="row mb-4 justify-content-center">
-    <h1>Experience and Outreach</h1>
+<div class="container mt-5">
+  <div class="row mb-4 justify-content-center experience-header-reveal load-hidden">
+    <h1>All Experience and Outreach</h1>
   </div>
-  <div class="row">
-    {% if outreach_or_current %}
-      <div class="col-4">
-        <div class="list-group" id="list-tab" role="tablist">
-          {% for object in outreach_or_current %}
-            {% if forloop.first %}
-              <a class="list-group-item list-group-item-action active" id="list-{{ object.slug }}-list" data-toggle="list" href="#list-{{ object.slug }}" role="tab" aria-controls="{{ object.slug }}">{{ object.name }}</a>
-            {% else %}
-              <a class="list-group-item list-group-item-action" id="list-{{ object.slug }}-list" data-toggle="list" href="#list-{{ object.slug }}" role="tab" aria-controls="{{ object.slug }}">{{ object.name }}</a>
+  <div class="row experience-reveal load-hidden">
+    {% for object in outreach_or_current %}
+      <div class="d-flex align-items-stretch col-xs-12 col-md-6 col-lg p-2">
+        <div class="card mb-4 custom-resume-education-hover">
+          <div class="card-body">
+            <h3 class="card-text">Position title: {{ object.position_title }}</h3>
+            <h4 class="card-text">Location: {{ object.location }}</h4>
+            <h4 class="card-text">Description: {{ object.description }}</h4>
+            <h4 class="card-text">Start date: {{ object.start_date|date:"F j, Y" }}</h4>
+            {% if object.end_date is not None %}
+              <h4 class="card-text">End date: {{ object.end_date|date:"F j, Y" }}</h4>
             {% endif %}
-          {% endfor %}
+            <a href="{{ object.get_absolute_url }}">
+              <span class="link-spanner-div-click"></span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="col-8">
-        <div class="tab-content" id="nav-tabContent">
-          {% for object in outreach_or_current %}
-            {% if forloop.first %}
-              <div class="tab-pane fade show active" id="list-{{ object.slug }}" role="tabpanel" aria-labelledby="list-{{ object.slug }}-list">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-text">Position title: {{ object.position_title }}</h4>
-                    <h4 class="card-text">Location: {{ object.location }}</h4>
-                    <h4 class="card-text">Description: {{ object.description }}</h4>
-                    <h4 class="card-text">Start date: {{ object.start_date|date:"F j, Y" }}</h4>
-                    {% if object.end_date is not None %}
-                      <h4 class="card-text">End date: {{ object.end_date|date:"F j, Y" }}</h4>
-                    {% endif %}
-                    <h4 class="card-text">Current position</h4>
-                    <a href="{{ object.get_absolute_url }}">
-                      <span class="link-spanner-div-click"></span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            {% else %}
-              <div class="tab-pane fade" id="list-{{ object.slug }}" role="tabpanel" aria-labelledby="list-{{ object.slug }}-list">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-text">Position title: {{ object.position_title }}</h4>
-                    <h4 class="card-text">Location: {{ object.location }}</h4>
-                    <h4 class="card-text">Description: {{ object.description }}</h4>
-                    <h4 class="card-text">Start date: {{ object.start_date|date:"F j, Y" }}</h4>
-                    {% if object.end_date is not None %}
-                      <h4 class="card-text">End date: {{ object.end_date|date:"F j, Y" }}</h4>
-                    {% endif %}
-                    <h4 class="card-text">Current position</h4>
-                    <a href="{{ object.get_absolute_url }}">
-                      <span class="link-spanner-div-click"></span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    {% else %}
-      <p>No information currently available</p>
-    {% endif %}
+    {% empty %}
+      <p>No experience information available at this time</p>
+    {% endfor %}
   </div>
 </div>
 
@@ -92,7 +56,8 @@
 {% block scripts %}
 {{ block.super }}
 <script>
-  ScrollReveal().reveal('.tablist-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.experience-header-reveal', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.experience-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
 </script>
 
 {% endblock %}

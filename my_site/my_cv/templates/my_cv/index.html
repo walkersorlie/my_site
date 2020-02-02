@@ -22,7 +22,7 @@
 {% block content %}
 
 <div class="container mt-5">
-  <div class="resume-list-reveal load-hidden">
+  <div class="resume-reveal load-hidden">
     {% include 'my_cv/index_resume_detail.html' %}
   </div>
 </div>
@@ -63,7 +63,7 @@
 {% block scripts %}
 {{ block.super }}
 <script>
-  ScrollReveal().reveal('.resume-list-reveal', { delay: 500, duration: 700, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.resume-reveal', { delay: 500, duration: 700, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
   ScrollReveal().reveal('.repo-heading-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
   ScrollReveal().reveal('.repo-reveal', { delay: 800, duration: 850, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
 </script>
