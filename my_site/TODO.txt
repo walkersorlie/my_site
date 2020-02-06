@@ -50,6 +50,8 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 31. On 'my_cv/index.html', have a selector, and whichever resume is selected, show the info on the page (Bootstrap list group, jQuery/AJAX)
   * BETTER: Have model fields be the list-group tablist (part the user clicks on to show content), and their content be the tab content. Add options to fields on Resume model to validate whether to include the field in Resume._meta.get_fields()
 32. Check out pythonanywhere or divio for different hosting options
+33. Sort experience/outreach by current. Add option to filter (experience_outreach_index)
+34. Use Trello
 
 ###
 Remember to change settings file used in 'wsgi.py'

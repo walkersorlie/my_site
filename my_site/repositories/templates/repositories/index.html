@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block favicon %}
+<link rel="icon" href="{% static 'repositories/images/favicon.svg' %}">
 {% endblock %}
 
 {% block app_stylesheets %}
@@ -21,34 +22,63 @@
 
 {% block content %}
 
-<div class="album py-5 bg-light">
-  <div class="container">
+<div class="container mt-5">
+  <div class="row mb-4 justify-content-center repo-heading-reveal load-hidden">
+    <h1>All Repositories</h1>
+  </div>
+  {% if repo_list %}
     <div class="row repo-reveal load-hidden">
-      {% for repo in repo_list %}
-      <div class="col-xs-12 col-md-6 col-lg-4 repo-reveal load-hidden">
-        <div class="card mb-4 shadow-sm">
-          <div class="custom-repo-hover">
-            <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
-            <div class="repo-name">
-              <h2>{{ repo.repo_name }}</h2>
-            </div>
-          </div>
-          <div class="card-body" style="height:165px;">
-            <p class="card-text">{{ repo.description }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">View on GitHub</a>
+    {% for repo in repo_list %}
+      {% if repo_list|length == 1 %}
+        <div class="row my-2 justify-content-center">
+          <div class="col-xs-12">
+            <div class="card mb-4 shadow-sm">
+              <div class="custom-repo-hover">
+                <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
+                <div class="repo-name">
+                  <h2>{{ repo.repo_name }}</h2>
+                </div>
               </div>
-              <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+              <div class="card-body" style="height:165px;">
+                <p class="card-text">{{ repo.description }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">View on GitHub</a>
+                  </div>
+                  <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      {% empty %}
-      <p>No repository information currently available</p>
-      {% endfor %}
-    </div>
+      {% else %}
+        <div class="d-flex align-items-stretch col-xs-12 col-lg-4">
+          <div class="card mb-4 shadow-sm">
+            <div class="custom-repo-hover">
+              <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
+              <div class="repo-name">
+                <h2>{{ repo.repo_name }}</h2>
+              </div>
+            </div>
+            <div class="card-body" style="height:165px;">
+              <p class="card-text">{{ repo.description }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">View on GitHub</a>
+                </div>
+                <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
   </div>
+  {% else %}
+    <div class="row repo-reveal load-hidden justify-content-center">
+      <div class="alert alert-info" role="alert">No repository information available at this time</div>
+    </div>
+  {% endif %}
 </div>
 
 {% endblock %}
@@ -56,8 +86,9 @@
 {% block scripts %}
 {{ block.super }}
 <script>
+  ScrollReveal().reveal('.repo-heading-reveal', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
   ScrollReveal().reveal('.repo-reveal', {
-    delay: 500,
+    delay: 750,
     duration: 850,
     interval: 100,
     easing: 'ease-in-out',

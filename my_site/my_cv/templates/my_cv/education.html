@@ -27,26 +27,74 @@
   <div class="row mb-4 justify-content-center education-heading-reveal load-hidden">
     <h1>All Education</h1>
   </div>
-  <div class="row education-reveal load-hidden">
-    {% for education in all_education %}
-      <div class="d-flex align-items-stretch col-xs-12 col-md-6 col-lg p-2">
-        <div class="card mb-4 custom-resume-education-hover">
-          <div class="card-body">
-            <h3 class="card-text text-center">{{ education.name }}</h3>
-            <h4 class="card-text">Location: {{ education.location }}</h4>
-            <h4 class="card-text">Description: {{ education.description }}</h4>
-            <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
-            {% if education.end_date is not None %}
-              <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
-            {% endif %}
-            <a href="{{ education.get_absolute_url }}">
-              <span class="link-spanner-div-click"></span>
-            </a>
+  {% if all_education %}
+    <div class="row education-reveal load-hidden">
+      {% for education in all_education %}
+        {% if all_education|length == 1 %}
+          <div class="row my-2 justify-content-center">
+            <div class="col-xs-12">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-text">Institution: {{ education.name }}</h3>
+                  <h4 class="card-text">Location: {{ education.location }}</h4>
+                  <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                  {% if education.end_date is not None %}
+                    <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                  {% endif %}
+                  <h4 class="card-text">Description: {{ education.description }}</h4>
+                  <a href="{{ education.get_absolute_url }}">
+                    <span class="link-spanner-div-click"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+        {% else %}
+          {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
+            <div class="row my-2">
+              <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-text">Institution: {{ education.name }}</h3>
+                    <h4 class="card-text">Location: {{ education.location }}</h4>
+                    <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                    {% if education.end_date is not None %}
+                      <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                    {% endif %}
+                    <h4 class="card-text">Description: {{ education.description }}</h4>
+                    <a href="{{ education.get_absolute_url }}">
+                      <span class="link-spanner-div-click"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+          {% else %}
+              <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-text">Institution: {{ education.name }}</h3>
+                    <h4 class="card-text">Location: {{ education.location }}</h4>
+                    <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                    {% if education.end_date is not None %}
+                      <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                    {% endif %}
+                    <h4 class="card-text">Description: {{ education.description }}</h4>
+                    <a href="{{ education.get_absolute_url }}">
+                      <span class="link-spanner-div-click"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="row education-reveal load-hidden justify-content-center">
+      <div class="alert alert-info" role="alert">No education information available at this time</div>
+    </div>
+  {% endif %}
 </div>
 
 {% endblock %}

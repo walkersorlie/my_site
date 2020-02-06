@@ -100,7 +100,7 @@ class ExperienceOrOutreach(models.Model):
 
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-end_date', 'name']
         verbose_name = "Experience/Outreach"
         verbose_name_plural = "Experience/Outreach"
 

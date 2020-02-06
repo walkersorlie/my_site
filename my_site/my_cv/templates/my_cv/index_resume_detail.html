@@ -1,7 +1,8 @@
+{% load static %}
 
 {% if current_resume %}
   <div class="row mb-4 justify-content-center">
-    <h1>{{ current_resume.resume_name }}</h1>
+    <h1>Resume</h1>
   </div>
   <div class="container mt-3 tab-content" id="nav-tabContent">
     <div class="col-4 offset-md-4 mb-5">
@@ -25,7 +26,7 @@
           <a class="list-group-item list-group-item-action" id="list-interests-list" data-toggle="list" href="#list-interests" role="tab" aria-controls="interests">Interests</a>
         {% endif %}
         {% if current_resume.resume %}
-          <a class="list-group-item list-group-item-action" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV!</a>
+          <a class="list-group-item list-group-item-action" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV! <img src="{% static 'my_cv/images/download.svg' %}"></img></a>
         {% endif %}
       </div>
     </div>
@@ -36,7 +37,7 @@
           <h1>Description</h1>
         </div>
         <div class="row my-1 justify-content-center">
-          <div class="col-xs-12 col-lg-6">
+          <div class="col-xs-12 col-lg-8">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-text">{{ current_resume.description }}</h4>
@@ -46,7 +47,7 @@
         </div>
       </div>
     {% endif %}
-    
+
     {% if current_resume.education.count > 0 %}
       <div class="tab-pane fade" id="list-education" role="tabpanel" aria-labelledby="list-education-list">
         <div class="row justify-content-center">
@@ -248,7 +249,7 @@
           <h1>Skills</h1>
         </div>
         <div class="row my-1 justify-content-center">
-          <div class="col-xs-12 col-lg-6">
+          <div class="col-xs-12 col-lg-8">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-text">{{ current_resume.skills }}</h4>
@@ -265,7 +266,7 @@
           <h1>Interests</h1>
         </div>
         <div class="row my-1 justify-content-center">
-          <div class="col-xs-12 col-lg-6">
+          <div class="col-xs-12 col-lg-8">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-text">{{ current_resume.interests }}</h4>
@@ -277,5 +278,7 @@
     {% endif %}
   </div>
 {% else %}
-  <p>No resume information currently available</p>
+  <div class="row justify-content-center">
+    <div class="alert alert-info" role="alert">No resume information available at this time</div>
+  </div>
 {% endif %}
