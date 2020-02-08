@@ -37,9 +37,11 @@
           {% if experience.end_date is not None %}
             <h4 class="card-text">End date: {{ opportunitye.end_date|date:"F j, Y" }}</h4>
           {% endif %}
-          <div class="btn-group">
-            <a href="{{ opportunity.url }}" target="_blank" class="btn btn-secondary">View Website</a>
-          </div>
+          {% if opportunity.url %}
+            <div class="btn-group">
+              <a href="{{ opportunity.url }}" target="_blank" class="btn btn-secondary">View Website</a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>

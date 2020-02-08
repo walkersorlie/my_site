@@ -5,15 +5,6 @@
 <title>Experience Home</title>
 {% endblock %}
 
-{% block favicon %}
-{% endblock %}
-
-{% block app_stylesheets %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
-{% endblock %}
-
-
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -31,21 +22,19 @@
     <div class="row experience-reveal load-hidden">
       {% for object in all_experience %}
         {% if all_experience|length == 1 %}
-          <div class="row my-2 justify-content-center">
-            <div class="col-xs-12">
-              <div class="card">
-                <div class="card-body">
-                  <h3 class="card-text">Position title: {{ object.position_title }}</h3>
-                  <h4 class="card-text">Location: {{ object.location }}</h4>
-                  <h4 class="card-text">Description: {{ object.description }}</h4>
-                  <h4 class="card-text">Start date: {{ object.start_date|date:"F j, Y" }}</h4>
-                  {% if object.end_date is not None %}
-                    <h4 class="card-text">End date: {{ object.end_date|date:"F j, Y" }}</h4>
-                  {% endif %}
-                  <a href="{{ object.get_absolute_url }}">
-                    <span class="link-spanner-div-click"></span>
-                  </a>
-                </div>
+          <div class="col-xs-12 col-md-8 offset-md-2">
+            <div class="card mb-4 custom-resume-education-hover">
+              <div class="card-body">
+                <h3 class="card-text">Position title: {{ object.position_title }}</h3>
+                <h4 class="card-text">Location: {{ object.location }}</h4>
+                <h4 class="card-text">Description: {{ object.description }}</h4>
+                <h4 class="card-text">Start date: {{ object.start_date|date:"F j, Y" }}</h4>
+                {% if object.end_date is not None %}
+                  <h4 class="card-text">End date: {{ object.end_date|date:"F j, Y" }}</h4>
+                {% endif %}
+                <a href="{{ object.get_absolute_url }}">
+                  <span class="link-spanner-div-click"></span>
+                </a>
               </div>
             </div>
           </div>
@@ -53,7 +42,7 @@
           {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
             <div class="row my-2">
               <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                <div class="card">
+                <div class="card mb-4 custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Position title: {{ object.position_title }}</h3>
                     <h4 class="card-text">Location: {{ object.location }}</h4>
@@ -70,7 +59,7 @@
               </div>
           {% else %}
               <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                <div class="card">
+                <div class="card mb-4 custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Position title: {{ object.position_title }}</h3>
                     <h4 class="card-text">Location: {{ object.location }}</h4>

@@ -10,6 +10,8 @@
 {% endblock %}
 
 {% block app_stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
 {% endblock %}
 
 
@@ -22,14 +24,14 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container my-5">
   <div class="resume-reveal load-hidden">
     {% include 'my_cv/index_resume_detail.html' %}
   </div>
 </div>
 
-<div class="container mt-5">
-  <div class="row mb-4 justify-content-center repo-heading-reveal load-hidden" >
+<div class="container">
+  <div class="row mb-4 justify-content-center repo-heading-reveal load-hidden">
     <h1>Recently Updated Repositories</h1>
   </div>
   <div class="row repo-reveal load-hidden">

@@ -5,15 +5,6 @@
 <title>Resumes Home</title>
 {% endblock %}
 
-{% block favicon %}
-{% endblock %}
-
-{% block app_stylesheets %}
-{{ block.super }}
-  <link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
-{% endblock %}
-
-
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -30,22 +21,41 @@
   {% if all_resumes %}
     <div class="row resume-reveal load-hidden">
       {% for resume in all_resumes %}
-        <div class="d-flex align-items-stretch col-xs-12 col-md-6 col-lg-4 p-2">
-          <div class="card mb-4 custom-resume-education-hover">
-            <div class="card-body" style="height:165px;">
-              <h3 class="card-title text-center">{{ resume.resume_name }}</h3>
-              {% if resume.description %}
-                <h4 class="card-text">Description: {{ resume.description }}</h4>
-              {% endif %}
-              {% if resume.last_edited %}
-                <h4 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h4>
-              {% endif %}
-              <a href="{{ resume.get_absolute_url }}">
-                <span class="link-spanner-div-click"></span>
-              </a>
+        {% if all_resumes|length == 1 %}
+          <div class="col-xs-12 col-md-8 offset-md-2">
+            <div class="card custom-resume-education-hover">
+              <div class="card-body" style="height:165px;">
+                <h3 class="card-title text-center">{{ resume.resume_name }}</h3>
+                {% if resume.description %}
+                  <h4 class="card-text">Description: {{ resume.description }}</h4>
+                {% endif %}
+                {% if resume.last_edited %}
+                  <h4 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h4>
+                {% endif %}
+                <a href="{{ resume.get_absolute_url }}">
+                  <span class="link-spanner-div-click"></span>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        {% else %}
+          <div class="d-flex align-items-stretch col-xs-12 col-md-6 p-2">
+            <div class="card mb-4 custom-resume-education-hover">
+              <div class="card-body" style="height:165px;">
+                <h3 class="card-title text-center">{{ resume.resume_name }}</h3>
+                {% if resume.description %}
+                  <h4 class="card-text">Description: {{ resume.description }}</h4>
+                {% endif %}
+                {% if resume.last_edited %}
+                  <h4 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h4>
+                {% endif %}
+                <a href="{{ resume.get_absolute_url }}">
+                  <span class="link-spanner-div-click"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   {% else %}

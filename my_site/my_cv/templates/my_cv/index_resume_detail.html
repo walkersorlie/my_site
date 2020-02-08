@@ -5,29 +5,31 @@
     <h1>Resume</h1>
   </div>
   <div class="container mt-3 tab-content" id="nav-tabContent">
-    <div class="col-4 offset-md-4 mb-5">
-      <div class="list-group text-center" id="list-tab" role="tablist" style="font-size: 1.2rem;">
-        {% if current_resume.description %}
-          <a class="list-group-item list-group-item-action" id="list-description-list" data-toggle="list" href="#list-description" role="tab" aria-controls="description">Description</a>
-        {% endif %}
-        {% if current_resume.education.count > 0 %}
-          <a class="list-group-item list-group-item-action" id="list-education-list" data-toggle="list" href="#list-education" role="tab" aria-controls="education">Education</a>
-        {% endif %}
-        {% if current_resume.experience.count > 0 %}
-          <a class="list-group-item list-group-item-action" id="list-experience-list" data-toggle="list" href="#list-experience" role="tab" aria-controls="experience">Experience</a>
-        {% endif %}
-        {% if current_resume.personal_links.count > 0 %}
-          <a class="list-group-item list-group-item-action" id="list-personal-links-list" data-toggle="list" href="#list-personal-links" role="tab" aria-controls="personal-links">Personal Links</a>
-        {% endif %}
-        {% if current_resume.skills %}
-          <a class="list-group-item list-group-item-action" id="list-skills-list" data-toggle="list" href="#list-skills" role="tab" aria-controls="skills">Skills</a>
-        {% endif %}
-        {% if current_resume.interests %}
-          <a class="list-group-item list-group-item-action" id="list-interests-list" data-toggle="list" href="#list-interests" role="tab" aria-controls="interests">Interests</a>
-        {% endif %}
-        {% if current_resume.resume %}
-          <a class="list-group-item list-group-item-action" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV! <img src="{% static 'my_cv/images/download.svg' %}"></img></a>
-        {% endif %}
+    <div class="row mb-4 justify-content-center">
+      <div class="col-4">
+        <div class="list-group text-center" id="list-tab" role="tablist" style="font-size: 1.2rem;">
+          {% if current_resume.description %}
+            <a class="list-group-item list-group-item-action" id="list-description-list" data-toggle="list" href="#list-description" role="tab" aria-controls="description">Description</a>
+          {% endif %}
+          {% if current_resume.education.count > 0 %}
+            <a class="list-group-item list-group-item-action" id="list-education-list" data-toggle="list" href="#list-education" role="tab" aria-controls="education">Education</a>
+          {% endif %}
+          {% if current_resume.experience.count > 0 %}
+            <a class="list-group-item list-group-item-action" id="list-experience-list" data-toggle="list" href="#list-experience" role="tab" aria-controls="experience">Experience</a>
+          {% endif %}
+          {% if current_resume.personal_links.count > 0 %}
+            <a class="list-group-item list-group-item-action" id="list-personal-links-list" data-toggle="list" href="#list-personal-links" role="tab" aria-controls="personal-links">Personal Links</a>
+          {% endif %}
+          {% if current_resume.skills %}
+            <a class="list-group-item list-group-item-action" id="list-skills-list" data-toggle="list" href="#list-skills" role="tab" aria-controls="skills">Skills</a>
+          {% endif %}
+          {% if current_resume.interests %}
+            <a class="list-group-item list-group-item-action" id="list-interests-list" data-toggle="list" href="#list-interests" role="tab" aria-controls="interests">Interests</a>
+          {% endif %}
+          {% if current_resume.resume %}
+            <a class="list-group-item list-group-item-action" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV! <span class="align-text-bottom"><img src="{% static 'my_cv/images/download.svg' %}"></img></span></a>
+          {% endif %}
+        </div>
       </div>
     </div>
 
@@ -57,7 +59,7 @@
             {% if current_resume.education.count == 1 %}
               <div class="row my-2 justify-content-center">
                 <div class="col-xs-12">
-                  <div class="card">
+                  <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Institution: {{ education.name }}</h3>
                       <h4 class="card-text">Location: {{ education.location }}</h4>
@@ -75,9 +77,9 @@
               </div>
             {% else %}
               {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
-                <div class="row my-2">
+                <div class="row my-3">
                   <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                    <div class="card">
+                    <div class="card custom-resume-education-hover">
                       <div class="card-body">
                         <h3 class="card-text">Institution: {{ education.name }}</h3>
                         <h4 class="card-text">Location: {{ education.location }}</h4>
@@ -94,7 +96,7 @@
                   </div>
               {% else %}
                 <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                  <div class="card">
+                  <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Institution: {{ education.name }}</h3>
                       <h4 class="card-text">Location: {{ education.location }}</h4>
@@ -128,7 +130,7 @@
           {% if current_resume.experience.count == 1 %}
             <div class="row my-2 justify-content-center">
               <div class="col-xs-12">
-                <div class="card">
+                <div class="card custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Position title: {{ experience.position_title }}</h3>
                     <h4 class="card-text">Experience: {{ experience.name }}</h4>
@@ -147,9 +149,9 @@
             </div>
           {% else %}
             {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
-              <div class="row my-2">
+              <div class="row my-3">
                 <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                  <div class="card">
+                  <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Position title: {{ experience.position_title }}</h3>
                       <h4 class="card-text">Experience: {{ experience.name }}</h4>
@@ -167,7 +169,7 @@
                 </div>
             {% else %}
                 <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                  <div class="card">
+                  <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Position title: {{ experience.position_title }}</h3>
                       <h4 class="card-text">Experience: {{ experience.name }}</h4>
@@ -202,7 +204,7 @@
           {% if current_resume.personal_links.count == 1 %}
             <div class="row my-2 justify-content-center">
               <div class="col-xs-12">
-                <div class="card">
+                <div class="card custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Site name: {{ link.site_name }}</h3>
                     <a href="{{ link.url }}">
@@ -216,7 +218,7 @@
             {% if forloop.counter0|divisibleby:"2" or forloop.first is True %}
               <div class="row my-2">
                 <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                  <div class="card">
+                  <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Site name: {{ link.site_name }}</h3>
                       <a href="{{ link.url }}">
@@ -227,7 +229,7 @@
                 </div>
             {% else %}
                 <div class="d-flex align-items-stretch col-xs-12 col-lg-6">
-                  <div class="card">
+                  <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Site name: {{ link.site_name }}</h3>
                       <a href="{{ link.url }}">

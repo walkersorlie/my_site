@@ -35,9 +35,11 @@
           {% if institution.end_date is not None %}
             <h4 class="card-text">End date: {{ institution.end_date|date:"F j, Y" }}</h4>
           {% endif %}
-          <div class="btn-group">
-            <a href="{{ institution.url }}" target="_blank" class="btn btn-secondary">View Website</a>
-          </div>
+          {% if institution.url %}
+            <div class="btn-group">
+              <a href="{{ institution.url }}" target="_blank" class="btn btn-secondary">View Website</a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
