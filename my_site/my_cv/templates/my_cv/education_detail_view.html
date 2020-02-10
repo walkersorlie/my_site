@@ -5,13 +5,6 @@
 <title>Education Detail</title>
 {% endblock %}
 
-{% block favicon %}
-{% endblock %}
-
-{% block app_stylesheets %}
-{% endblock %}
-
-
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -25,16 +18,16 @@
   <div class="row mb-4 justify-content-center education-heading-reveal load-hidden">
     <h1>{{ institution.name }}</h1>
   </div>
-  <div class="row education-reveal load-hidden">
+  <div class="row my-cv education-reveal load-hidden">
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-text">Location: {{ institution.location }}</h4>
-          <h4 class="card-text">Description: {{ institution.description }}</h4>
-          <h4 class="card-text">Start date: {{ institution.start_date|date:"F j, Y" }}</h4>
+          <h5 class="card-text">Location: {{ institution.location }}</h5>
+          <h5 class="card-text">Start date: {{ institution.start_date|date:"F j, Y" }}</h5>
           {% if institution.end_date is not None %}
-            <h4 class="card-text">End date: {{ institution.end_date|date:"F j, Y" }}</h4>
+            <h5 class="card-text">End date: {{ institution.end_date|date:"F j, Y" }}</h5>
           {% endif %}
+          <p class="card-text">Description: {{ institution.description }}</p>
           {% if institution.url %}
             <div class="btn-group">
               <a href="{{ institution.url }}" target="_blank" class="btn btn-secondary">View Website</a>

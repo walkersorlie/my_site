@@ -5,13 +5,6 @@
 <title>Experience Detail</title>
 {% endblock %}
 
-{% block favicon %}
-{% endblock %}
-
-{% block app_stylesheets %}
-{% endblock %}
-
-
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
@@ -25,18 +18,18 @@
   <div class="row mb-4 justify-content-center opportunity-heading-reveal load-hidden">
     <h1>{{ opportunity.name }}</h1>
   </div>
-  <div class="row opportunity-reveal load-hidden">
+  <div class="row my-cv opportunity-reveal load-hidden">
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-text">Position title: {{ opportunity.position_title }}</h4>
-          <h4 class="card-text">Experience: {{ opportunity.name }}</h4>
-          <h4 class="card-text">Location: {{ opportunity.location }}</h4>
-          <h4 class="card-text">Description: {{ eopportunitye.description }}</h4>
-          <h4 class="card-text">Start date: {{ opportunity.start_date|date:"F j, Y" }}</h4>
-          {% if experience.end_date is not None %}
-            <h4 class="card-text">End date: {{ opportunitye.end_date|date:"F j, Y" }}</h4>
+          <h3 class="card-text">Position title: {{ opportunity.position_title }}</h3>
+          <h5 class="card-text">Experience: {{ opportunity.name }}</h5>
+          <h5 class="card-text">Location: {{ opportunity.location }}</h5>
+          <h5 class="card-text">Start date: {{ opportunitye.start_date|date:"F j, Y" }}</h5>
+          {% if opportunity.end_date is not None %}
+            <h5 class="card-text">End date: {{ opportunity.end_date|date:"F j, Y" }}</h5>
           {% endif %}
+          <p class="card-text">Description: {{ opportunity.description }}</p>
           {% if opportunity.url %}
             <div class="btn-group">
               <a href="{{ opportunity.url }}" target="_blank" class="btn btn-secondary">View Website</a>

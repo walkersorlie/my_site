@@ -23,7 +23,7 @@
 
 {% block content %}
 
-<section class="jumbotron text-center">
+<section class="jumbotron text-center homepage-custom">
   <div class="jumbotron-reveal container load-hidden">
     <h1 class="jumbotron-heading">Walker Sorlie</h1>
     {% if blurb %}
@@ -32,9 +32,9 @@
   </div>
 </section>
 
-<div class="bg-light album-reveal load-hidden">
-  <div class="container px-4">
-    <div class="row text-center mx-n4">
+<div class="album-reveal mb-4 load-hidden">
+  <div class="container mt-4 px-4">
+    <div class="row text-center mx-n4 homepage-custom">
       <div class="col-xs-12 col-sm-6 px-4">
         <div class="card text-white bg-dark h-100 rounded-large custom-homepage-hover">
           <div class="card-body">
@@ -60,14 +60,12 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="container mt-5">
-    <div class="row justify-content-center" >
+    <div class="row mt-5 pt-4 justify-content-center" >
       <h1>Highlights</h1>
     </div>
   </div>
 </div>
-<div class="container mt-1 load-hidden">
+<div class="container load-hidden">
   <div class="row">
     <div id="carousel" class="carousel slide carousel-fade w-100" style="height: 250px;" data-ride="carousel">
       {% comment %}
@@ -81,17 +79,17 @@
         {% endfor %}
       </ol>
       {% endcomment %}
-      <div class="carousel-inner h-100 text-center">
+      <div class="carousel-inner h-100 text-center homepage-custom">
         {% for object, type in edu_exp_list %}
           {% if forloop.counter == 1 %}
             <div class="carousel-item active" data-interval="450">
               <div class="d-none d-md-block custom-homepage-hover">
                 {% if type == 'education' %}
-                  <div class="card bg-light ">
+                  <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Institute: {{ object.name}}</h4>
-                      <h4 class="card-text">Location: {{ object.location }}</h4>
-                      <h4 class="card-text">Description: {{ object.description }}</h4>
+                      <h3 class="card-title">Institute: {{ object.name}}</h3>
+                      <h5 class="card-text">Location: {{ object.location }}</h5>
+                      <p class="card-text">Description: {{ object.description }}</p>
                       <!-- <a class="btn btn-outline-secondary stretched-link" href="{{ object.url }}">Institute URL</a> -->
                       <!-- <a href="{% url 'my_cv:education_detail_view' slug=object.name|slugify pk=object.id %}"> -->
                       <a href="{{ object.get_absolute_url }}">
@@ -100,12 +98,12 @@
                     </div>
                   </div>
                 {% else %}
-                  <div class="card bg-light">
+                  <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Title: {{ object.name }}</h4>
-                      <h4 class="card-text">Position title: {{ object.position_title }}</h4>
-                      <h4 class="card-text">Location: {{ object.location }}</h4>
-                      <h4 class="card-text">Description: {{ object.description }}</h4>
+                      <h3 class="card-title">Title: {{ object.name }}</h3>
+                      <h5 class="card-text">Position title: {{ object.position_title }}</h5>
+                      <h5 class="card-text">Location: {{ object.location }}</h5>
+                      <p class="card-text">Description: {{ object.description }}</p>
                       <!-- <a class="btn btn-outline-secondary" href="{{ object.opportunity_url }}">Outreach Organization URL</a> -->
                       <a href="{{ object.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>
@@ -119,24 +117,25 @@
             <div class="carousel-item" data-interval="450">
               <div class="d-none d-md-block custom-homepage-hover">
                 {% if type == 'education' %}
-                  <div class="card bg-light">
+                  <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Institute: {{ object.name}}</h4>
-                      <h4 class="card-text">Location: {{ object.location }}</h4>
-                      <h4 class="card-text">Description: {{ object.description }}</h4>
-                      <!-- <a class="btn btn-outline-secondary" href="{{ object.url }}">Institute URL</a> -->
+                      <h3 class="card-title">Institute: {{ object.name}}</h3>
+                      <h5 class="card-text">Location: {{ object.location }}</h5>
+                      <p class="card-text">Description: {{ object.description }}</p>
+                      <!-- <a class="btn btn-outline-secondary stretched-link" href="{{ object.url }}">Institute URL</a> -->
+                      <!-- <a href="{% url 'my_cv:education_detail_view' slug=object.name|slugify pk=object.id %}"> -->
                       <a href="{{ object.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>
                       </a>
                     </div>
                   </div>
                 {% else %}
-                  <div class="card bg-light">
+                  <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Title: {{ object.name }}</h4>
-                      <h4 class="card-text">Position title: {{ object.position_title }}</h4>
-                      <h4 class="card-text">Location: {{ object.location }}</h4>
-                      <h4 class="card-text">Description: {{ object.description }}</h4>
+                      <h3 class="card-title">Title: {{ object.name }}</h3>
+                      <h5 class="card-text">Position title: {{ object.position_title }}</h5>
+                      <h5 class="card-text">Location: {{ object.location }}</h5>
+                      <p class="card-text">Description: {{ object.description }}</p>
                       <!-- <a class="btn btn-outline-secondary" href="{{ object.opportunity_url }}">Outreach Organization URL</a> -->
                       <a href="{{ object.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>

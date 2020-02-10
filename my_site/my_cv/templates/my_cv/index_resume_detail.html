@@ -4,7 +4,7 @@
   <div class="row mb-4 justify-content-center">
     <h1>Resume</h1>
   </div>
-  <div class="container mt-3 tab-content" id="nav-tabContent">
+  <div class="container mt-3 tab-content my-cv" id="nav-tabContent">
     <div class="row mb-4 justify-content-center">
       <div class="col-4">
         <div class="list-group text-center" id="list-tab" role="tablist" style="font-size: 1.2rem;">
@@ -42,7 +42,7 @@
           <div class="col-xs-12 col-lg-8">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-text">{{ current_resume.description }}</h4>
+                <p class="card-text">{{ current_resume.description }}</p>
               </div>
             </div>
           </div>
@@ -62,12 +62,12 @@
                   <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Institution: {{ education.name }}</h3>
-                      <h4 class="card-text">Location: {{ education.location }}</h4>
-                      <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">Location: {{ education.location }}</h5>
+                      <h5 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h5>
                       {% if education.end_date is not None %}
-                        <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                        <h5 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h5>
                       {% endif %}
-                      <h4 class="card-text">Description: {{ education.description }}</h4>
+                      <p class="card-text">Description: {{ education.description }}</p>
                       <a href="{{ education.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>
                       </a>
@@ -82,12 +82,12 @@
                     <div class="card custom-resume-education-hover">
                       <div class="card-body">
                         <h3 class="card-text">Institution: {{ education.name }}</h3>
-                        <h4 class="card-text">Location: {{ education.location }}</h4>
-                        <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                        <h5 class="card-text">Location: {{ education.location }}</h5>
+                        <h5 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h5>
                         {% if education.end_date is not None %}
-                          <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                          <h5 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h5>
                         {% endif %}
-                        <h4 class="card-text">Description: {{ education.description }}</h4>
+                        <p class="card-text">Description: {{ education.description }}</p>
                         <a href="{{ education.get_absolute_url }}">
                           <span class="link-spanner-div-click"></span>
                         </a>
@@ -99,12 +99,12 @@
                   <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Institution: {{ education.name }}</h3>
-                      <h4 class="card-text">Location: {{ education.location }}</h4>
-                      <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">Location: {{ education.location }}</h5>
+                      <h5 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h5>
                       {% if education.end_date is not None %}
-                        <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                        <h5 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h5>
                       {% endif %}
-                      <h4 class="card-text">Description: {{ education.description }}</h4>
+                      <p class="card-text">Description: {{ education.description }}</p>
                       <a href="{{ education.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>
                       </a>
@@ -133,13 +133,13 @@
                 <div class="card custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Position title: {{ experience.position_title }}</h3>
-                    <h4 class="card-text">Experience: {{ experience.name }}</h4>
-                    <h4 class="card-text">Location: {{ experience.location }}</h4>
-                    <h4 class="card-text">Description: {{ experience.description }}</h4>
-                    <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
+                    <h5 class="card-text">Experience: {{ experience.name }}</h5>
+                    <h5 class="card-text">Location: {{ experience.location }}</h5>
+                    <h5 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h5>
                     {% if experience.end_date is not None %}
-                      <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h5>
                     {% endif %}
+                    <p class="card-text">Description: {{ experience.description }}</p>
                     <a href="{{ experience.get_absolute_url }}">
                       <span class="link-spanner-div-click"></span>
                     </a>
@@ -154,13 +154,13 @@
                   <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Position title: {{ experience.position_title }}</h3>
-                      <h4 class="card-text">Experience: {{ experience.name }}</h4>
-                      <h4 class="card-text">Location: {{ experience.location }}</h4>
-                      <h4 class="card-text">Description: {{ experience.description }}</h4>
-                      <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">Experience: {{ experience.name }}</h5>
+                      <h5 class="card-text">Location: {{ experience.location }}</h5>
+                      <h5 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h5>
                       {% if experience.end_date is not None %}
-                        <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
+                        <h5 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h5>
                       {% endif %}
+                      <p class="card-text">Description: {{ experience.description }}</p>
                       <a href="{{ experience.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>
                       </a>
@@ -172,13 +172,13 @@
                   <div class="card custom-resume-education-hover">
                     <div class="card-body">
                       <h3 class="card-text">Position title: {{ experience.position_title }}</h3>
-                      <h4 class="card-text">Experience: {{ experience.name }}</h4>
-                      <h4 class="card-text">Location: {{ experience.location }}</h4>
-                      <h4 class="card-text">Description: {{ experience.description }}</h4>
-                      <h4 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">Experience: {{ experience.name }}</h5>
+                      <h5 class="card-text">Location: {{ experience.location }}</h5>
+                      <h5 class="card-text">Start date: {{ experience.start_date|date:"F j, Y" }}</h5>
                       {% if experience.end_date is not None %}
-                        <h4 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h4>
+                        <h5 class="card-text">End date: {{ experience.end_date|date:"F j, Y" }}</h5>
                       {% endif %}
+                      <p class="card-text">Description: {{ experience.description }}</p>
                       <a href="{{ experience.get_absolute_url }}">
                         <span class="link-spanner-div-click"></span>
                       </a>
@@ -254,7 +254,7 @@
           <div class="col-xs-12 col-lg-8">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-text">{{ current_resume.skills }}</h4>
+                <p class="card-text">{{ current_resume.skills }}</p>
               </div>
             </div>
           </div>
@@ -271,7 +271,7 @@
           <div class="col-xs-12 col-lg-8">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-text">{{ current_resume.interests }}</h4>
+                <p class="card-text">{{ current_resume.interests }}</p>
               </div>
             </div>
           </div>

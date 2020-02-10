@@ -19,18 +19,18 @@
     <h1>All Resumes</h1>
   </div>
   {% if all_resumes %}
-    <div class="row resume-reveal load-hidden">
+    <div class="row my-cv resume-reveal load-hidden">
       {% for resume in all_resumes %}
         {% if all_resumes|length == 1 %}
           <div class="col-xs-12 col-md-8 offset-md-2">
             <div class="card custom-resume-education-hover">
               <div class="card-body" style="height:165px;">
                 <h3 class="card-title text-center">{{ resume.resume_name }}</h3>
-                {% if resume.description %}
-                  <h4 class="card-text">Description: {{ resume.description }}</h4>
-                {% endif %}
                 {% if resume.last_edited %}
-                  <h4 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h4>
+                  <h5 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h5>
+                {% endif %}
+                {% if resume.description %}
+                  <p class="card-text">Description: {{ resume.description }}</p>
                 {% endif %}
                 <a href="{{ resume.get_absolute_url }}">
                   <span class="link-spanner-div-click"></span>
@@ -43,11 +43,11 @@
             <div class="card mb-4 custom-resume-education-hover">
               <div class="card-body" style="height:165px;">
                 <h3 class="card-title text-center">{{ resume.resume_name }}</h3>
-                {% if resume.description %}
-                  <h4 class="card-text">Description: {{ resume.description }}</h4>
-                {% endif %}
                 {% if resume.last_edited %}
-                  <h4 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h4>
+                  <h5 class="card-text">Last edited: {{ resume.last_edited|date:"F j, Y" }}</h5>
+                {% endif %}
+                {% if resume.description %}
+                  <p class="card-text">Description: {{ resume.description }}</p>
                 {% endif %}
                 <a href="{{ resume.get_absolute_url }}">
                   <span class="link-spanner-div-click"></span>

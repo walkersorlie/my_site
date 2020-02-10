@@ -19,19 +19,19 @@
     <h1>All Education</h1>
   </div>
   {% if all_education %}
-    <div class="row education-reveal load-hidden">
+    <div class="row my-cv education-reveal load-hidden">
       {% for education in all_education %}
         {% if all_education|length == 1 %}
           <div class="col-xs-12">
             <div class="card mb-4 custom-resume-education-hover">
               <div class="card-body">
                 <h3 class="card-text">Institution: {{ education.name }}</h3>
-                <h4 class="card-text">Location: {{ education.location }}</h4>
-                <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                <h5 class="card-text">Location: {{ education.location }}</h5>
+                <h5 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h5>
                 {% if education.end_date is not None %}
-                  <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                  <h5 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h5>
                 {% endif %}
-                <h4 class="card-text">Description: {{ education.description }}</h4>
+                <p class="card-text">Description: {{ education.description }}</p>
                 <a href="{{ education.get_absolute_url }}">
                   <span class="link-spanner-div-click"></span>
                 </a>
@@ -45,12 +45,12 @@
                 <div class="card mb-4 custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Institution: {{ education.name }}</h3>
-                    <h4 class="card-text">Location: {{ education.location }}</h4>
-                    <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                    <h5 class="card-text">Location: {{ education.location }}</h5>
+                    <h5 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h5>
                     {% if education.end_date is not None %}
-                      <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h5>
                     {% endif %}
-                    <h4 class="card-text">Description: {{ education.description }}</h4>
+                    <p class="card-text">Description: {{ education.description }}</p>
                     <a href="{{ education.get_absolute_url }}">
                       <span class="link-spanner-div-click"></span>
                     </a>
@@ -62,12 +62,12 @@
                 <div class="card mb-4 custom-resume-education-hover">
                   <div class="card-body">
                     <h3 class="card-text">Institution: {{ education.name }}</h3>
-                    <h4 class="card-text">Location: {{ education.location }}</h4>
-                    <h4 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h4>
+                    <h5 class="card-text">Location: {{ education.location }}</h5>
+                    <h5 class="card-text">Start date: {{ education.start_date|date:"F j, Y" }}</h5>
                     {% if education.end_date is not None %}
-                      <h4 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h4>
+                      <h5 class="card-text">End date: {{ education.end_date|date:"F j, Y" }}</h5>
                     {% endif %}
-                    <h4 class="card-text">Description: {{ education.description }}</h4>
+                    <p class="card-text">Description: {{ education.description }}</p>
                     <a href="{{ education.get_absolute_url }}">
                       <span class="link-spanner-div-click"></span>
                     </a>

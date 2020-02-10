@@ -15,6 +15,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 MY_APPS = [
     'blog.apps.BlogConfig',
+    'django_bootstrap_breadcrumbs',
     'el_pagination',
     'homepage.apps.HomepageConfig',
     'my_cv.apps.MyCVConfig',

@@ -39,13 +39,15 @@
                   <h2>{{ repo.repo_name }}</h2>
                 </div>
               </div>
-              <div class="card-body" style="height:165px;">
+              <div class="card-body">
                 <p class="card-text">{{ repo.description }}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">View on GitHub</a>
+                <div class="row">
+                  <div class="col">
+                    <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
                   </div>
-                  <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                  <div class="col">
+                    <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -60,13 +62,15 @@
                 <h2>{{ repo.repo_name }}</h2>
               </div>
             </div>
-            <div class="card-body" style="height:165px;">
+            <div class="card-body d-flex flex-column" style="height: 200px;">
               <p class="card-text">{{ repo.description }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">View on GitHub</a>
+              <div class="row">
+                <div class="col">
+                  <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
                 </div>
-                <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                <div class="col">
+                  <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                </div>
               </div>
             </div>
           </div>

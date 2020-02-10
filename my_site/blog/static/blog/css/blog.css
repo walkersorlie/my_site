@@ -10,6 +10,10 @@ textarea.blog-textarea {
 
 p.blog-body {
   width: 100%;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   border-width: 0px;
+}
+
+.blog-custom p {
+  font-size: 1.07rem;
 }
