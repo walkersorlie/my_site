@@ -12,6 +12,7 @@
 {% block app_stylesheets %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/fonts/all.min.css' %}">
 {% endblock %}
 
 
@@ -24,53 +25,180 @@
 
 {% block content %}
 
-<div class="container my-5">
-  <div class="resume-reveal load-hidden">
-    {% include 'my_cv/index_resume_detail.html' %}
-  </div>
-</div>
+<body id="page-top">
 
-<div class="container pt-5">
-  <div class="row mb-4 justify-content-center repo-heading-reveal load-hidden">
-    <h1>Recently Updated Repositories</h1>
-  </div>
-  <div class="row repo-reveal load-hidden">
-    {% for repo in repo_list %}
-    <div class="d-flex align-items-stretch col-xs-12 col-lg-4">
-      <div class="card mb-4 shadow-sm">
-        <div class="custom-repo-hover">
-          <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
-          <div class="repo-name">
-            <h2>{{ repo.repo_name }}</h2>
-          </div>
+  <nav class="navbar navbar-expand-lg fixed-top load-hidden" id="sideNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+      <span class="d-block d-lg-none">Walker Sorlie</span>
+      <span class="d-none d-lg-block">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{% static 'my_cv/images/profile.jpg' %}" alt="">
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#repos">Recent GitHub Repositories</a>
+        </li>
+        {% if current_resume.resume %}
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV! <span class="align-text-bottom"><img src="{% static 'my_cv/images/download.svg' %}"></img></span></a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-0 resume-reveal load-hidden" style="margin-left: 17rem;">
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center ml-5" id="about">
+      <div class="w-100 align-self-start mt-5 pt-5">
+        <h1 class="mb-0">Walker
+          <span class="text-primary">Sorlie</span>
+        </h1>
+        <div class="subheading mb-5">{{ current_resume.location }} ·
+          <a href="mailto:walkersorlie@walkersorlie.com?subject=The%20subject">walkersorlie@walkersorlie.com</a>
         </div>
-        <div class="card-body" style="height: 200px;">
-          <p class="card-text">{{ repo.description }}</p>
-          <div class="row">
-            <div class="col">
-              <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
-            </div>
-            <div class="col">
-              <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
-            </div>
-          </div>
+        <p class="lead mb-5">{{ current_resume.description|linebreaks }}</p>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/walkersorlie/" target="_blank">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://github.com/walkersorlie" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://twitter.com/SorlieWalker" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
         </div>
       </div>
-    </div>
-    {% empty %}
-    <p>No latest repository information currently available</p>
-    {% endfor %}
+    </section>
+    <hr class="m-0">
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="experience">
+      <div class="w-100">
+        <h2 class="mb-5">Experience</h2>
+        {% for experience in current_resume.experience.all %}
+          <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+            <div class="resume-content">
+              <h3 class="mb-0">{{ experience.position_title }}</h3>
+              <div class="subheading mb-3">{{ experience.name }}</div>
+              <p class="lead">{{ experience.description }}</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">{{ experience.start_date|date:"F, Y" }} -
+                {% if experience.end_date is not None %}
+                  {{ experience.end_date|date:"F, Y" }}
+                {% else %}
+                  Present
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+        <a href="{% url 'my_cv:experience_outreach_index' %}" class="btn btn-secondary">View all experience</a>
+      </div>
+    </section>
+    <hr class="m-0">
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="education">
+      <div class="w-100">
+        <h2 class="mb-5">Education</h2>
+        {% for education in current_resume.education.all %}
+          <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+            <div class="resume-content">
+              <h3 class="mb-0">{{ education.name }}</h3>
+              <div class="subheading mb-3">{{ education.location }}</div>
+              <p class="lead">{{ education.description }}</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">{{ education.start_date|date:"F, Y" }} -
+                {% if education.end_date is not None %}
+                  {{ education.end_date|date:"F, Y" }}
+                {% else %}
+                  Present
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+        <a href="{% url 'my_cv:education_index' %}" class="btn btn-secondary">View all education</a>
+      </div>
+    </section>
+    <hr class="m-0">
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="skills">
+      <div class="w-100">
+        <h2 class="mb-5">Skills</h2>
+        <div class="subheading mb-3">Programming Languages &amp; Tools</div>
+        <ul class="list-inline dev-icons">
+          <li class="list-inline-item">
+            <i class="fab fa-python"></i>
+          </li>
+          <li class="list-inline-item">
+            <i class="fab fa-git"></i>
+          </li>
+          <li class="list-inline-item">
+            <i class="fab fa-html5"></i>
+          </li>
+          <li class="list-inline-item">
+            <i class="fab fa-css3-alt"></i>
+          </li>
+          <li class="list-inline-item">
+            <i class="fab fa-linux"></i>
+          </li>
+        </ul>
+        <p class="lead">{{ current_resume.skills }}</p>
+      </div>
+    </section>
+    <hr class="m-0">
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="interests">
+      <div class="w-100">
+        <h2 class="mb-5">Interests</h2>
+        <p class="lead">{{ current_resume.interests|linebreaks }}</p>
+      </div>
+    </section>
+    <hr class="m-0">
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="repos">
+      <div class="w-100">
+        <h2 class="mb-5">Recent <span class="text-primary">GitHub </span>Repositories</h2>
+        {% for repo in repo_list %}
+          <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+            <div class="resume-content">
+              <h3 class="mb-0">{{ repo.repo_name }}</h3>
+              <p class="lead">{{ repo.description }}</p>
+            </div>
+            <div class="resume-date text-md-right">
+              <span class="text-primary">{{ repo.pushed_at }}</span>
+            </div>
+          </div>
+        {% endfor %}
+        <a href="{% url 'repositories:index' %}" class="btn btn-secondary">View all repositories</a>
+      </div>
+    </section>
   </div>
-</div>
-
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
+
+<script src="{% static 'my_cv/js/my_cv.js' %}"></script>
 <script>
-  ScrollReveal().reveal('.resume-reveal', { delay: 500, duration: 700, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
-  ScrollReveal().reveal('.repo-heading-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
-  ScrollReveal().reveal('.repo-reveal', { delay: 800, duration: 850, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('#sideNav', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.resume-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
 </script>
 
 {% endblock %}

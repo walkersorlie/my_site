@@ -17,7 +17,8 @@ function scrollFunction() {
 function topFunction() {
   // document.body.scrollTop = 0;
   // document.documentElement.scrollTop = 0;
-  $('html,body').animate({ scrollTop: 0 }, "slow");
+  // $('html, body').animate({ scrollTop: 0 }, 1000, "slow");
+  $('html, body').animate({ scrollTop: 0 }, 1000, "easeInOutExpo");
   // $('html,body').animate({ scrollTop: 0 }, { duration: 'slow', easing: 'ease-in-out'});
   // document.body.scrollIntoView(alignToTop);
 }

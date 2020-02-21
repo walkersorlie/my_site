@@ -1,0 +1,76 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Resume</title>
+{% endblock %}
+
+{% block favicon %}
+<link rel="icon" href="{% static 'my_cv/images/favicon.svg' %}">
+{% endblock %}
+
+{% block app_stylesheets %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'my_cv/css/my_cv.css' %}">
+{% endblock %}
+
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {{ block.super }}
+    {% breadcrumb "Resume" "my_cv:index" %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container my-5">
+  <div class="resume-reveal load-hidden">
+    {% include 'my_cv/index_resume_detail.html' %}
+  </div>
+</div>
+
+<div class="container pt-5">
+  <div class="row mb-4 justify-content-center repo-heading-reveal load-hidden">
+    <h1>Recently Updated Repositories</h1>
+  </div>
+  <div class="row repo-reveal load-hidden">
+    {% for repo in repo_list %}
+    <div class="d-flex align-items-stretch col-xs-12 col-lg-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="custom-repo-hover">
+          <a href="{{ repo.url }}" target="_blank"><img src="{% static 'repositories/images/github.jpeg' %}" style="width: 100%; height: 100%;"></img></a>
+          <div class="repo-name">
+            <h2>{{ repo.repo_name }}</h2>
+          </div>
+        </div>
+        <div class="card-body" style="height: 200px;">
+          <p class="card-text">{{ repo.description }}</p>
+          <div class="row">
+            <div class="col">
+              <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
+            </div>
+            <div class="col">
+              <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No latest repository information currently available</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  ScrollReveal().reveal('.resume-reveal', { delay: 500, duration: 700, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.repo-heading-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.repo-reveal', { delay: 800, duration: 850, interval: 100, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
+
+{% endblock %}

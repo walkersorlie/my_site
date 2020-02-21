@@ -35,10 +35,10 @@
         {% if forloop.counter == 1 %}
           <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="margin-top: 15px;">
             <div class="col-lg-9 px-0">
-              <h1 class="display-4 font-italic" name="title">{{ post.title }}</h1>
+              <h1 class="display-4 font-italic text-white" name="title">{{ post.title }}</h1>
               <p>{{ post.pub_date }} by {{ post.author_id.username|capfirst }}</p>
               <p class="lead my-3">{{ post.body|truncatechars_html:150 }}</p>
-              <p class="lead mb-0"><a href="{{ post.get_absolute_url }}" class="text-white font-weight-bold">Continue reading...</a></p>
+              <a href="{{ post.get_absolute_url }}" class="font-weight-bold text-white">Continue reading...</a>
             </div>
           </div>
         {% elif forloop.counter == 2 %}

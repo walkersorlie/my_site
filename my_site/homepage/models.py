@@ -37,19 +37,8 @@ class AboutContent(models.Model):
         return "About block content"
 
     def save(self, *args, **kwargs):
-        self.body = self.display_my_safefield()
         self.last_edited = timezone.now()
         super(AboutContent, self).save(*args, **kwargs)
-
-    """
-    Has to do with encoding it looks like???
-    HTML symbols
-    https://bleach.readthedocs.io/en/latest/clean.html
-    """
-    def display_my_safefield(self):
-        if '<script>' in self.body:
-            return self.body
-        return mark_safe(self.body)
 
 
 class HomepageBlurb(models.Model):
@@ -64,11 +53,5 @@ class HomepageBlurb(models.Model):
         return 'Homepage blurb'
 
     def save(self, *args, **kwargs):
-        self.body = self.display_my_safefield()
         self.last_edited = timezone.now()
         super(HomepageBlurb, self).save(*args, **kwargs)
-
-    def display_my_safefield(self):
-        if '<script>' in self.body:
-            return self.body
-        return mark_safe(self.body)
