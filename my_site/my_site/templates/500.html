@@ -1,0 +1,37 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>500</title>
+{% endblock %}
+
+{% block favicon %}
+{% endblock %}
+
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Internal Error" "" %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="containter">
+  <div class="row justify-content-center load-hidden heading">
+    <h1>500 Error: Internal Server Error</h1>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+
+<script>
+  ScrollReveal().reveal('.heading', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
+
+{% endblock %}

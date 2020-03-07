@@ -1,0 +1,37 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>405</title>
+{% endblock %}
+
+{% block favicon %}
+{% endblock %}
+
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumb %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Method Not Allowed" "" %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="containter">
+  <div class="row justify-content-center load-hidden heading">
+    <h1>405 Error: HTTP Method Not Allowed</h1>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+
+<script>
+  ScrollReveal().reveal('.heading', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
+
+{% endblock %}

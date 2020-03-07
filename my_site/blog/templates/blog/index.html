@@ -1,4 +1,4 @@
-{% extends 'homepage/base.html' %}
+{% extends "global/base.html" %}
 {% load static %}
 
 {% block title %}
@@ -65,7 +65,7 @@
         {% include page_template %}
       </div>
     {% else %}
-    <p>No posts available at this time.</p>
+        <div class="justify-content-center alert alert-info" role="alert">No posts available at this time.</div>
     {% endif %}
     </div>
     <div class="col-md">

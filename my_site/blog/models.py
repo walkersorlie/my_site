@@ -25,7 +25,7 @@ class Post(models.Model):
         return reverse('blog:view_post', args=[self.slug])
 
     def __str__(self):
-        return "title: " + f'"{self.title}"' + ", author username: " + self.author_id.username.capitalize()
+        return "title: " + f'"{self.title}"' + ", author: " + self.author_id.username.capitalize()
 
     def save(self, *args, **kwargs):
         if not self.id:

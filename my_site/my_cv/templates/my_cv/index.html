@@ -1,4 +1,4 @@
-{% extends 'homepage/base.html' %}
+{% extends "global/base.html" %}
 {% load static %}
 
 {% block title %}
@@ -75,7 +75,7 @@
         <div class="subheading mb-5">{{ current_resume.location }} ·
           <a href="mailto:walkersorlie@walkersorlie.com?subject=The%20subject">walkersorlie@walkersorlie.com</a>
         </div>
-        <p class="lead mb-5">{{ current_resume.description|linebreaks }}</p>
+        <div class="lead mb-5">{{ current_resume.description|linebreaks }}</div>
         <div class="social-icons">
           <a href="https://www.linkedin.com/in/walkersorlie/" target="_blank">
             <i class="fab fa-linkedin-in"></i>
@@ -98,7 +98,9 @@
             <div class="resume-content">
               <h3 class="mb-0">{{ experience.position_title }}</h3>
               <div class="subheading mb-3">{{ experience.name }}</div>
-              <p class="lead">{{ experience.description }}</p>
+              <div class="lead">
+                {{ experience.description|linebreaks }}
+              </div>
             </div>
             <div class="resume-date text-md-right">
               <span class="text-primary">{{ experience.start_date|date:"F, Y" }} -
@@ -123,7 +125,9 @@
             <div class="resume-content">
               <h3 class="mb-0">{{ education.name }}</h3>
               <div class="subheading mb-3">{{ education.location }}</div>
-              <p class="lead">{{ education.description }}</p>
+              <div class="lead">
+                {{ education.description|linebreaks }}
+              </div>
             </div>
             <div class="resume-date text-md-right">
               <span class="text-primary">{{ education.start_date|date:"F, Y" }} -
@@ -161,14 +165,18 @@
             <i class="fab fa-linux"></i>
           </li>
         </ul>
-        <p class="lead">{{ current_resume.skills }}</p>
+        <div class="lead">
+          {{ current_resume.skills|linebreaks }}
+        </div>
       </div>
     </section>
     <hr class="m-0">
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="interests">
       <div class="w-100">
         <h2 class="mb-5">Interests</h2>
-        <p class="lead">{{ current_resume.interests|linebreaks }}</p>
+        <div class="lead">
+          {{ current_resume.interests|linebreaks }}
+        </div>
       </div>
     </section>
     <hr class="m-0">
@@ -179,7 +187,9 @@
           <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
             <div class="resume-content">
               <h3 class="mb-0">{{ repo.repo_name }}</h3>
-              <p class="lead">{{ repo.description }}</p>
+              <div class="lead">
+                {{ repo.description|linebreaks }}
+              </div>
             </div>
             <div class="resume-date text-md-right">
               <span class="text-primary">{{ repo.pushed_at }}</span>

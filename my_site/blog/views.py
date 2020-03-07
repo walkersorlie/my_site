@@ -7,6 +7,7 @@ from django.db import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 import datetime
+from django.utils import timezone
 
 from .models import Post
 from .forms import PostForm
@@ -16,7 +17,6 @@ class IndexView(AjaxListView):
     template_name = 'blog/index.html'
     page_template = 'blog/post_list.html'
     context_object_name = 'post_list'
-
 
     def get_queryset(self):
         # return Post.objects.order_by('-pub_date')[:5]
@@ -74,11 +74,11 @@ class CreatePostView(LoginRequiredMixin, generic.CreateView):
         # post.author_id = User(request.user.id)
         # self.request.user.pk
         post.author_id = User.objects.get(pk=self.request.user.pk)
-        post.pub_date = datetime.datetime.now()
+        post.pub_date = timezone.now()
         post.save()
 
         # OVERRIDES 'success_url'
-        return HttpResponseRedirect(reverse('blog:view_post', kwargs={'slug': post.slug}))
+        return HttpResponseRedirect(reverse('blog:view_post', args=[post.slug]))
 
 
 """
@@ -100,7 +100,7 @@ class EditPostView(generic.UpdateView):
         # post.author_id = User.objects.get(pk=1)
         # post.pub_date = datetime.datetime.now()
         post.save()
-        return HttpResponseRedirect(reverse('blog:view_post', kwargs={'slug': post.slug}))
+        return HttpResponseRedirect(reverse('blog:view_post', args=[post.slug]))
 
 
 class DeletePostView(generic.DeleteView):

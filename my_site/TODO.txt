@@ -52,6 +52,7 @@ https://devcenter.heroku.com/articles/heroku-postgresql#local-setup
 32. Check out pythonanywhere or divio for different hosting options
 33. Sort experience/outreach by current. Add option to filter (experience_outreach_index)
 34. Use Trello
+35. Make breadcrumb work with 404/405/500 error pages
 
 ###
 Remember to change settings file used in 'wsgi.py'

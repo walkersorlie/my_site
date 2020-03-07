@@ -65,3 +65,6 @@ if settings.DEBUG:
         # /__debug__/
         path('__debug__/', include(debug_toolbar.urls)),
     ]
+
+# handler404 = 'my_site.views.error_404'
+# handler500 = 'my_site.views.error_500'

@@ -15,15 +15,14 @@
   {% endblock %}
 
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'global/css/bootstrap.min.css' %}">
 
   <!-- Custom global css stylesheets -->
   <link rel="stylesheet" type="text/css" href="{% static 'global/css/scrollreveal.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'global/css/global.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'global/css/album.css' %}">
 
   {% block app_stylesheets %}
-  <!-- Custom styles for this template -->
-  <link rel="stylesheet" type="text/css" href="{% static 'homepage/css/album.css' %}">
   {% endblock %}
 
   <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
@@ -97,7 +96,7 @@
   <nav aria-label="breadcrumb">
     <div class="container mt-3 breadcrumb-reveal load-hidden">
       <div class="row justify-content-center">
-        {% render_breadcrumbs "homepage/breadcrumb.html" %}
+        {% render_breadcrumbs "global/breadcrumb.html" %}
       </div>
     </div>
   </nav>
@@ -126,9 +125,9 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="{% static 'jquery-slim.min.js' %}"><\/script>')</script>
-<script src="{% static 'homepage/js/popper.min.js' %}"></script>
-<script src="{% static 'homepage/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'homepage/js/holder.min.js' %}"></script>
+<script src="{% static 'global/js/popper.min.js' %}"></script>
+<script src="{% static 'global/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'global/js/holder.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'global/js/global.js' %}"></script>
 <script src="{% static 'global/js/jquery_easing.js' %}"></script>
 

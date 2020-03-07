@@ -33,6 +33,17 @@ sudo apt-get install snapd
 You might need to install other link files for libc as well
 
 
+#### Checking package versions:
+```
+pip list --outdated
+```
+
+#### To upgrade package:
+```
+pip install -U PACKAGE_NAME==VERSION
+```
+
+
 ### Running the Heroku project locally
 To run the app locally, Heroku looks for a ".env" file that lists any config variables associated with the project. This file should never be committed to version control!!!!
 

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseNotAllowed
 
 
 class HttpResponseNotAllowed:
@@ -15,6 +16,7 @@ class HttpResponseNotAllowed:
         # Code to be executed for each request/response after the view is called.
 
         if response.status_code == 405:
-            return render(request, '405.html', status=405)
+            return render(request, 'global/405.html', status=405)
+            # return HttpResponseNotAllowed(request, 'global/405.html', status=405)
 
         return response
