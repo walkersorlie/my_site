@@ -57,11 +57,13 @@
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#repos">Recent GitHub Repositories</a>
         </li>
+        {% comment "Heroku doesn't store user uploaded files. Use S3 I guess?? "%}
         {% if current_resume.resume %}
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV! <span class="align-text-bottom"><img src="{% static 'my_cv/images/download.svg' %}"></img></span></a>
           </li>
         {% endif %}
+        {% endcomment %}
       </ul>
     </div>
   </nav>
