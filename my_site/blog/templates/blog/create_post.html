@@ -14,28 +14,33 @@
 
 
 {% block content %}
-    <div class="container">
-      <div class="row">
-        <div class="col-md-10 blog-main load-hidden">
-          <h2>New Post</h2>
+  <div class="container">
+    <div class="row blog-main load-hidden">
+      <div class="col-md-">
+        {% if form.errors %}
+          <div class="mb-4 justify-content-center alert alert-danger" role="alert">
+            <h3>{{ form.errors }}</h3>
+          </div>
+        {% endif %}
+        <h2>New Post</h2>
         <form method="POST" class="post-form">
-            {% csrf_token %}
-            <div class="blog-post">
-              {{ form.title.label_tag }}
-              {{ form.title }}
-              <div class="form-group">
-                {{ form.body.label_tag }}
-                {{ form.body|add_class:"blog-textarea" }}
-              </div>
-            </div><!-- /.blog-post -->
-            <button type="submit" class="save btn btn-primary">Post</button>
-            <a href="{% url 'blog:index' %}" class="btn btn-secondary">Cancel</a>
+          {% csrf_token %}
+          <div class="blog-post">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            <div class="form-group">
+              {{ form.body.label_tag }}
+              {{ form.body|add_class:"blog-textarea" }}
+            </div>
+          </div><!-- /.blog-post -->
+          <button type="submit" class="save btn btn-primary">Post</button>
+          <a href="{% url 'blog:index' %}" class="btn btn-secondary">Cancel</a>
         </form>
-        </div><!-- /.blog-main -->
+      </div><!-- /.blog-main -->
 
-      </div><!-- /.row -->
+    </div><!-- /.row -->
 
-    </div><!-- /.container -->
+  </div><!-- /.container -->
 
 {% endblock %}
 

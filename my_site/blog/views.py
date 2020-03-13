@@ -4,7 +4,8 @@ from django.urls import reverse_lazy, reverse, NoReverseMatch
 from django.views import generic
 from el_pagination.views import AjaxListView
 from django.db import IntegrityError
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
@@ -62,7 +63,6 @@ Probably combine both 'create' and 'edit' in one FormView
 """
 
 class CreatePostView(LoginRequiredMixin, generic.CreateView):
-    login_url = '/registration/login/'
     template_name = 'blog/create_post.html'
     form_class = PostForm
 
@@ -81,16 +81,47 @@ class CreatePostView(LoginRequiredMixin, generic.CreateView):
         return HttpResponseRedirect(reverse('blog:view_post', args=[post.slug]))
 
 
+
+class MyPermissionMixin(LoginRequiredMixin, UserPassesTestMixin):
+    def dispatch(self, request, *args, **kwargs):
+        user_test_result = self.get_test_func()()
+        if not request.user.is_authenticated:
+            return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+        elif not user_test_result:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
 """
 Edit post option should only appear when the user who wrote the post (me) is logged-in
 Use permissions?? Check in 'view_post.html' for permissions??
+
+Redirect to view_post if user is logged in but isn't the author.
+Somehow set the error message??? This shit don't make much sense. Not sure how to do that
 """
-class EditPostView(generic.UpdateView):
+class EditPostView(MyPermissionMixin, generic.UpdateView):
+    permission_denied_message = "Only the author can edit this post"
+
     template_name = 'blog/edit_post.html'
     context_object_name = 'specific_blog'
     model = Post
     form_class = PostForm
     query_pk_and_slug = True
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(EditPostView, self).get_context_data(**kwargs)
+    #
+    #     if 'exception' in kwargs:
+    #         context['exception'] = self.get_permission_denied_message()
+    #
+    #     return context
+
+    def test_func(self):
+        # if the author of the post is the same as the person requesting the page, return true
+        return self.get_object().author_id.pk == self.request.user.pk
+
+    def handle_no_permission(self):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse('blog:view_post', args=[self.object.slug]))
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -103,10 +134,18 @@ class EditPostView(generic.UpdateView):
         return HttpResponseRedirect(reverse('blog:view_post', args=[post.slug]))
 
 
-class DeletePostView(generic.DeleteView):
+class DeletePostView(MyPermissionMixin, generic.DeleteView):
     model = Post
     query_pk_and_slug = True
     success_url = reverse_lazy('blog:index')
+
+    def test_func(self):
+        # if the author of the post is the same as the person requesting the page, return true
+        return self.get_object().author_id.pk == self.request.user.pk
+
+    def handle_no_permission(self):
+        self.object = self.get_object()
+        return HttpResponseRedirect(reverse('blog:view_post', args=[self.object.slug]))
 
 
 """

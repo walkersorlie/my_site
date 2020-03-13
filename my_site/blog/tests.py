@@ -38,14 +38,14 @@ def create_post(user, title, body):
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class BlogViewPosts(TestCase):
+class BlogIndexViewPosts(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Set up data for the whole TestCase
         # cls.user = Auth_User.objects.create(username='username', password='password', email_address='test@test.com')
         # cls.user = create_test_user('test_user', 'password')
         cls.user = get_user_model().objects.create_user(username='test_user', password='password')
-        cls.second_user = get_user_model().objects.create_user(username='second_user', password='password2')
+        # cls.second_user = get_user_model().objects.create_user(username='second_user', password='password2')
         # cls.post = models.Post.objects.create(author_id=cls.user, title='title', body='body', pub_date=timezone.now(), slug=slugify('title'))
         # cls.post = create_post(cls.user, 'Test Title', 'Test body')
     # def setUp(self):
@@ -54,7 +54,7 @@ class BlogViewPosts(TestCase):
     #     self.user = create_user('test_user', 'password')
 
 
-    def test_no_posts(self):
+    def test_index_no_posts(self):
         response = self.client.get(reverse('blog:index'))
 
         self.assertEqual(response.status_code, 200)
@@ -142,6 +142,14 @@ class BlogViewPosts(TestCase):
         self.assertContains(response, post.body)
 
 
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class BlogUserCreatePosts(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username='test_user', password='password')
+
+
     def test_create_post_redirect_if_not_authenticated(self):
         # response = self.client.get(reverse('blog:create_post'), follow=True)
 
@@ -150,7 +158,7 @@ class BlogViewPosts(TestCase):
         self.assertRedirects(response, '/registration/login/?next=/blog/create_post/')
 
 
-    def test_logged_in_uses_correct_template(self):
+    def test_create_post_logged_in_uses_correct_template(self):
         login = self.client.login(username='test_user', password='password')
         response = self.client.get(reverse('blog:create_post'))
 
@@ -186,13 +194,8 @@ class BlogViewPosts(TestCase):
         self.assertEqual(created_post.body, 'Test Body')
 
 
-    def test_redirect_to_created_post(self):
+    def test_redirect_to_successfully_created_post(self):
         login = self.client.login(username='test_user', password='password')
-        response = self.client.get(reverse('blog:create_post'))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(str(response.context['user']), self.user.get_username())
-
 
         """
         Confirm that there are no created posts
@@ -214,6 +217,37 @@ class BlogViewPosts(TestCase):
         self.assertEqual(models.Post.objects.count(), 1)
 
 
+    def test_successfully_created_post_correct_template(self):
+        login = self.client.login(username='test_user', password='password')
+
+        """
+        Confirm that there are no created posts
+        """
+        self.assertEqual(models.Post.objects.count(), 0)
+
+        form_data = {
+            'title': 'Test Title',
+            'body': 'Test Body',
+        }
+
+        response = self.client.post(reverse('blog:create_post'), form_data, follow=True)
+
+        self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertEqual(str(response.context['user']), self.user.get_username())
+        self.assertRedirects(response, reverse('blog:view_post', args=[models.Post.objects.last().slug]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(models.Post.objects.count(), 1)
+        self.assertTemplateUsed(response, 'blog/view_post.html')
+
+
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class BlogUserEditPosts(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(username='test_user', password='password')
+
+
     def test_edit_post_redirect_to_login_if_not_authenticated(self):
         post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
 
@@ -223,22 +257,20 @@ class BlogViewPosts(TestCase):
         self.assertRedirects(response, f'/registration/login/?next=/blog/{post.slug}/edit_post/')
 
 
-    # def setup(self):
-    #     self.new_user = get_user_model().objects.create_user(username='test_user2', password='password')
-
     def test_edit_post_view_if_authenticated_but_not_author(self):
         post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
         # new_user = get_user_model().objects.create_user(username='test_user2', password='password')
+        second_user = get_user_model().objects.create_user(username='second_user', password='password2')
 
         login = self.client.login(username='second_user', password='password2')
-        response = self.client.get(reverse('blog:edit_post', args=[post.slug]))
+        response = self.client.get(reverse('blog:edit_post', args=[post.slug]), follow=True)
 
-        self.assertEqual(response.status_code, 302)
-        # self.assertEqual(str(response.context['user']), self.second_user.get_username())
+        self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertEqual(str(response.context['user']), second_user.get_username())
         self.assertRedirects(response, reverse('blog:view_post', args=[post.slug]))
-        # self.assertContains(response, "Only the author can edit this post")
-
-        # self.assertTemplateUsed(response, 'blog/view_post.html')
+        # self.assertContains(response, "Only the author can edit this post", status_code=302)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/view_post.html')
 
 
     def test_logged_in_edit_post_view_correct_template(self):
@@ -252,62 +284,158 @@ class BlogViewPosts(TestCase):
         self.assertTemplateUsed(response, 'blog/edit_post.html')
 
 
+    def test_blank_edit_post_form(self):
+        form = forms.PostForm({})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'title': ['This field is required.'],
+            'body': ['This field is required.'],
+        })
 
 
-# override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-# class BlogCreatePosts(TestCase):
-#     @classmethod
-#     def setUpTestData(cls):
-#         # Set up data for the whole TestCase
-#         cls.user = create_user('test_user', 'password')
-#
-#
-#     def test_create_post_redirect_if_not_authenticated(self):
-#         response = self.client.get(reverse('blog:create_post'), follow=True)
-#
-#         response = self.client.get(reverse('blog:create_post'))
-#         self.assertRedirects(response, '/registration/login/?next=/blog/create_post/')
-#
-#     def test_logged_in_uses_correct_template(self):
-#         login = self.client.login(username=self.user.username, password=self.user.password)
-#         response = self.client.get(reverse('blog:create_post'))
-#
-#         # Check our user is logged in
-#         self.assertEqual(str(response.context['user']), self.user.username)
-#         self.assertEqual(response.status_code, 200)
-#
-#         # Check we used correct template
-#         self.assertTemplateUsed(response, 'blog/create_post.html')
+    def test_valid_edit_post_form(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
 
-'''
-class CreatePostWithLogin(TestCase):
+        login = self.client.login(username='test_user', password='password')
+        response = self.client.get(reverse('blog:edit_post', args=[post.slug]))
+
+        form = forms.PostForm(instance=post)
+        edited_post = form.save(commit=False)
+
+        # self.assertTrue(form.is_valid())
+        self.assertEqual(edited_post.title, post.title)
+        self.assertEqual(edited_post.body, post.body)
+
+        edited_post.title = 'New test title'
+        edited_post.body = 'New test body'
+
+        edited_post.save()
+
+        self.assertEqual(edited_post.title, 'New test title')
+        self.assertEqual(edited_post.body, 'New test body')
+
+
+    def test_redirect_to_successfully_edited_post(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+
+        login = self.client.login(username='test_user', password='password')
+
+        form_data = {
+            'title': 'New test title',
+            'body': 'New test body'
+        }
+
+        response = self.client.post(reverse('blog:edit_post', args=[post.slug]), form_data)
+
+        """
+        Confirm redirect to edited post
+        """
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(models.Post.objects.last().title, 'New test title')
+        self.assertEqual(models.Post.objects.last().body, 'New test body')
+
+
+    def test_successfully_edited_post_correct_template(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+
+        login = self.client.login(username='test_user', password='password')
+
+        form_data = {
+            'title': 'New test title',
+            'body': 'New test body'
+        }
+
+        response = self.client.post(reverse('blog:edit_post', args=[post.slug]), form_data, follow=True)
+
+        self.assertRedirects(response, reverse('blog:view_post', args=[models.Post.objects.last().slug]))
+        self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), self.user.get_username())
+        self.assertEqual(models.Post.objects.last().title, 'New test title')
+        self.assertEqual(models.Post.objects.last().body, 'New test body')
+        self.assertTemplateUsed(response, 'blog/view_post.html')
+
+
+
+@override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
+class BlogUserDeletePosts(TestCase):
     @classmethod
     def setUpTestData(cls):
-        # Set up data for the whole TestCase
-        cls.user = User.objects.create(username='username', password='password', email_address='test@test.com')
+        cls.user = get_user_model().objects.create_user(username='test_user', password='password')
 
-    def test_create_post_not_logged_in(self):
-        response = self.client.get(reverse('blog:create_post'))
-        self.assertRedirects(response, '/login/', status_code=302, target_status_code=200)
 
-    """
-    def test_create_post_logged_in(self):
-        # need to simulate login here, before request
-        response = self.client.get(resolve('blog:create-post'))
-        self.assertEquals(response.func.view_class, CreatePostView)
-        # self.assertEquals(response.view_class, 'create-post')
-    """
-'''
-# class CreateUserTest(TestCase):
-    # def test_create_user_successfully(self):
-    #     old_total_users = User.objects.count()
-    #     user = create_user('test-user', 'password', 'test@test.com')
-    #     new_total_users = User.objects.count()
-    #     self.assertGreater(new_total_users, old_total_users)
+    def test_delete_post_view_http_get_redirect_to_login_if_not_authenticated(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
 
-# class BlogCreatePostTests(TestCase):
-    # def test_create_blog_post_successfully(self):
-    #     old_total_posts = Post.objects.count()
-    #     test_post = Post(author_id=create_user('test-userr2', 'Password', 'test2@test.com'), title='test title', body='test body', pub_date=datetime.now(), slug=slugify('test title'))
-    #     new_total_posts = Post.objects.count()
-    #     self.assertGreater(new_total_posts, old_total_posts)
+        response = self.client.get(reverse('blog:delete_post', args=[post.slug]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f'/registration/login/?next=/blog/{post.slug}/delete_post/')
+
+
+    def test_delete_post_view_http_get_if_authenticated_but_not_author(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+        second_user = get_user_model().objects.create_user(username='second_user', password='password2')
+
+        login = self.client.login(username='second_user', password='password2')
+        response = self.client.get(reverse('blog:delete_post', args=[post.slug]), follow=True)
+
+        self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertEqual(str(response.context['user']), second_user.get_username())
+        self.assertRedirects(response, reverse('blog:view_post', args=[post.slug]))
+        # self.assertContains(response, "Only the author can edit this post", status_code=302)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/view_post.html')
+
+
+    def test_delete_post_view_http_post_redirect_to_login_if_not_authenticated(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+
+        response = self.client.post(reverse('blog:delete_post', args=[post.slug]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, f'/registration/login/?next=/blog/{post.slug}/delete_post/')
+
+
+    def test_delete_post_view_http_post_if_authenticated_but_not_author(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+        second_user = get_user_model().objects.create_user(username='second_user', password='password2')
+
+        login = self.client.login(username='second_user', password='password2')
+        response = self.client.post(reverse('blog:delete_post', args=[post.slug]), follow=True)
+
+        self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertEqual(str(response.context['user']), second_user.get_username())
+        self.assertRedirects(response, reverse('blog:view_post', args=[post.slug]))
+        # self.assertContains(response, "Only the author can edit this post", status_code=302)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/view_post.html')
+
+
+    def test_delete_post_success(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+
+        self.assertEqual(models.Post.objects.count(), 1)
+
+        login = self.client.login(username='test_user', password='password')
+        response = self.client.post(reverse('blog:delete_post', args=[post.slug]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(models.Post.objects.count(), 0)
+
+
+    def test_delete_post_success_correct_template(self):
+        post = models.Post.objects.create(author_id=self.user, title='Test Title', body='Test body', pub_date=timezone.now(), slug=slugify('Test Title'))
+
+        self.assertEqual(models.Post.objects.count(), 1)
+
+        login = self.client.login(username='test_user', password='password')
+        response = self.client.post(reverse('blog:delete_post', args=[post.slug]), follow=True)
+
+        self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertEqual(str(response.context['user']), self.user.get_username())
+        self.assertEqual(models.Post.objects.count(), 0)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, reverse('blog:index'))

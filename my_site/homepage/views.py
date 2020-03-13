@@ -5,8 +5,10 @@ from .models import HomepageBlurb
 
 class IndexView(generic.ListView):
     template_name = 'homepage/index.html'
-    queryset = HomepageBlurb.objects.last()
     context_object_name = 'blurb'
+
+    def get_queryset(self):
+        return HomepageBlurb.objects.last()
 
     def get_context_data(self, *args, **kwargs):
         context = super(IndexView, self).get_context_data(*args, **kwargs)

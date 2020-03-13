@@ -1,8 +1,8 @@
-{% extends 'homepage/base.html' %}
+{% extends "global/base.html" %}
 {% load static %}
 
 {% block header %}
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 shadow-sm">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 shadow-sm load-hidden navbar-reveal">
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -17,24 +17,19 @@
           </a>
         </li>
         {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a href="{% url 'logout' %}" class="nav-link navbar-brand d-flex">
-            <strong>Logout</strong>
-          </a>
-        {% else %}
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'login' %}" class="nav-link navbar-brand d-flex">
-            <strong>Login</strong>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a href="{% url 'logout' %}" class="nav-link navbar-brand d-flex">
+              <strong>Logout</strong>
+            </a>
+          {% else %}
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'login' %}" class="nav-link navbar-brand d-flex">
+              <strong>Login</strong>
+            </a>
+          </li>
         {% endif %}
-        <!-- <li class="nav-item">
-          <a href="{% url 'blog:index' %}" class="nav-link navbar-brand d-flex">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a href="https://github.com/walkersorlie" class="nav-link navbar-brand d-flex">GitHub</a>
-        </li> -->
+      </ul>
     </div>
   </nav>
 {% endblock %}
@@ -42,5 +37,11 @@
 {% block content %}
 {% endblock %}
 
-{% block footer_link %}
+
+{% block scripts %}
+<script>
+  ScrollReveal().reveal('.navbar-reveal', { duration: 700, easing: 'ease-in-out' });
+  ScrollReveal().reveal('.breadcrumb-reveal', { delay: 300, duration: 700, easing: 'ease-in-out' });
+</script>
+
 {% endblock %}

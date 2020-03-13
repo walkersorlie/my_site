@@ -15,7 +15,7 @@ urlpatterns = [
     path('<slug:slug>/edit_post/', views.EditPostView.as_view(), name='edit_post'),
 
     # /blog/<slug>/delete_post/
-    path('<slug:slug>/delete_post', views.DeletePostView.as_view(), name='delete_post'),
+    path('<slug:slug>/delete_post/', views.DeletePostView.as_view(), name='delete_post'),
 
     # /blog/slug/
     path('<slug:slug>/', views.DetailView.as_view(), name='view_post'),

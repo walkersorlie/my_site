@@ -1,4 +1,4 @@
-{% extends 'registration/registration_base.html' %}
+{% extends "registration/registration_base.html" %}
 {% load static %}
 
 {% block title %}
@@ -9,44 +9,51 @@
 <link rel="stylesheet" type="text/css" href="{% static 'registration/login.css' %}">
 {% endblock %}
 
+
 {% block content %}
-
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
-
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
+  <div class="container">
+    {% if form.errors %}
+      <div class="row mb-4 justify-content-center load-hidden errors-reveal alert alert-danger" role="alert">
+        <h3>Your username and password didn't match. Please try again.</h3>
+      </div>
     {% endif %}
-  {% endif %}
 
-  <div class="login text-center">
-    <form method="post" action="{% url 'login' %}" class="form-signin">
-      {% csrf_token %}
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="id_username" class="sr-only">Username</label>
-      <input type="username" id="id_username" name="username" class="form-control" placeholder="Username" required autofocus>
-      <label for="id_password" class="sr-only">Password</label>
-      <input type="password" id="id_password" name="password" class="form-control" placeholder="Password" required>
+    {% if next %}
+      {% if user.is_authenticated %}
+        <div class="row mb-4 justify-content-center load-hidden errors-reveal alert alert-info" role="alert">
+          <h3>Your account doesn't have access to this page. To proceed, please login with an account that has access.</h3>
+        </div>
+      {% else %}
+        <div class="row mb-4 justify-content-center load-hidden errors-reveal alert alert-info" role="alert">
+          <h3>Please login to see this page.</h3>
+        </div>
+      {% endif %}
+    {% endif %}
 
-      <!-- <table>
-        <tr>
-          <td>{{ form.username.label_tag }}</td>
-          <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-          <td>{{ form.password.label_tag }}</td>
-          <td>{{ form.password }}</td>
-        </tr>
-      </table> -->
+    <div class="login text-center load-hidden login-reveal">
+      <form method="post" action="{% url 'login' %}" class="form-signin">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="id_username" class="sr-only">Username</label>
+        <input type="username" id="id_username" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="id_password" class="sr-only">Password</label>
+        <input type="password" id="id_password" name="password" class="form-control" placeholder="Password" required>
 
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-      <input type="hidden" name="next" value="{{ next }}">
-      <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-    </form>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <input type="hidden" name="next" value="{{ next }}">
+        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+      </form>
+    </div>
   </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  ScrollReveal().reveal('.errors-reveal', { delay: 500, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+  ScrollReveal().reveal('.login-reveal', { delay: 750, duration: 700, easing: 'ease-in-out', useDelay: 'onload' });
+</script>
 
 {% endblock %}
