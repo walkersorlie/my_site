@@ -10,14 +10,14 @@
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumb %}
     {{ block.super }}
-    {% breadcrumb "View Post" "blog:view_post" %}
+    {% breadcrumb specific_blog.title "blog:view_post" %}
 {% endblock %}
 
 
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col blog-post-reveal load-hidden">
+  <div class="row blog-post-reveal load-hidden">
+    <div class="col">
       <div class="mb-5">
         <h2 class="display-4 blog-post-title">{{ specific_blog.title }}</h2>
         <h3 class="blog-post-meta">By: {{ specific_blog.author_id|capfirst }}</h3>
@@ -31,7 +31,6 @@
       {% endif %}
     </div>
   </div>
-
 </div>
 
 
