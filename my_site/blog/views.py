@@ -120,8 +120,7 @@ class EditPostView(MyPermissionMixin, generic.UpdateView):
         return self.get_object().author_id.pk == self.request.user.pk
 
     def handle_no_permission(self):
-        self.object = self.get_object()
-        return HttpResponseRedirect(reverse('blog:view_post', args=[self.object.slug]))
+        return HttpResponseRedirect(reverse('blog:view_post', args=[self.get_object().slug]))
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
@@ -144,8 +143,7 @@ class DeletePostView(MyPermissionMixin, generic.DeleteView):
         return self.get_object().author_id.pk == self.request.user.pk
 
     def handle_no_permission(self):
-        self.object = self.get_object()
-        return HttpResponseRedirect(reverse('blog:view_post', args=[self.object.slug]))
+        return HttpResponseRedirect(reverse('blog:view_post', args=[self.get_object().slug]))
 
 
 """

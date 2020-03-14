@@ -7,7 +7,6 @@ from django.contrib.auth.models import User as Auth_User
 from django.contrib.auth import get_user_model
 from . import models
 from . import forms
-from . import views
 
 
 """
@@ -38,7 +37,7 @@ def create_post(user, title, body):
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class BlogIndexViewPosts(TestCase):
+class BlogIndexViewPostsTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Set up data for the whole TestCase
@@ -144,7 +143,7 @@ class BlogIndexViewPosts(TestCase):
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class BlogUserCreatePosts(TestCase):
+class BlogUserCreatePostsTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = get_user_model().objects.create_user(username='test_user', password='password')
@@ -242,7 +241,7 @@ class BlogUserCreatePosts(TestCase):
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class BlogUserEditPosts(TestCase):
+class BlogUserEditPostsTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = get_user_model().objects.create_user(username='test_user', password='password')
@@ -267,9 +266,11 @@ class BlogUserEditPosts(TestCase):
 
         self.assertEqual(response.redirect_chain[0][1], 302)
         self.assertEqual(str(response.context['user']), second_user.get_username())
+
         self.assertRedirects(response, reverse('blog:view_post', args=[post.slug]))
-        # self.assertContains(response, "Only the author can edit this post", status_code=302)
+
         self.assertEqual(response.status_code, 200)
+        # self.assertContains(response, "You aren't the author of this post")
         self.assertTemplateUsed(response, 'blog/view_post.html')
 
 
@@ -348,8 +349,9 @@ class BlogUserEditPosts(TestCase):
 
         response = self.client.post(reverse('blog:edit_post', args=[post.slug]), form_data, follow=True)
 
-        self.assertRedirects(response, reverse('blog:view_post', args=[models.Post.objects.last().slug]))
         self.assertEqual(response.redirect_chain[0][1], 302)
+        self.assertRedirects(response, reverse('blog:view_post', args=[models.Post.objects.last().slug]))
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(str(response.context['user']), self.user.get_username())
         self.assertEqual(models.Post.objects.last().title, 'New test title')
@@ -359,7 +361,7 @@ class BlogUserEditPosts(TestCase):
 
 
 @override_settings(STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage')
-class BlogUserDeletePosts(TestCase):
+class BlogUserDeletePostsTests(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.user = get_user_model().objects.create_user(username='test_user', password='password')
@@ -381,10 +383,12 @@ class BlogUserDeletePosts(TestCase):
         login = self.client.login(username='second_user', password='password2')
         response = self.client.get(reverse('blog:delete_post', args=[post.slug]), follow=True)
 
-        self.assertEqual(response.redirect_chain[0][1], 302)
         self.assertEqual(str(response.context['user']), second_user.get_username())
+
+        self.assertEqual(response.redirect_chain[0][1], 302)
         self.assertRedirects(response, reverse('blog:view_post', args=[post.slug]))
-        # self.assertContains(response, "Only the author can edit this post", status_code=302)
+
+        # self.assertContains(response, "You aren't the author of this post")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/view_post.html')
 
@@ -405,10 +409,11 @@ class BlogUserDeletePosts(TestCase):
         login = self.client.login(username='second_user', password='password2')
         response = self.client.post(reverse('blog:delete_post', args=[post.slug]), follow=True)
 
-        self.assertEqual(response.redirect_chain[0][1], 302)
         self.assertEqual(str(response.context['user']), second_user.get_username())
+
+        self.assertEqual(response.redirect_chain[0][1], 302)
         self.assertRedirects(response, reverse('blog:view_post', args=[post.slug]))
-        # self.assertContains(response, "Only the author can edit this post", status_code=302)
+        # self.assertContains(response, "You aren't the author of this post")
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'blog/view_post.html')
 

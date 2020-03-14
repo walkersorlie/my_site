@@ -83,75 +83,82 @@
         {% endfor %}
       </ol>
       {% endcomment %}
-      <div class="carousel-inner h-100 text-center homepage-custom">
-        {% for object, type in edu_exp_list %}
-          {% if forloop.counter == 1 %}
-            <div class="carousel-item active" data-interval="450">
-              <div class="d-none d-md-block custom-homepage-hover">
-                {% if type == 'education' %}
-                  <div class="card rounded">
-                    <div class="card-body">
-                      <h3 class="card-title">Institute: {{ object.name}}</h3>
-                      <h5 class="card-text">Location: {{ object.location }}</h5>
-                      <p class="card-text">Description: {{ object.description }}</p>
-                      <!-- <a class="btn btn-outline-secondary stretched-link" href="{{ object.url }}">Institute URL</a> -->
-                      <!-- <a href="{% url 'my_cv:education_detail_view' slug=object.name|slugify pk=object.id %}"> -->
-                      <a href="{{ object.get_absolute_url }}">
-                        <span class="link-spanner-div-click"></span>
-                      </a>
+      {% if edu_exp_list %}
+        <div class="carousel-inner h-100 text-center homepage-custom">
+          {% for object, type in edu_exp_list %}
+            {% if forloop.counter == 1 %}
+              <div class="carousel-item active" data-interval="450">
+                <div class="d-none d-md-block custom-homepage-hover">
+                  {% if type == 'education' %}
+                    <div class="card rounded">
+                      <div class="card-body">
+                        <h3 class="card-title">Institute: {{ object.name}}</h3>
+                        <h5 class="card-text">Location: {{ object.location }}</h5>
+                        <p class="card-text">Description: {{ object.description }}</p>
+                        <!-- <a class="btn btn-outline-secondary stretched-link" href="{{ object.url }}">Institute URL</a> -->
+                        <!-- <a href="{% url 'my_cv:education_detail_view' slug=object.name|slugify pk=object.id %}"> -->
+                        <a href="{{ object.get_absolute_url }}">
+                          <span class="link-spanner-div-click"></span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                {% else %}
-                  <div class="card rounded">
-                    <div class="card-body">
-                      <h3 class="card-title">Title: {{ object.name }}</h3>
-                      <h5 class="card-text">Position title: {{ object.position_title }}</h5>
-                      <h5 class="card-text">Location: {{ object.location }}</h5>
-                      <p class="card-text">Description: {{ object.description }}</p>
-                      <!-- <a class="btn btn-outline-secondary" href="{{ object.opportunity_url }}">Outreach Organization URL</a> -->
-                      <a href="{{ object.get_absolute_url }}">
-                        <span class="link-spanner-div-click"></span>
-                      </a>
+                  {% else %}
+                    <div class="card rounded">
+                      <div class="card-body">
+                        <h3 class="card-title">Title: {{ object.name }}</h3>
+                        <h5 class="card-text">Position title: {{ object.position_title }}</h5>
+                        <h5 class="card-text">Location: {{ object.location }}</h5>
+                        <p class="card-text">Description: {{ object.description }}</p>
+                        <!-- <a class="btn btn-outline-secondary" href="{{ object.opportunity_url }}">Outreach Organization URL</a> -->
+                        <a href="{{ object.get_absolute_url }}">
+                          <span class="link-spanner-div-click"></span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                {% endif %}
+                  {% endif %}
+                </div>
               </div>
-            </div>
-          {% else %}
-            <div class="carousel-item" data-interval="450">
-              <div class="d-none d-md-block custom-homepage-hover">
-                {% if type == 'education' %}
-                  <div class="card rounded">
-                    <div class="card-body">
-                      <h3 class="card-title">Institute: {{ object.name}}</h3>
-                      <h5 class="card-text">Location: {{ object.location }}</h5>
-                      <p class="card-text">Description: {{ object.description }}</p>
-                      <!-- <a class="btn btn-outline-secondary stretched-link" href="{{ object.url }}">Institute URL</a> -->
-                      <!-- <a href="{% url 'my_cv:education_detail_view' slug=object.name|slugify pk=object.id %}"> -->
-                      <a href="{{ object.get_absolute_url }}">
-                        <span class="link-spanner-div-click"></span>
-                      </a>
+            {% else %}
+              <div class="carousel-item" data-interval="450">
+                <div class="d-none d-md-block custom-homepage-hover">
+                  {% if type == 'education' %}
+                    <div class="card rounded">
+                      <div class="card-body">
+                        <h3 class="card-title">Institute: {{ object.name}}</h3>
+                        <h5 class="card-text">Location: {{ object.location }}</h5>
+                        <p class="card-text">Description: {{ object.description }}</p>
+                        <!-- <a class="btn btn-outline-secondary stretched-link" href="{{ object.url }}">Institute URL</a> -->
+                        <!-- <a href="{% url 'my_cv:education_detail_view' slug=object.name|slugify pk=object.id %}"> -->
+                        <a href="{{ object.get_absolute_url }}">
+                          <span class="link-spanner-div-click"></span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                {% else %}
-                  <div class="card rounded">
-                    <div class="card-body">
-                      <h3 class="card-title">Title: {{ object.name }}</h3>
-                      <h5 class="card-text">Position title: {{ object.position_title }}</h5>
-                      <h5 class="card-text">Location: {{ object.location }}</h5>
-                      <p class="card-text">Description: {{ object.description }}</p>
-                      <!-- <a class="btn btn-outline-secondary" href="{{ object.opportunity_url }}">Outreach Organization URL</a> -->
-                      <a href="{{ object.get_absolute_url }}">
-                        <span class="link-spanner-div-click"></span>
-                      </a>
+                  {% else %}
+                    <div class="card rounded">
+                      <div class="card-body">
+                        <h3 class="card-title">Title: {{ object.name }}</h3>
+                        <h5 class="card-text">Position title: {{ object.position_title }}</h5>
+                        <h5 class="card-text">Location: {{ object.location }}</h5>
+                        <p class="card-text">Description: {{ object.description }}</p>
+                        <!-- <a class="btn btn-outline-secondary" href="{{ object.opportunity_url }}">Outreach Organization URL</a> -->
+                        <a href="{{ object.get_absolute_url }}">
+                          <span class="link-spanner-div-click"></span>
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                {% endif %}
+                  {% endif %}
+                </div>
               </div>
-            </div>
-          {% endif %}
-        {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+      <div class="row justify-content-center">
+        <div class="alert alert-info" role="alert">There is no education or experience information available</div>
       </div>
+      {% endif %}
+      
       {% comment %}
       <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
