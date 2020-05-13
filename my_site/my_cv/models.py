@@ -33,6 +33,12 @@ class Resume(models.Model):
     def get_absolute_url(self):
         return reverse('my_cv:resume_detail_view', args=[self.slug, self.id])
 
+    def get_resume_temporary_download_link(self):
+        if self.resume:
+            from storages.backends import dropbox as file_storage
+            dbox = file_storage.DropBoxStorage()
+            return dbox.url(self.resume.name)
+
     def __str__(self):
         return self.resume_name.title()
 

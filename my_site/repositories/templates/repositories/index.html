@@ -1,15 +1,20 @@
 {% extends "global/base.html" %}
 {% load static %}
 
+
 {% block title %}
 <title>Repositories</title>
 {% endblock %}
+
 
 {% block favicon %}
 <link rel="icon" href="{% static 'repositories/images/favicon.svg' %}">
 {% endblock %}
 
+
 {% block app_stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'repositories/css/repositories.css' %}">
 {% endblock %}
 
 
@@ -42,7 +47,9 @@
                 </div>
               </div>
               <div class="card-body">
-                <p class="card-text">{{ repo.description }}</p>
+                <div class="row pl-2">
+                  <p class="card-text">{{ repo.description }}</p>
+                </div>
                 <div class="row">
                   <div class="col">
                     <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
@@ -65,8 +72,10 @@
               </div>
             </div>
             <div class="card-body d-flex flex-column" style="height: 200px;">
-              <p class="card-text">{{ repo.description }}</p>
-              <div class="row">
+              <div class="row pl-2">
+                <p class="card-text">{{ repo.description }}</p>
+              </div>
+              <div class="row align-items-end mt-auto">
                 <div class="col">
                   <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
                 </div>

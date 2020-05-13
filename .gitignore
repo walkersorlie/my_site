@@ -1,7 +1,10 @@
+# Local directories
 my_site/my_site/staticfiles/
 my_site/my_site/media/
 local_messing/
 
+# Bash scripts
+/*.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

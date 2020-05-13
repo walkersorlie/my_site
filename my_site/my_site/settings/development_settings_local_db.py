@@ -44,7 +44,6 @@ MY_MIDDLWARE = [
 
 MIDDLEWARE += tuple(MY_MIDDLWARE)
 
-
 # Will need to change this
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -59,4 +58,36 @@ INTERNAL_IPS = [
 ]
 
 
-django_heroku.settings(locals(), db_colors=True, databases=True, test_runner=False)
+django_heroku.settings(locals(), db_colors=True, databases=False, test_runner=False)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_site_db',
+        'USER': 'walker',
+        'PASSWORD': os.environ['LOCAL_DATABASE_PASSWORD'],
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'TEST': {
+            'NAME': 'my_site_test_db',
+        }
+    }
+}
+
+
+'''
+Could make a new user on remote database and give privileges to make databases (basically what I did locally, but just do it on remote db)
+'''
+# DATABASES['default']['TEST'] = {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'my_site_test_db',
+#         'USER': 'walker',
+#         'PASSWORD': os.environ['LOCAL_DATABASE_PASSWORD'],
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+# }
+
+
+# print(DATABASES)
+# print(DATABASES['default'])
+# print(DATABASES['TEST'])

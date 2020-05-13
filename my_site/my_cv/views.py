@@ -7,6 +7,8 @@ from . import models
 from repositories.models import Repository
 from django.db.models import Q
 
+from storages.backends import dropbox as file_storage
+
 
 class IndexView(generic.ListView):
     model = models.Resume
@@ -20,7 +22,10 @@ class IndexView(generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
 
         # context['current_resume'] = self.get_queryset()[:1]
-        context['current_resume'] = models.Resume.objects.get(is_current_resume=True)
+        if models.Resume.objects.filter(is_current_resume=True):
+            current_resume = models.Resume.objects.get(is_current_resume=True)
+            context['current_resume'] = current_resume
+            context['resume_temp_link'] = current_resume.get_resume_temporary_download_link()
 
         # print(models.Resume._meta.get_fields())
         # print(models.Resume._meta.get_fields()[0])
@@ -44,6 +49,11 @@ class IndexView(generic.ListView):
 
         context['repo_list'] = repo_list
 
+
+        # if current_resume.resume:
+        #     dbox = file_storage.DropBoxStorage()
+        #     context['resume_temp_link'] = dbox.url(current_resume.resume.name)
+
         return context
 
 
@@ -58,25 +68,6 @@ class ResumeDetailView(generic.DetailView):
     template_name = 'my_cv/resume_detail_view.html'
     context_object_name = 'current_resume'
     query_pk_and_slug = True
-
-
-# class ResumeDownloadView(generic.DetailView):
-#
-#     def get(self, request, *args, **kwargs):
-#         filename = self.kwargs.get('filename', None)
-#         if filename is None:
-#             return HttpResponseRedirect(reverse('my_cv:resume_detail_view', args={'slug': self.slug, 'pk': self.id}))
-#
-#         file_path = os.path.join(settings.MEDIA_ROOT, filename)
-#         response = FileResponse(open(file_path, 'rb'), as_attachment=True)
-#         return response
-def resume_download(request, slug, pk, filename):
-    if filename is None:
-        return HttpResponseRedirect(reverse('my_cv:resume_detail_view', args={'slug': self.slug, 'pk': self.id}))
-
-    file_path = os.path.join(settings.MEDIA_ROOT, filename)
-    response = FileResponse(open(file_path, 'rb'), as_attachment=True)
-    return response
 
 
 class EducationIndexView(generic.ListView):

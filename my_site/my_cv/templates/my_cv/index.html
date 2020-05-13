@@ -57,151 +57,161 @@
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#repos">Recent GitHub Repositories</a>
         </li>
-        {% comment "Heroku doesn't store user uploaded files. Use S3 I guess?? "%}
-        {% if current_resume.resume %}
+        {% if resume_temp_link %}
+          {% comment %}
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{% url 'my_cv:resume_download_view' current_resume.slug current_resume.id current_resume.resume.name %}">Download CV! <span class="align-text-bottom"><img src="{% static 'my_cv/images/download.svg' %}"></img></span></a>
           </li>
+          {% endcomment %}
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{{ resume_temp_link }}">Download CV! <span class="align-text-bottom"><img src="{% static 'my_cv/images/download.svg' %}"></img></span></a>
+          </li>
         {% endif %}
-        {% endcomment %}
       </ul>
     </div>
   </nav>
 
-  <div class="container-fluid p-0 resume-reveal load-hidden" style="margin-left: 17rem;">
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center ml-5" id="about">
-      <div class="w-100 align-self-start mt-5 pt-5">
-        <h1 class="mb-0">Walker
-          <span class="text-primary">Sorlie</span>
-        </h1>
-        <div class="subheading mb-5">{{ current_resume.location }} ·
-          <a href="mailto:walkersorlie@walkersorlie.com?subject=The%20subject">walkersorlie@walkersorlie.com</a>
+  {% if current_resume %}
+    <div class="container-fluid p-0 resume-reveal load-hidden" style="margin-left: 17rem;">
+      <section class="resume-section p-3 p-lg-5 d-flex align-items-center ml-5" id="about">
+        <div class="w-100 align-self-start mt-5 pt-5">
+          <h1 class="mb-0">Walker
+            <span class="text-primary">Sorlie</span>
+          </h1>
+          <div class="subheading mb-5">{{ current_resume.location }} ·
+            <a href="mailto:walkersorlie@walkersorlie.com?subject=The%20subject">walkersorlie@walkersorlie.com</a>
+          </div>
+          <div class="lead mb-5">{{ current_resume.description|linebreaks }}</div>
+          <div class="social-icons">
+            <a href="https://www.linkedin.com/in/walkersorlie/" target="_blank">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/walkersorlie" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://twitter.com/SorlieWalker" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </div>
         </div>
-        <div class="lead mb-5">{{ current_resume.description|linebreaks }}</div>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/in/walkersorlie/" target="_blank">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="https://github.com/walkersorlie" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="https://twitter.com/SorlieWalker" target="_blank">
-            <i class="fab fa-twitter"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-    <hr class="m-0">
-    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="experience">
-      <div class="w-100">
-        <h2 class="mb-5">Experience</h2>
-        {% for experience in current_resume.experience.all %}
-          <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-            <div class="resume-content">
-              <h3 class="mb-0">{{ experience.position_title }}</h3>
-              <div class="subheading mb-3">{{ experience.name }}</div>
-              <div class="lead">
-                {{ experience.description|linebreaks }}
+      </section>
+      <hr class="m-0">
+      <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="experience">
+        <div class="w-100">
+          <h2 class="mb-5">Experience</h2>
+          {% for experience in current_resume.experience.all %}
+            <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+              <div class="resume-content">
+                <h3 class="mb-0">{{ experience.position_title }}</h3>
+                <div class="subheading mb-3">{{ experience.name }}</div>
+                <div class="lead">
+                  {{ experience.description|linebreaks }}
+                </div>
+              </div>
+              <div class="resume-date text-md-right">
+                <span class="text-primary">{{ experience.start_date|date:"F, Y" }} -
+                  {% if experience.end_date is not None %}
+                    {{ experience.end_date|date:"F, Y" }}
+                  {% else %}
+                    Present
+                  {% endif %}
+                </span>
               </div>
             </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">{{ experience.start_date|date:"F, Y" }} -
-                {% if experience.end_date is not None %}
-                  {{ experience.end_date|date:"F, Y" }}
-                {% else %}
-                  Present
-                {% endif %}
-              </span>
-            </div>
-          </div>
-        {% endfor %}
-        <a href="{% url 'my_cv:experience_outreach_index' %}" class="btn btn-secondary">View all experience</a>
-      </div>
-    </section>
-    <hr class="m-0">
-    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="education">
-      <div class="w-100">
-        <h2 class="mb-5">Education</h2>
-        {% for education in current_resume.education.all %}
-          <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-            <div class="resume-content">
-              <h3 class="mb-0">{{ education.name }}</h3>
-              <div class="subheading mb-3">{{ education.location }}</div>
-              <div class="lead">
-                {{ education.description|linebreaks }}
+          {% endfor %}
+          <a href="{% url 'my_cv:experience_outreach_index' %}" class="btn btn-secondary">View all experience</a>
+        </div>
+      </section>
+      <hr class="m-0">
+      <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="education">
+        <div class="w-100">
+          <h2 class="mb-5">Education</h2>
+          {% for education in current_resume.education.all %}
+            <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+              <div class="resume-content">
+                <h3 class="mb-0">{{ education.name }}</h3>
+                <div class="subheading mb-3">{{ education.location }}</div>
+                <div class="lead">
+                  {{ education.description|linebreaks }}
+                </div>
+              </div>
+              <div class="resume-date text-md-right">
+                <span class="text-primary">{{ education.start_date|date:"F, Y" }} -
+                  {% if education.end_date is not None %}
+                    {{ education.end_date|date:"F, Y" }}
+                  {% else %}
+                    Present
+                  {% endif %}
+                </span>
               </div>
             </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">{{ education.start_date|date:"F, Y" }} -
-                {% if education.end_date is not None %}
-                  {{ education.end_date|date:"F, Y" }}
-                {% else %}
-                  Present
-                {% endif %}
-              </span>
-            </div>
+          {% endfor %}
+          <a href="{% url 'my_cv:education_index' %}" class="btn btn-secondary">View all education</a>
+        </div>
+      </section>
+      <hr class="m-0">
+      <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="skills">
+        <div class="w-100">
+          <h2 class="mb-5">Skills</h2>
+          <div class="subheading mb-3">Programming Languages &amp; Tools</div>
+          <ul class="list-inline dev-icons">
+            <li class="list-inline-item">
+              <i class="fab fa-python"></i>
+            </li>
+            <li class="list-inline-item">
+              <i class="fab fa-git"></i>
+            </li>
+            <li class="list-inline-item">
+              <i class="fab fa-html5"></i>
+            </li>
+            <li class="list-inline-item">
+              <i class="fab fa-css3-alt"></i>
+            </li>
+            <li class="list-inline-item">
+              <i class="fab fa-linux"></i>
+            </li>
+          </ul>
+          <div class="lead">
+            {{ current_resume.skills|linebreaks }}
           </div>
-        {% endfor %}
-        <a href="{% url 'my_cv:education_index' %}" class="btn btn-secondary">View all education</a>
-      </div>
-    </section>
-    <hr class="m-0">
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="skills">
-      <div class="w-100">
-        <h2 class="mb-5">Skills</h2>
-        <div class="subheading mb-3">Programming Languages &amp; Tools</div>
-        <ul class="list-inline dev-icons">
-          <li class="list-inline-item">
-            <i class="fab fa-python"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-git"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-html5"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-css3-alt"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-linux"></i>
-          </li>
-        </ul>
-        <div class="lead">
-          {{ current_resume.skills|linebreaks }}
         </div>
-      </div>
-    </section>
-    <hr class="m-0">
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="interests">
-      <div class="w-100">
-        <h2 class="mb-5">Interests</h2>
-        <div class="lead">
-          {{ current_resume.interests|linebreaks }}
+      </section>
+      <hr class="m-0">
+      <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="interests">
+        <div class="w-100">
+          <h2 class="mb-5">Interests</h2>
+          <div class="lead">
+            {{ current_resume.interests|linebreaks }}
+          </div>
         </div>
-      </div>
-    </section>
-    <hr class="m-0">
-    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="repos">
-      <div class="w-100">
-        <h2 class="mb-5">Recent <span class="text-primary">GitHub </span>Repositories</h2>
-        {% for repo in repo_list %}
-          <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-            <div class="resume-content">
-              <h3 class="mb-0">{{ repo.repo_name }}</h3>
-              <div class="lead">
-                {{ repo.description|linebreaks }}
+      </section>
+      <hr class="m-0">
+      <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="repos">
+        <div class="w-100">
+          <h2 class="mb-5">Recent <span class="text-primary">GitHub </span>Repositories</h2>
+          {% for repo in repo_list %}
+            <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+              <div class="resume-content">
+                <h3 class="mb-0">{{ repo.repo_name }}</h3>
+                <div class="lead">
+                  {{ repo.description|linebreaks }}
+                </div>
+              </div>
+              <div class="resume-date text-md-right">
+                <span class="text-primary">{{ repo.pushed_at }}</span>
               </div>
             </div>
-            <div class="resume-date text-md-right">
-              <span class="text-primary">{{ repo.pushed_at }}</span>
-            </div>
-          </div>
-        {% endfor %}
-        <a href="{% url 'repositories:index' %}" class="btn btn-secondary">View all repositories</a>
-      </div>
-    </section>
-  </div>
+          {% endfor %}
+          <a href="{% url 'repositories:index' %}" class="btn btn-secondary">View all repositories</a>
+        </div>
+      </section>
+    </div>
+  {% else %}
+    <div class="container-fluid p-0 resume-reveal load-hidden" style="margin-left: 17rem;">
+      <h3> No resume information</h3>
+    </div>
+  {% endif %}
+
 {% endblock %}
 
 {% block scripts %}

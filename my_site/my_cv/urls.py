@@ -11,8 +11,6 @@ urlpatterns = [
     path('resumes/', views.AllResumesIndexView.as_view(), name = 'all_resumes_index'),
     # /my_cv/resumes/<slug>_<pk>/
     path('resumes/<slug>_<pk>/', views.ResumeDetailView.as_view(), name = 'resume_detail_view'),
-    # /my_cv/resumes/<slug>_<pk>/<filename>/
-    path('resumes/<slug>_<pk>/download/<path:filename>', views.resume_download, name = 'resume_download_view'),
 
     # /my_cv/education/
     path('education/', views.EducationIndexView.as_view(), name = 'education_index'),
