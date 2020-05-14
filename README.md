@@ -2,6 +2,7 @@
 Follow instructions on https://devcenter.heroku.com/articles/getting-started-with-python through the section "Setup" (this guide can be helpful if you forget certain steps of the deploy process, as I often do). Hint: installing the Heroku CLI system-wide (_i.e._ not installed in a virtual environment) is easier.
 
 
+
 ### Create a project folder and a virtual environment folder within
 ```
 mkdir PROJECT_NAME
@@ -9,11 +10,11 @@ cd PROJECT_NAME
 python3 -m venv VIRTUALENV_NAME
 ```
 If you don't have the virtual environment package installed, you can install it with this: `sudo apt-get install python3-venv`.
-
 Then, use git to clone the application into the project folder created
 
 #### Activate the virtual environment
 `. VIRTUALENV_NAME/bin/activate`
+
 
 
 ### Install project requirements
@@ -32,16 +33,40 @@ sudo apt-get install snapd
 ```
 You might need to install other link files for libc as well
 
-
 #### Checking package versions:
-```
-pip list --outdated
-```
+`pip list --outdated`
+If you get this error:
+>  if dist.latest_version > dist.parsed_version
+> TypeError: '>' not supported between instances of 'Version' and 'Version'
+
+you probably need to upgrade the version of pip that is installed in the virtualenv:
+`pip install -U pip`
 
 #### To upgrade package:
-```
-pip install -U PACKAGE_NAME==VERSION
-```
+`pip install -U PACKAGE_NAME==VERSION`
+
+#### Show package information
+`pip show PACKAGE_NAME`
+
+#### Compare two requirements files
+* The '-y' flag outputs the output in two columns
+* The flag '--suppress-common-lines' excludes common lines from the output
+Example:
+`diff -y --suppress-common-lines requirements.txt requirements-new.txt`
+
+
+
+### Using a local database
+To use PostgreSQL as you rlocal database, this is a good guide to get setup: https://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/
+
+If you get this error while trying to upgrade packages like I did (or potentially in other cases I'm not sure):
+> Error: b'You need to install postgresql-server-dev-X.Y for building a server-side extension or libpq-dev for building a client-side application.\n'
+>    ----------------------------------------
+> ERROR: Command errored out with exit status 1: python setup.py egg_info Check the logs for full command output.
+
+You probably need to install 'libpq-dev':
+`sudo apt-get install libpq-dev`
+
 
 
 ### Running the Heroku project locally
@@ -60,6 +85,7 @@ or
 The first command uses Django's built-in web server to run the project, while the second command uses Gunicorn to run the application (specified in Procfile)
 
 
+
 ### Running with different settings files
 You can use different settings files to run the app. To use different settings files, change which file is specified in:
 * my_site/manage.py
@@ -67,6 +93,17 @@ or
 * my_site/my_site/wsgi.py
 
 The first file is if you are running the app with Django's built-in server, and the second file is for running the app with Gunicorn
+
+
+
+### Running tests
+Django webpage on tests: https://docs.djangoproject.com/en/3.0/topics/testing/overview/
+To run tests with deprecation warnings, use the "-Wa" flag
+To specify the settings file to use, use "--settings=FILE_NAME", like with 'runserver' command
+
+This command will run tests in the 'homepage' directory, with deprecation warnings, and using the 'development_settings_local_db' settings file:
+`heroku local:run python -Wa my_site/manage.py test homepage --settings=my_site.settings.development_settings_local_db`
+
 
 
 ### Deploying the project to Heroku
@@ -87,7 +124,7 @@ More info can be found here: https://devcenter.heroku.com/articles/git
 
 
 
-#### Problems with viewing static files or running collectstatic
+### Problems with viewing static files or running collectstatic
 There can be some weirdness with static files with Gunicorn and Django. For starters, the command to run "collectstatic" from the root directory is:
 * `heroku local:run python my_site/manage.py collectstatic`
 
@@ -112,6 +149,7 @@ There is also a comment that briefly explains what to do:
 After you've done this, you can revert the commented lines to their previous comment state and things should work. But still, if you change a static file, you must run "collectstatic" again (at least if you are running the application with Gunicorn and not Django's built-in server).
 
 A reason you might need to do this before the first time you run the application locally is because the static files are not added to the "staticfiles" directory automatically. There is some weirdness with the interaction between Gunicorn, Django, and the different STATICFILES_STORAGE engines that I have yet to fully understand.
+
 
 
 #### Remove .pyc files
