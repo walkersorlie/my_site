@@ -4,7 +4,7 @@
 {% for post in paginated_posts %}
   <div class="blog-post my-5">
     <h2 class="blog-post-title">{{ post.title }}</h2>
-    <p class="blog-post-meta">{{ post.pub_date }} by {{ post.author_id.username|capfirst }}</p>
+    <p class="blog-post-meta">{{ post.pub_date|date:"N j, Y" }}, {{post.pub_date|time:"G:i T" }} by {{ post.author_id.username|capfirst }}</p>
     <p>{{ post.body|truncatechars_html:300 }}</p>
     <a class="border-bottom" href="{{ post.get_absolute_url }}">Continue reading...</a>
   </div>

@@ -28,7 +28,7 @@ Make sure the virtual environment is activated before installing project require
 pip3 install --upgrade setuptools
 pip3 install wheel
 sudo apt-get install python-dev (probably not necessary because this is not for python3. Could perhaps uninstall if installed)
-sudo apt-get install python3-dev
+sudo apt-get install python3-dev (or for example: sudo apt-get install python3.7-dev if you used Python3.7 to make the virtual environment)
 sudo apt-get install snapd
 ```
 You might need to install other link files for libc as well

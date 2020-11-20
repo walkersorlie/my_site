@@ -55,7 +55,7 @@
                     <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
                   </div>
                   <div class="col">
-                    <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                    <small class="text-muted">Last push:<br>{{ repo.pushed_at|time:"G:i" }}</small>
                   </div>
                 </div>
               </div>
@@ -80,7 +80,9 @@
                   <a href="{{ repo.url }}" target="_blank" class="btn btn-sm btn-outline-secondary" role="button">View on GitHub</a>
                 </div>
                 <div class="col">
-                  <small class="text-muted">Last push:<br>{{ repo.pushed_at }}</small>
+                  {% load tz %}
+                  {% get_current_timezone as TIME_ZONE %}
+                  <small class="text-muted">Last push: {{ repo.pushed_at|date:"N j, Y" }}, {{ repo.pushed_at|time:"G:i T" }}</small>
                 </div>
               </div>
             </div>
@@ -108,7 +110,7 @@
     interval: 100,
     easing: 'ease-in-out',
     useDelay: 'onload',
-    reset: 'true'
+    reset: 'false'
   });
 </script>
 {% endblock %}
