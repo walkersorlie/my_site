@@ -74,7 +74,7 @@ sshtunnel==0.1.5
 termcolor==1.1.0
 texttable==1.6.2
 uritemplate==3.0.1
-urllib3==1.25.9
+urllib3==1.26.5
 wcwidth==0.1.9
 websocket-client==0.57.0
 whitenoise==5.0.1
