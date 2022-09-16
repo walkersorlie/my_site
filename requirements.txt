@@ -39,7 +39,7 @@ ipaddress==1.0.23
 itsdangerous==1.1.0
 jmespath==0.10.0
 jsonschema==3.2.0
-Mako==1.1.2
+Mako==1.2.2
 Markdown==3.2.2
 MarkupSafe==1.1.1
 oauth2client==4.1.3
